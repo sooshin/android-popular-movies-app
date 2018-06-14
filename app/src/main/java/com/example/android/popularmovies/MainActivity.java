@@ -1,12 +1,15 @@
 package com.example.android.popularmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.android.popularmovies.MovieAdapter.MovieAdapterOnClickHandler;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.JsonUtils;
@@ -22,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -56,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Create an empty array list
         List<Movie> movies = new ArrayList<>();
-        // Create MovieAdapter to display each item in the list
-        mMovieAdapter = new MovieAdapter(movies);
+        // Create MovieAdapter that is responsible for linking our movie data with the Views
+        mMovieAdapter = new MovieAdapter(movies, this);
         // Set the MovieAdapter to the RecyclerView
         mRecyclerView.setAdapter(mMovieAdapter);
         // Once all of our views are setup, load the movie data
@@ -71,6 +74,23 @@ public class MainActivity extends AppCompatActivity {
     private void loadMovieData() {
         String sort = MoviePreferences.getPreferredSortCriteria(this);
         new FetchMovieTask().execute(sort);
+    }
+
+    /**
+     * This method is overridden by our MainActivity class in order to handle RecyclerView item clicks.
+     *
+     * @param movie The movie that was clicked
+     */
+    @Override
+    public void onItemClick(Movie movie) {
+        // Create the Intent the will start the DetailActivity
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        // Pass the selected Movie object through Intent
+        intent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+        // Once the Intent has been created, start the DetailActivity
+        startActivity(intent);
+
+        Toast.makeText(this, "toast:"  + movie.getId(), Toast.LENGTH_SHORT).show();
     }
 
 

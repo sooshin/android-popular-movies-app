@@ -21,13 +21,28 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     /** Member variable for the list of {@link Movie}s */
     private List<Movie> mMovies;
 
+    /** An on-click handler that we've defined to make it easy for an Activity to interface with
+     * our RecyclerView
+     */
+    private final MovieAdapterOnClickHandler mOnClickHandler;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface MovieAdapterOnClickHandler {
+        void onItemClick(Movie movie);
+    }
+
     /**
      * Constructor for MovieAdapter that accepts a list of movies to display
      *
      * @param movies List of {@link Movie}
+     * @param onClickHandler The on-click handler for this adapter. This single handler is called
+     *                       when an item is clicked.
      */
-    public MovieAdapter(List<Movie> movies) {
+    public MovieAdapter(List<Movie> movies, MovieAdapterOnClickHandler onClickHandler) {
         mMovies = movies;
+        mOnClickHandler = onClickHandler;
     }
 
     /**
@@ -105,9 +120,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     /**
-     * Cache of the children views for a list item.
+     * Cache of the children views for a movie list item.
      */
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.iv_thumbnail) ImageView thumbnailImageView;
         @BindView(R.id.tv_title) TextView titleTextView;
@@ -121,6 +136,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+            // Call setOnClickListener on  the View passed into the constructor
+            itemView.setOnClickListener(this);
+        }
+
+        /**
+         * Called by the child views during a click.
+         *
+         * @param v The View that was clicked
+         */
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Movie movie = mMovies.get(adapterPosition);
+            mOnClickHandler.onItemClick(movie);
         }
     }
 }

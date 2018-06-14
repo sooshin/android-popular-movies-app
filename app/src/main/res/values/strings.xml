@@ -3,4 +3,5 @@
 
     <!-- Then content description of the movie poster image thumbnail -->
     <string name="thumbnail_content_description">Movie poster image thumbnail</string>
+    <string name="title_activity_detail">DetailActivity</string>
 </resources>

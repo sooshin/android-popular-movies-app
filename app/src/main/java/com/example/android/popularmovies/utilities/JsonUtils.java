@@ -24,6 +24,9 @@ public class JsonUtils {
      * Each movie in the TheMovieDb JSON data is an element of the "results" array */
     private static final String KEY_RESULTS = "results";
 
+    /** ID for the movie */
+    private static final String KEY_ID = "id";
+
     /** Original title for the movie */
     private static final String KEY_ORIGINAL_TITLE = "original_title";
 
@@ -66,7 +69,7 @@ public class JsonUtils {
         // Create a JSONObject from the JSON response string
         JSONObject movieBaseJson = new JSONObject(movieJsonStr);
 
-        /** Check if there is an error */
+        // Check if there is an error
         if (movieBaseJson.has(KEY_STATUS_CODE)) {
             int errorCode = movieBaseJson.getInt(KEY_STATUS_CODE);
 
@@ -86,6 +89,13 @@ public class JsonUtils {
         for (int i = 0; i < resultsArray.length(); i ++) {
             // Get a single movie at position i within the list of movies
             JSONObject currentMovie = resultsArray.getJSONObject(i);
+
+            // For a given movie, if it contains the key called "id", extract the value for the key
+            int id = 0;
+            if (currentMovie.has(KEY_ID)) {
+                // Extract the value for the key called "id"
+                id = currentMovie.getInt(KEY_ID);
+            }
 
             // For a given movie, if it contains the key called "poster_path", extract the value for
             // the key
@@ -127,7 +137,7 @@ public class JsonUtils {
             }
 
             // Create a new {@link Movie} object
-            Movie movie = new Movie(originalTitle, thumbnailUrl, overView, voteAverage, releaseDate);
+            Movie movie = new Movie(id, originalTitle, thumbnailUrl, overView, voteAverage, releaseDate);
             // Add the new {@link Movie} to the list of movies
             movies.add(movie);
         }
