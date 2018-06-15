@@ -75,12 +75,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = mMovies.get(position);
         String title = movie.getTitle();
         String thumbnail = movie.getThumbnail();
-        double voteAvg = movie.getVoteAverage();
+
         holder.titleTextView.setText(title);
         Picasso.with(holder.itemView.getContext())
                 .load(thumbnail)
                 .into(holder.thumbnailImageView);
-        holder.voteAvgTextView.setText(String.valueOf(voteAvg));
+
     }
 
     /**
@@ -126,7 +126,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @BindView(R.id.iv_thumbnail) ImageView thumbnailImageView;
         @BindView(R.id.tv_title) TextView titleTextView;
-        @BindView(R.id.tv_vote_average) TextView voteAvgTextView;
+
 
         /**
          * Constructor for our ViewHolder.
