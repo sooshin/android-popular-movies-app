@@ -10,4 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Only visible when there is no Internet connection -->
+    <TextView
+        android:id="@+id/tv_offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:drawablePadding="@dimen/padding_activity"
+        android:drawableTop="@drawable/wifi_off"
+        android:padding="@dimen/padding_activity_large"
+        android:text="@string/check_network"
+        android:textAlignment="center"
+        android:textColor="@color/color_offline"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
 </FrameLayout>

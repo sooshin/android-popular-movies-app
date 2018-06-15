@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">PopularMovies</string>
 
-    <!-- Then content description of the movie poster image thumbnail -->
+    <!-- The content description of the movie poster image thumbnail -->
     <string name="thumbnail_content_description">Movie poster image thumbnail</string>
     <string name="title_activity_detail">DetailActivity</string>
+
+    <!-- Strings related to the network-->
+    <string name="no_network_title">No Network Available</string>
+    <string name="no_network_message">We cannot detect a network connection on this device. Please check your mobile data or Wi-Fi and try again.</string>
+    <string name="check_network">No network available.\nPlease make sure you are connected to the Internet.</string>
+
+    <!-- Dialog button text -->
+    <string name="cancel">Cancel</string>
+    <string name="go_to_settings">Go to settings</string>
 </resources>

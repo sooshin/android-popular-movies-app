@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="padding_activity">16dp</dimen>
+    <dimen name="padding_activity_large">48dp</dimen>
+</resources>
