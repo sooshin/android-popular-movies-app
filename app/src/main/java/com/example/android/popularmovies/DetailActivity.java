@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -36,6 +37,9 @@ public class DetailActivity extends AppCompatActivity {
     /** Get a reference to the TabLayout */
     @BindView(R.id.sliding_tabs)
     TabLayout mTabLayout;
+
+    @BindView(R.id.tv_detail_title)
+    TextView mTitleTextView;
 
     /** Movie object */
     private Movie mMovie;
@@ -68,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         loadBackdropImage();
-
+        setOriginalTitle();
     }
 
     private void loadBackdropImage() {
@@ -80,4 +84,8 @@ public class DetailActivity extends AppCompatActivity {
                 .into(mBackdropImageView);
     }
 
+    private void setOriginalTitle() {
+        String title = mMovie.getTitle();
+        mTitleTextView.setText(title);
+    }
 }

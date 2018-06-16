@@ -41,8 +41,14 @@
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/tv_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/padding_activity_small"
+                    android:paddingBottom="@dimen/padding_activity_small"
+                    android:paddingLeft="@dimen/padding_activity"
+                    android:paddingRight="@dimen/padding_activity"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:text="movie title"/>
             </LinearLayout>
 
