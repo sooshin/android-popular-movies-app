@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:padding="@dimen/padding_activity_small">
 
     <ImageView
         android:id="@+id/iv_thumbnail"
-        android:layout_width="100dp"
-        android:layout_height="200dp"
-        android:contentDescription="@string/thumbnail_content_description"/>
+        android:layout_width="110dp"
+        android:layout_height="156dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/thumbnail_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/photo" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:textSize="12sp" />
 </LinearLayout>
