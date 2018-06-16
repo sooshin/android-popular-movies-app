@@ -73,14 +73,11 @@ public class DetailActivity extends AppCompatActivity {
 
     private void loadBackdropImage() {
         String backdropPath = mMovie.getBackdropPath();
-        if (backdropPath == null) {
-            mBackdropImageView.setImageResource(R.drawable.photo);
-        } else {
-            String backdrop = IMAGE_BASE_URL + BACKDROP_FILE_SIZE + backdropPath;
-            Picasso.with(this)
-                    .load(backdrop)
-                    .into(mBackdropImageView);
-        }
+        String backdrop = IMAGE_BASE_URL + BACKDROP_FILE_SIZE + backdropPath;
+        Picasso.with(this)
+                .load(backdrop)
+                .placeholder(R.drawable.photo)
+                .into(mBackdropImageView);
     }
 
 }
