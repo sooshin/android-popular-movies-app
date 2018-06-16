@@ -14,9 +14,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="wifi_off" />
+                            <entry key="outputName" value="photo" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\downloads-d\wifi_off.svg" />
+                            <entry key="sourceFile" value="D:\downloads-d\photo.svg" />
                           </map>
                         </option>
                       </PersistentState>

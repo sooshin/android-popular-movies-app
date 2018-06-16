@@ -18,6 +18,9 @@ import butterknife.ButterKnife;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
+    /** The image file size to build the complete url that is necessary for fetching the image*/
+    private static final String IMAGE_FILE_SIZE = "w185";
+
     /** Member variable for the list of {@link Movie}s */
     private List<Movie> mMovies;
 
@@ -74,7 +77,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
         String title = movie.getTitle();
-        String thumbnail = movie.getThumbnail();
+        String thumbnail = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
 
         holder.titleTextView.setText(title);
         Picasso.with(holder.itemView.getContext())

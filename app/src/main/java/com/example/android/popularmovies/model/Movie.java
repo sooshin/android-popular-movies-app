@@ -3,6 +3,8 @@ package com.example.android.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * A {@link Movie} object includes information related to a movie.
  * This class implements Parcelable interface to allow {@link Movie} object to be sent as a Parcel
@@ -35,39 +37,52 @@ public class Movie implements Parcelable {
     };
 
     /** The id of the movie */
+    @SerializedName("id")
     private int mId;
+
     /** Title of the movie */
+    @SerializedName("original_title")
     private String mTitle;
+
     /** Movie poster image thumbnail */
-    private String mThumbnail;
+    @SerializedName("poster_path")
+    private String mPosterPath;
+
     /** Overview (or plot synopsis) of the movie */
+    @SerializedName("overview")
     private String mOverview;
+
     /** Vote average (or user rating) of the movie */
+    @SerializedName("vote_average")
     private double mVoteAverage;
+
     /** Release date of the movie */
+    @SerializedName("release_date")
     private String mReleaseDate;
+
     /** Backdrop of the movie */
-    private String mBackdrop;
+    @SerializedName("backdrop_path")
+    private String mBackdropPath;
 
     /**
      * Constructs a new {@link Movie} object
      *
      * @param id is the id of the movie
      * @param title is the original title of the movie
-     * @param thumbnail is movie poster image thumbnail
+     * @param posterPath is movie poster path
      * @param overview is a plot synopsis of the movie
      * @param voteAverage is user rating of the movie
      * @param releaseDate is the release date of the movie
-     * @param backdrop is backdrop image of the movie
+     * @param backdropPath is backdrop image path of the movie
      */
-    public Movie(int id, String title, String thumbnail, String overview, double voteAverage, String releaseDate, String backdrop) {
+    public Movie(int id, String title, String posterPath, String overview, double voteAverage, String releaseDate, String backdropPath) {
         mId = id;
         mTitle = title;
-        mThumbnail = thumbnail;
+        mPosterPath = posterPath;
         mOverview = overview;
         mVoteAverage = voteAverage;
         mReleaseDate = releaseDate;
-        mBackdrop = backdrop;
+        mBackdropPath = backdropPath;
     }
 
     /**
@@ -85,10 +100,10 @@ public class Movie implements Parcelable {
     }
 
     /**
-     * Returns a movie poster thumbnail image url
+     * Returns a movie poster path
      */
-    public String getThumbnail() {
-        return mThumbnail;
+    public String getPosterPath() {
+        return mPosterPath;
     }
 
     /**
@@ -113,10 +128,10 @@ public class Movie implements Parcelable {
     }
 
     /**
-     * Returns a movie backdrop image
+     * Returns a movie backdrop image path
      */
-    public String getBackdrop() {
-        return mBackdrop;
+    public String getBackdropPath() {
+        return mBackdropPath;
     }
 
     // Parcelling part
@@ -127,11 +142,11 @@ public class Movie implements Parcelable {
     private Movie(Parcel in) {
         mId = in.readInt();
         mTitle = in.readString();
-        mThumbnail = in.readString();
+        mPosterPath = in.readString();
         mOverview = in.readString();
         mVoteAverage = in.readDouble();
         mReleaseDate = in.readString();
-        mBackdrop = in.readString();
+        mBackdropPath = in.readString();
     }
 
     /**
@@ -156,10 +171,10 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
         dest.writeString(mTitle);
-        dest.writeString(mThumbnail);
+        dest.writeString(mPosterPath);
         dest.writeString(mOverview);
         dest.writeDouble(mVoteAverage);
         dest.writeString(mReleaseDate);
-        dest.writeString(mBackdrop);
+        dest.writeString(mBackdropPath);
     }
 }

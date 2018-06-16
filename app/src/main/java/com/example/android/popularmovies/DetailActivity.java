@@ -19,6 +19,12 @@ public class DetailActivity extends AppCompatActivity {
     // Extra for the movie to be received in the intent
     public static final String EXTRA_MOVIE = "movie";
 
+    /** The base image URL to build the complete url that is necessary for fetching the image */
+    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+
+    /** The image file size to build the complete url that is necessary for fetching the image*/
+    private static final String BACKDROP_FILE_SIZE ="w500";
+
     /** ImageView for the backdrop image */
     @BindView(R.id.iv_backdrop)
     ImageView mBackdropImageView;
@@ -61,11 +67,20 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-        String backdrop = mMovie.getBackdrop();
-        Picasso.with(this)
-                .load(backdrop)
-                .into(mBackdropImageView);
+        loadBackdropImage();
 
+    }
+
+    private void loadBackdropImage() {
+        String backdropPath = mMovie.getBackdropPath();
+        if (backdropPath == null) {
+            mBackdropImageView.setImageResource(R.drawable.photo);
+        } else {
+            String backdrop = IMAGE_BASE_URL + BACKDROP_FILE_SIZE + backdropPath;
+            Picasso.with(this)
+                    .load(backdrop)
+                    .into(mBackdropImageView);
+        }
     }
 
 }
