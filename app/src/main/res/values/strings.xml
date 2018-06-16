@@ -3,7 +3,7 @@
 
     <!-- The content description of the movie poster image thumbnail -->
     <string name="thumbnail_content_description">Movie poster image thumbnail</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="backdrop_content_description">Backdrop image</string>
 
     <!-- Strings related to the network-->
     <string name="no_network_title">No Network Available</string>

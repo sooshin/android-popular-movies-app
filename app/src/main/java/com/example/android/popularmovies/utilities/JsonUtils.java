@@ -42,6 +42,9 @@ public class JsonUtils {
     /** Release data for the movie */
     private static final String KEY_RELEASE_DATE = "release_date";
 
+    /** Backdrop image for the movie */
+    private static final String KEY_BACKDROP_PATH = "backdrop_path";
+
     /** Status code */
     private static final String KEY_STATUS_CODE = "status_code";
 
@@ -50,6 +53,7 @@ public class JsonUtils {
 
     /** The image file size to build the complete url that is necessary for fetching the image*/
     private static final String IMAGE_FILE_SIZE = "w185";
+    private static final String BACKDROP_FILE_SIZE ="w500";
 
     /**
      * This method parses JSON from a web response and returns a List of Movies describing the movie
@@ -136,8 +140,16 @@ public class JsonUtils {
                 releaseDate = currentMovie.getString(KEY_RELEASE_DATE);
             }
 
+            // For a given movie, if it contains the key called "backdrop_path", extract the value for the key
+            String backdropPath = null;
+            if (currentMovie.has(KEY_BACKDROP_PATH)) {
+                // Extract the value for the key called "backdrop_path"
+                backdropPath = currentMovie.getString(KEY_BACKDROP_PATH);
+            }
+            String backdrop = IMAGE_BASE_URL + BACKDROP_FILE_SIZE + backdropPath;
+
             // Create a new {@link Movie} object
-            Movie movie = new Movie(id, originalTitle, thumbnailUrl, overView, voteAverage, releaseDate);
+            Movie movie = new Movie(id, originalTitle, thumbnailUrl, overView, voteAverage, releaseDate, backdrop);
             // Add the new {@link Movie} to the list of movies
             movies.add(movie);
         }

@@ -46,6 +46,8 @@ public class Movie implements Parcelable {
     private double mVoteAverage;
     /** Release date of the movie */
     private String mReleaseDate;
+    /** Backdrop of the movie */
+    private String mBackdrop;
 
     /**
      * Constructs a new {@link Movie} object
@@ -56,14 +58,16 @@ public class Movie implements Parcelable {
      * @param overview is a plot synopsis of the movie
      * @param voteAverage is user rating of the movie
      * @param releaseDate is the release date of the movie
+     * @param backdrop is backdrop image of the movie
      */
-    public Movie(int id, String title, String thumbnail, String overview, double voteAverage, String releaseDate) {
+    public Movie(int id, String title, String thumbnail, String overview, double voteAverage, String releaseDate, String backdrop) {
         mId = id;
         mTitle = title;
         mThumbnail = thumbnail;
         mOverview = overview;
         mVoteAverage = voteAverage;
         mReleaseDate = releaseDate;
+        mBackdrop = backdrop;
     }
 
     /**
@@ -108,6 +112,13 @@ public class Movie implements Parcelable {
         return mReleaseDate;
     }
 
+    /**
+     * Returns a movie backdrop image
+     */
+    public String getBackdrop() {
+        return mBackdrop;
+    }
+
     // Parcelling part
     /**
      * Read the value from the parcel
@@ -120,6 +131,7 @@ public class Movie implements Parcelable {
         mOverview = in.readString();
         mVoteAverage = in.readDouble();
         mReleaseDate = in.readString();
+        mBackdrop = in.readString();
     }
 
     /**
@@ -148,5 +160,6 @@ public class Movie implements Parcelable {
         dest.writeString(mOverview);
         dest.writeDouble(mVoteAverage);
         dest.writeString(mReleaseDate);
+        dest.writeString(mBackdrop);
     }
 }
