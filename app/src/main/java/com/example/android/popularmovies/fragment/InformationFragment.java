@@ -11,6 +11,9 @@ import com.example.android.popularmovies.R;
 
 public class InformationFragment extends Fragment{
 
+    public InformationFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
