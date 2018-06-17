@@ -93,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      * Makes a network request by calling enqueue
      */
     private void callMovieResponse() {
-        Controller controller = new Controller();
-        Retrofit retrofit = controller.getClient();
+        Retrofit retrofit = Controller.getClient();
         TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
 
         Call<MovieResponse> call = theMovieApi.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
