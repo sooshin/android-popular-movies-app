@@ -86,11 +86,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
 
+        callMovieResponse();
+    }
+
+    /**
+     * Makes a network request by calling enqueue
+     */
+    private void callMovieResponse() {
         Controller controller = new Controller();
         Retrofit retrofit = controller.getClient();
         TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
 
         Call<MovieResponse> call = theMovieApi.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
+        // Calls are executed with asynchronously with enqueue and notify callback of its response
         call.enqueue(this);
     }
 
@@ -121,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     @Override
     protected void onResume() {
         super.onResume();
+        callMovieResponse();
     }
 
     /**
