@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
-        // Once all of our views are set up, we can load the movie data.
-//        loadMovieData();
 
         Controller controller = new Controller();
         Retrofit retrofit = controller.getClient();
@@ -123,19 +121,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     @Override
     protected void onResume() {
         super.onResume();
-//        loadMovieData();
     }
-
-//    /**
-//     * This method will get the user's preferred sort criteria for movie, and then tell some
-//     * background method to get the movie data in the background.
-//     */
-//    private void loadMovieData() {
-//        showMovieDataView();
-//
-//        String sort = MoviePreferences.getPreferredSortCriteria(this);
-//        new FetchMovieTask().execute(sort);
-//    }
 
     /**
      * This method is overridden by our MainActivity class in order to handle RecyclerView item clicks.
@@ -153,54 +139,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         Toast.makeText(this, "toast:"  + movie.getId(), Toast.LENGTH_SHORT).show();
     }
-
-
-//    public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
-//        /**
-//         * Perform the network requests
-//         */
-//        @Override
-//        protected List<Movie> doInBackground(String... params) {
-//            if (params.length == 0) {
-//                return null;
-//            }
-//
-//            String url = params[0];
-//            URL movieRequestUrl = NetworkUtils.buildMovieUrl(url);
-//
-//            try {
-//                String jsonMovieResponse = NetworkUtils.getResponseFromHttpUrl(movieRequestUrl);
-//
-//                List<Movie> jsonMovieData = JsonUtils.parseMovieJson(jsonMovieResponse);
-//
-//                return jsonMovieData;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                Log.e(TAG, "Problem retrieving the Movie Database JSON results.");
-//            }
-//            return null;
-//        }
-//
-//        /**
-//         * Display the result fo the network request
-//         */
-//        @Override
-//        protected void onPostExecute(List<Movie> movies) {
-//            // Clear the adapter of the previous movie data
-//            mMovieAdapter.clearAll();
-//
-//            // Add the movie data
-//            if (movies != null && !movies.isEmpty()) {
-//                showMovieDataView();
-//                mMovieAdapter.addAll(movies);
-//            }
-//            // If there is no internet connection, show the offline message
-//            if (!isOnline()) {
-//                showOfflineMessage();
-//            }
-//        }
-//    }
 
     /**
      * Check if there is the network connectivity
