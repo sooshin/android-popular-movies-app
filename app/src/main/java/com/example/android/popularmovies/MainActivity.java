@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         call.enqueue(this);
     }
 
+    /**
+     * Invoked for a received HTTP response.
+     */
     @Override
     public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
         if (response.isSuccessful()) {
@@ -119,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         }
     }
 
+    /**
+     * Invoked when a network exception occurred talking to the server or when an unexpected exception
+     * occurred creating the request or processing the response.
+     */
     @Override
     public void onFailure(Call<MovieResponse> call, Throwable t) {
         NetworkError networkError = new NetworkError(t);
