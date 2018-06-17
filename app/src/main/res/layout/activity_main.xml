@@ -25,4 +25,15 @@
         android:textSize="18sp"
         android:visibility="invisible" />
 
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:padding="@dimen/padding_activity_large"
+        android:textAlignment="center"
+        android:textColor="@color/color_offline"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
 </FrameLayout>

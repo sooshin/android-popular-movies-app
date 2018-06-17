@@ -20,6 +20,7 @@ import com.example.android.popularmovies.MovieAdapter.MovieAdapterOnClickHandler
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.Controller;
+import com.example.android.popularmovies.utilities.NetworkError;
 import com.example.android.popularmovies.utilities.TheMovieApi;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Reference to Offline TextView*/
     @BindView(R.id.tv_offline) TextView mOfflineTextView;
+
+    @BindView(R.id.tv_error) TextView mErrorTextView;
 
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
@@ -95,15 +98,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     @Override
     public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-        MovieResponse movieResponse = response.body();
-        List<Movie> movies = movieResponse.getMovieResults();
-        Log.e(TAG, "first movie title: " + movies.get(0).getTitle());
-        mMovieAdapter.addAll(movies);
+        if (response.isSuccessful()) {
+            MovieResponse movieResponse = response.body();
+            if (movieResponse != null) {
+                List<Movie> movies = movieResponse.getMovieResults();
+                mMovieAdapter.addAll(movies);
+            }
+        } else if (response.code() == 401) {
+            Log.e(TAG, "Invalid Api key");
+            mErrorTextView.setVisibility(View.VISIBLE);
+            mErrorTextView.setText("Please make sure enter your api key.");
+        } else {
+            Log.e(TAG, "response Code: " + response.code());
+        }
     }
 
     @Override
     public void onFailure(Call<MovieResponse> call, Throwable t) {
-        t.printStackTrace();
+        NetworkError networkError = new NetworkError(t);
+        String errorMessage = networkError.getAppErrorMessage();
+        Log.e(TAG, "Network error message: " + errorMessage);
     }
 
     @Override

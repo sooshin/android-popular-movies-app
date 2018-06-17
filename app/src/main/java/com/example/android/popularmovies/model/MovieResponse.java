@@ -18,6 +18,10 @@ public class MovieResponse {
     @SerializedName("results")
     private List<Movie> mMovieResults = null;
 
+    @SuppressWarnings({"unused", "used by Retrofit"})
+    public MovieResponse() {
+    }
+
     public List<Movie> getMovieResults() {
         return mMovieResults;
     }
