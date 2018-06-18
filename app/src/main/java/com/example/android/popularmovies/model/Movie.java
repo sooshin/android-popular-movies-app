@@ -123,7 +123,7 @@ public class Movie implements Parcelable {
     /**
      * Returns release date of the movie
      */
-    public String getReleaseData() {
+    public String getReleaseDate() {
         return mReleaseDate;
     }
 
