@@ -2,6 +2,8 @@ package com.example.android.popularmovies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +43,18 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_detail_title)
     TextView mTitleTextView;
 
+    /** AppBarLayout */
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+
+    /** Collapsing Toolbar Layout */
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbar;
+
+    /** Toolbar */
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     /** Movie object */
     private Movie mMovie;
 
@@ -71,6 +85,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+        // Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed
+        setCollapsingToolbarTitle();
         loadBackdropImage();
         setOriginalTitle();
     }
@@ -87,5 +103,31 @@ public class DetailActivity extends AppCompatActivity {
     private void setOriginalTitle() {
         String title = mMovie.getTitle();
         mTitleTextView.setText(title);
+    }
+
+    /**
+     * Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed, otherwise hide the title.
+     *
+     * reference [https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed]
+     */
+    private void setCollapsingToolbarTitle() {
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    mCollapsingToolbar.setTitle(mMovie.getTitle());
+                    isShow = true;
+                } else if (isShow) {
+                    mCollapsingToolbar.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
     }
 }
