@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,15 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.MainActivity;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.model.Cast;
+import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.Controller;
 import com.example.android.popularmovies.utilities.TheMovieApi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +63,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     @BindView(R.id.tv_budget) TextView mBudgetTextView;
     /** Get a reference to the Status TextView*/
     @BindView(R.id.tv_status) TextView mStatusTextView;
+    /** Get a reference to the TextView for displaying the Cast */
+    @BindView(R.id.tv_cast) TextView mCastTextView;
 
     private Unbinder mUnbinder;
 
@@ -95,7 +103,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         Retrofit retrofit = Controller.getClient();
         TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
 
-        Call<MovieDetails> callDetails = theMovieApi.getDetails(mMovie.getId(), MainActivity.API_KEY, MainActivity.LANGUAGE);
+        Call<MovieDetails> callDetails = theMovieApi.getDetails(
+                mMovie.getId(), MainActivity.API_KEY, MainActivity.LANGUAGE, MainActivity.CREDITS);
         // Calls are executed with asynchronously with enqueue and notify callback of its response
         callDetails.enqueue(this);
     }
@@ -119,6 +128,19 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 int revenue = movieDetails.getRevenue();
                 int voteCount = movieDetails.getVoteCount();
                 String status = movieDetails.getStatus();
+
+                // Get the cast and crew for a movie
+                Credits credits = movieDetails.getCredits();
+                List<Cast> castList = credits.getCast();
+                List<String> castStrList = new ArrayList<>();
+                for (int i = 0; i < castList.size(); i++) {
+                    Cast cast = castList.get(i);
+                    String castName = cast.getName();
+                    castStrList.add(castName);
+                }
+                String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
+                mCastTextView.setText(castStr);
+
                 mVoteCountTextView.setText(String.valueOf(voteCount));
                 mBudgetTextView.setText(String.valueOf(budget));
                 mRevenueTextView.setText(String.valueOf(revenue));

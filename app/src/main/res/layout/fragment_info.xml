@@ -28,9 +28,9 @@
                     android:id="@+id/tv_overview_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
                     android:text="@string/synopsis"
-                    android:textSize="18sp"
-                    android:paddingBottom="8dp"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_overview"
@@ -56,12 +56,12 @@
                     android:id="@+id/tv_vote_average_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
                     android:text="@string/vote_average"
                     android:textSize="18sp"
-                    android:paddingBottom="4dp"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_star"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_star"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/iv_star"
@@ -141,6 +141,51 @@
             android:layout_height="wrap_content"
             app:contentPadding="16dp">
 
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cast_and_crew"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_cast_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/cast"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                    android:id="@+id/tv_cast"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tv_cast_label"
+                    app:layout_constraintTop_toTopOf="@+id/tv_cast_label"
+                    tools:text="Craig T. Nelson, Holly Hunter, Sara Vowell" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentPadding="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,9 +194,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:paddingBottom="8dp"
-                    android:text="@string/details"/>
+                    android:text="@string/details"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_release_date_label"
@@ -190,7 +235,7 @@
                     android:id="@+id/tv_revenue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="567892039"/>
+                    tools:text="567892039" />
 
                 <TextView
                     android:id="@+id/tv_status_label"
@@ -203,7 +248,7 @@
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Released"/>
+                    tools:text="Released" />
 
             </LinearLayout>
 

@@ -22,6 +22,7 @@ public interface TheMovieApi {
     Call<MovieDetails> getDetails(
             @Path("id") int id,
             @Query("api_key") String apiKey,
-            @Query("language") String language
+            @Query("language") String language,
+            @Query("append_to_response") String credits
     );
 }

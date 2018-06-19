@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     public static final String API_KEY = BuildConfig.API_KEY;
     public static final String LANGUAGE = "en-US";
     public static final int PAGE = 1;
+    public static final String CREDITS = "credits";
 
     /** Reference to RecyclerView */
     @BindView(R.id.rv_movie) RecyclerView mRecyclerView;
