@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/padding_activity_small">
 
-    <ImageView
-        android:id="@+id/iv_thumbnail"
-        android:layout_width="110dp"
-        android:layout_height="156dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/thumbnail_content_description"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/photo" />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0.7dp"
+        app:cardMaxElevation="1dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:textSize="12sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="110dp"
+                android:layout_height="156dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/thumbnail_content_description"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/photo" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_thumbnail"
+                android:padding="4dp"
+                android:maxLines="2"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>
