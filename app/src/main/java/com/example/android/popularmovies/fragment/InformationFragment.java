@@ -1,10 +1,10 @@
 package com.example.android.popularmovies.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +12,10 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.MainActivity;
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.Controller;
 import com.example.android.popularmovies.utilities.TheMovieApi;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +28,15 @@ import retrofit2.Retrofit;
 import static com.example.android.popularmovies.DetailActivity.EXTRA_MOVIE;
 
 public class InformationFragment extends Fragment implements Callback<MovieDetails> {
+
+    /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity
+     *  The callback is a method named onInformationSelected(MovieDetails movieDetails) that contains
+     *  information about the MovieDetails */
+    OnInfoSelectedListener mCallback;
+
+    public interface OnInfoSelectedListener {
+        void onInformationSelected(MovieDetails movieDetails);
+    }
 
     /** Tag for logging */
     public static final String TAG = InformationFragment.class.getSimpleName();
@@ -118,14 +123,9 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 mBudgetTextView.setText(String.valueOf(budget));
                 mRevenueTextView.setText(String.valueOf(revenue));
                 mStatusTextView.setText(status);
-                List<Genre> genres = movieDetails.getGenres();
-                List<String> genresStr = new ArrayList<>();
-                for (int i = 0; i < genres.size(); i++) {
-                    Genre genre = genres.get(i);
-                    String genreName = genre.getGenreName();
-                    genresStr.add(genreName);
-                    Log.e(TAG, genreName);
-                }
+
+                // Trigger the callback onInformationSelected
+                mCallback.onInformationSelected(movieDetails);
             }
         }
     }
@@ -137,6 +137,20 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     @Override
     public void onFailure(Call<MovieDetails> call, Throwable t) {
         t.printStackTrace();
+    }
+
+    /**
+     * Override onAttach to make sure that the container activity has implemented the callback
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnInfoSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnInfoSelectedListener");
+        }
     }
 
     /**

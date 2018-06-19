@@ -8,16 +8,23 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.fragment.InformationFragment;
+import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.MovieDetails;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements InformationFragment.OnInfoSelectedListener{
 
     // Extra for the movie to be received in the intent
     public static final String EXTRA_MOVIE = "movie";
@@ -54,6 +61,13 @@ public class DetailActivity extends AppCompatActivity {
     /** Toolbar */
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    /** Get a reference to the TextView to display runtime */
+    @BindView(R.id.tv_runtime)
+    TextView mRuntimeTextView;
+    /** Get a reference to the TextView to display genres*/
+    @BindView(R.id.tv_genre)
+    TextView mGenreTextView;
 
     /** Movie object */
     private Movie mMovie;
@@ -129,5 +143,22 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onInformationSelected(MovieDetails movieDetails) {
+        int runtime = movieDetails.getRuntime();
+        String runtimeStr = runtime + " min";
+        mRuntimeTextView.setText(runtimeStr);
+
+        List<Genre> genres = movieDetails.getGenres();
+        List<String> genresStrList = new ArrayList<>();
+        for (int i = 0; i < genres.size(); i++) {
+            Genre genre = genres.get(i);
+            String genreName = genre.getGenreName();
+            genresStrList.add(genreName);
+        }
+        String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
+        mGenreTextView.setText(genreStr);
     }
 }

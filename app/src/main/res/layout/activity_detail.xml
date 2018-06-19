@@ -50,6 +50,22 @@
                     android:paddingRight="@dimen/padding_activity"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:text="movie title"/>
+
+                <TextView
+                    android:id="@+id/tv_runtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_activity"
+                    android:paddingRight="@dimen/padding_activity"
+                    tools:text="122 min"/>
+
+                <TextView
+                    android:id="@+id/tv_genre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_activity"
+                    android:paddingRight="@dimen/padding_activity"
+                    tools:text="Action"/>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar

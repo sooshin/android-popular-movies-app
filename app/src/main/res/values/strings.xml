@@ -23,4 +23,7 @@
     <string name="status">Status</string>
     <string name="synopsis">Synopsis</string>
     <string name="details">Details</string>
+
+    <!-- The delimiter to separate genres-->
+    <string name="delimiter_comma">,\u0020</string>
 </resources>
