@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Constants  */
     public static final String CATEGORY = "popular";
-    public static final String API_KEY = "YOUR_API_KEY";
+    public static final String API_KEY = BuildConfig.API_KEY;
     public static final String LANGUAGE = "en-US";
     public static final int PAGE = 1;
 
