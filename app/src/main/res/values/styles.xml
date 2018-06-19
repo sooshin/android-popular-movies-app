@@ -17,4 +17,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- CardView style in the fragment_info.xml -->
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_marginBottom">@dimen/margin_card_view</item>
+        <item name="android:layout_marginTop">@dimen/margin_card_view</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">0.7dp</item>
+        <item name="cardMaxElevation">1dp</item>
+        <item name="cardPreventCornerOverlap">true</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <!-- TextView style for detail label in the fragment_info -->
+    <style name="DetailTextLabelStyle">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

@@ -3,4 +3,10 @@
     <dimen name="padding_activity_large">48dp</dimen>
 
     <dimen name="padding_activity_small">8dp</dimen>
+
+    <!-- Margin for the CardView in fragment_info -->
+    <dimen name="margin_card_view">5dp</dimen>
+
+    <!-- Padding for the TextView in movie_list_item -->
+    <dimen name="padding_list_text">4dp</dimen>
 </resources>

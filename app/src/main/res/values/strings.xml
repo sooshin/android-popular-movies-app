@@ -13,4 +13,14 @@
     <!-- Dialog button text -->
     <string name="cancel">Cancel</string>
     <string name="go_to_settings">Go to settings</string>
+
+    <!-- String for the movie details -->
+    <string name="ten">/10</string>
+    <string name="vote_average">Avg rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="budget">Budget</string>
+    <string name="revenue">Revenue</string>
+    <string name="status">Status</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="details">Details</string>
 </resources>
