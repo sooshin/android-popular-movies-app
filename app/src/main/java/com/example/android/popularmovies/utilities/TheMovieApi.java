@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.utilities;
 
+import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.model.MovieResponse;
 
 import retrofit2.Call;
@@ -15,5 +16,12 @@ public interface TheMovieApi {
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page
+    );
+
+    @GET("movie/{id}")
+    Call<MovieDetails> getDetails(
+            @Path("id") int id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language
     );
 }
