@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">PopularMovies</string>
 
     <!-- The content description of the movie poster image thumbnail -->
@@ -28,4 +28,10 @@
 
     <!-- The delimiter to separate genres-->
     <string name="delimiter_comma">,\u0020</string>
+
+    <!-- The runtime format -->
+    <string name="format_runtime">
+        <xliff:g id="hours">%01d</xliff:g>h\u0020
+        <xliff:g id="minutes">%01d</xliff:g>m
+    </string>
 </resources>

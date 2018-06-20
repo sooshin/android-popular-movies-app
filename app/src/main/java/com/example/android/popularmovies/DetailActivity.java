@@ -16,6 +16,7 @@ import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
+import com.example.android.popularmovies.utilities.FormatUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -169,9 +170,10 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
     @Override
     public void onInformationSelected(MovieDetails movieDetails) {
+        // Get the runtime of the movie from MovieDetails object
         int runtime = movieDetails.getRuntime();
-        String runtimeStr = runtime + " min";
-        mRuntimeTextView.setText(runtimeStr);
+        // Convert Minutes to Hours and Minutes (e.g. "118" -> "1h 58m") and set the runtime to the TextView
+        mRuntimeTextView.setText(FormatUtils.formatTime(this, runtime));
 
         List<Genre> genres = movieDetails.getGenres();
         List<String> genresStrList = new ArrayList<>();
