@@ -37,4 +37,30 @@
 
     <!-- String for Settings-->
     <string name="action_settings">Settings</string>
+
+    <!-- - - - - - - - - - - - - - - - - -
+      - Used by PopularMoviesPreferences -
+      - - - - - - - - - - - - - - - - - - -->
+
+    <!-- Label for the Sort By preference -->
+    <string name="pref_sort_by_label">Sort By</string>
+
+    <!-- Key name for storing sort criteria in SharedPreferences -->
+    <string name="pref_sort_by_key" translatable="false">sort_by</string>
+
+    <!-- Default sort criteria for sort by preference -->
+    <string name="pref_sort_by_default" translatable="false">popular</string>
+
+    <!-- Label for popular option in sort by preference -->
+    <string name="pref_sort_by_label_popular">Popular</string>
+
+    <!-- Label for top rated option in sort by preference -->
+    <string name="pref_sort_by_label_top_rated">Top Rated</string>
+
+    <!-- Value in SharedPreferences for popular option -->
+    <string name="pref_sort_by_popular" translatable="false">popular</string>
+
+    <!-- Value in SharedPreferences for top rated option -->
+    <string name="pref_sort_by_top_rated">top_rated</string>
+
 </resources>

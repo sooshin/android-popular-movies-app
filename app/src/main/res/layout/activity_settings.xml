@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_settings"
+    android:name="com.example.android.popularmovies.fragment.SettingsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_activity"
-    tools:context=".SettingsActivity">
-
-</RelativeLayout>
+    tools:context=".SettingsActivity" />
