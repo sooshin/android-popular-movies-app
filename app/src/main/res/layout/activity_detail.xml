@@ -74,8 +74,10 @@
                     android:id="@+id/tv_genre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_activity_small"
                     android:paddingLeft="@dimen/padding_activity"
                     android:paddingRight="@dimen/padding_activity"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_runtime"
                     tools:text="Action, Adventure, Animation, Family" />
 
