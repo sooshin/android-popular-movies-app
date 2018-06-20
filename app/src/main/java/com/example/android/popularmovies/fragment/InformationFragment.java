@@ -18,6 +18,7 @@ import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.Controller;
+import com.example.android.popularmovies.utilities.FormatUtils;
 import com.example.android.popularmovies.utilities.TheMovieApi;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     private void loadDetails() {
         mOverviewTextView.setText(mMovie.getOverview());
         mVoteAverageTextView.setText(String.valueOf(mMovie.getVoteAverage()));
-        mReleaseDateTextView.setText(mMovie.getReleaseDate());
+        mReleaseDateTextView.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
     }
 
     /**
@@ -141,9 +142,9 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
                 mCastTextView.setText(castStr);
 
-                mVoteCountTextView.setText(String.valueOf(voteCount));
-                mBudgetTextView.setText(String.valueOf(budget));
-                mRevenueTextView.setText(String.valueOf(revenue));
+                mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
+                mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
+                mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
                 mStatusTextView.setText(status);
 
                 // Trigger the callback onInformationSelected
