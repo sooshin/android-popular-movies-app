@@ -35,6 +35,10 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** The image file size to build the complete url that is necessary for fetching the image*/
     private static final String BACKDROP_FILE_SIZE ="w500";
 
+    /** The beginIndex and endIndex to be used for getting a substring of Release Date */
+    private static final int RELEASE_YEAR_BEGIN_INDEX = 0;
+    private static final int RELEASE_YEAR_END_INDEX = 4;
+
     /** ImageView for the backdrop image */
     @BindView(R.id.iv_backdrop)
     ImageView mBackdropImageView;
@@ -65,6 +69,9 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** Get a reference to the TextView to display runtime */
     @BindView(R.id.tv_runtime)
     TextView mRuntimeTextView;
+    /** Get a reference to the TextView to display release year */
+    @BindView(R.id.tv_release_year)
+    TextView mReleaseYearTextView;
     /** Get a reference to the TextView to display genres*/
     @BindView(R.id.tv_genre)
     TextView mGenreTextView;
@@ -102,7 +109,8 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed
         setCollapsingToolbarTitle();
         loadBackdropImage();
-        setOriginalTitle();
+        // Display the original title and release year
+        setTitleReleaseYear();
     }
 
     private void loadBackdropImage() {
@@ -114,9 +122,23 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
                 .into(mBackdropImageView);
     }
 
-    private void setOriginalTitle() {
+    /**
+     * The {@link Movie} object contains information, such as ID, original title, poster path, vote average,
+     * release date, and backdrop path. Get the title and release date from the {@link Movie} and set these
+     * data to the TextViews
+     */
+    private void setTitleReleaseYear() {
+        // Get the original title of the movie
         String title = mMovie.getTitle();
+        // Set the original title to the TextView
         mTitleTextView.setText(title);
+
+        // Get the release date of the movie (e.g. "2018-06-20")
+        String releaseDate = mMovie.getReleaseDate();
+        // Get the release year (e.g. "2018")
+        String releaseYear = releaseDate.substring(RELEASE_YEAR_BEGIN_INDEX, RELEASE_YEAR_END_INDEX);
+        // Set the release year to the TextView
+        mReleaseYearTextView.setText(releaseYear);
     }
 
     /**

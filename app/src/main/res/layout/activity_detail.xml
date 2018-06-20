@@ -20,13 +20,12 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <FrameLayout
+                    android:id="@+id/frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -37,19 +36,21 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/backdrop_content_description"
                         android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax"/>
+                        app:layout_collapseMode="parallax" />
                 </FrameLayout>
 
                 <TextView
                     android:id="@+id/tv_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/padding_activity_small"
                     android:paddingBottom="@dimen/padding_activity_small"
                     android:paddingLeft="@dimen/padding_activity"
                     android:paddingRight="@dimen/padding_activity"
+                    android:paddingTop="@dimen/padding_activity_small"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    tools:text="movie title"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/frame"
+                    tools:text="movie title" />
 
                 <TextView
                     android:id="@+id/tv_runtime"
@@ -57,7 +58,17 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/padding_activity"
                     android:paddingRight="@dimen/padding_activity"
-                    tools:text="122 min"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
+                    tools:text="122 min" />
+
+                <TextView
+                    android:id="@+id/tv_release_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_runtime"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
+                    tools:text="2018" />
 
                 <TextView
                     android:id="@+id/tv_genre"
@@ -65,8 +76,10 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/padding_activity"
                     android:paddingRight="@dimen/padding_activity"
-                    tools:text="Action"/>
-            </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_runtime"
+                    tools:text="Action, Adventure, Animation, Family" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -84,7 +97,6 @@
             app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
-
 
     <include layout="@layout/content_detail" />
 </android.support.design.widget.CoordinatorLayout>
