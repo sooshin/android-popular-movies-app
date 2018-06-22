@@ -143,7 +143,6 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
             if (movieDetails != null) {
                 // Get the budget, revenue, vote count, status
                 int budget = movieDetails.getBudget();
-                int runtime = movieDetails.getRuntime();
                 int revenue = movieDetails.getRevenue();
                 int voteCount = movieDetails.getVoteCount();
                 String status = movieDetails.getStatus();
