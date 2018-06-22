@@ -37,6 +37,7 @@
 
     <!-- String for Settings-->
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
 
     <!-- - - - - - - - - - - - - - - - - -
       - Used by PopularMoviesPreferences -
