@@ -87,6 +87,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Bind the view using ButterKnife
         ButterKnife.bind(this);
 
         // Give the TabLayout the ViewPager
@@ -100,6 +101,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Set the adapter onto the ViewPager
         mViewPager.setAdapter(pagerAdapter);
 
+        // Get the movie data from the MainActivity
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(EXTRA_MOVIE)) {
@@ -109,14 +111,21 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
         // Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed
         setCollapsingToolbarTitle();
+        // Display the backdrop image
         loadBackdropImage();
         // Display the original title and release year
         setTitleReleaseYear();
     }
 
+    /**
+     * Display the backdrop image
+     */
     private void loadBackdropImage() {
+        // Get the backdrop path
         String backdropPath = mMovie.getBackdropPath();
+        // The complete backdrop image url
         String backdrop = IMAGE_BASE_URL + BACKDROP_FILE_SIZE + backdropPath;
+        // Load image with Picasso library
         Picasso.with(this)
                 .load(backdrop)
                 .placeholder(R.drawable.photo)
@@ -175,14 +184,21 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Convert Minutes to Hours and Minutes (e.g. "118" -> "1h 58m") and set the runtime to the TextView
         mRuntimeTextView.setText(FormatUtils.formatTime(this, runtime));
 
+        // Get the genre of the movie from MovieDetails
         List<Genre> genres = movieDetails.getGenres();
+        // Create an empty arrayList
         List<String> genresStrList = new ArrayList<>();
+        // Iterate through the list of genres, and add genre name to the list of strings
         for (int i = 0; i < genres.size(); i++) {
             Genre genre = genres.get(i);
+            // Get the genre name from the genre at ith position
             String genreName = genre.getGenreName();
+            // Add genre name to the list of strings
             genresStrList.add(genreName);
         }
+        // Join a string using a delimiter
         String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
+        // Display the genre
         mGenreTextView.setText(genreStr);
     }
 }

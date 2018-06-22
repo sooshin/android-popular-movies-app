@@ -8,6 +8,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/**
+ * The movie database api interface. Retrofit turns HTTP API into a Java interface.
+ */
 public interface TheMovieApi {
 
     @GET("movie/{sort_criteria}")
