@@ -3,12 +3,14 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.MovieAdapter.MovieAdapterOnClickHandler;
+import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.Controller;
@@ -35,13 +38,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler, Callback<MovieResponse> {
+public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
+        Callback<MovieResponse>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /** Constants  */
-    public static final String CATEGORY = "popular";
     public static final String API_KEY = BuildConfig.API_KEY;
     public static final String LANGUAGE = "en-US";
     public static final int PAGE = 1;
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Constants for the span count in the grid layout manager */
     private static final int GRID_SPAN_COUNT = 3;
+
+    /** String for the sort criteria("most popular and highest rated") */
+    private String mSortCriteria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         showNetworkDialog(isOnline());
 
         callMovieResponse();
+
+        // Register MainActivity as an OnPreferenceChangedListener to receive a callback when a
+        // SharedPreference has changed. Please note that we must unregister MainActivity as an
+        // OnSharedPreferenceChanged listener in onDestroy to avoid any memory leaks.
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -99,7 +111,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         Retrofit retrofit = Controller.getClient();
         TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
 
-        Call<MovieResponse> call = theMovieApi.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
+        // Get the sort criteria currently set in Preferences
+        mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
+
+        Call<MovieResponse> call = theMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
         // Calls are executed with asynchronously with enqueue and notify callback of its response
         call.enqueue(this);
     }
@@ -135,10 +150,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         Log.e(TAG, "Network error message: " + errorMessage);
     }
 
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_sort_by_key))) {
+            mSortCriteria = sharedPreferences.getString(key, getString(R.string.pref_sort_by_default));
+        }
+        callMovieResponse();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister MainActivity as an OnPreferenceChangedListener to avoid any memory leaks
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        callMovieResponse();
+        //callMovieResponse();
     }
 
     /**

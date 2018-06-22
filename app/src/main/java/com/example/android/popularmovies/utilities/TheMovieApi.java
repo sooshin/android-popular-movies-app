@@ -10,9 +10,9 @@ import retrofit2.http.Query;
 
 public interface TheMovieApi {
 
-    @GET("movie/{category}")
+    @GET("movie/{sort_criteria}")
     Call<MovieResponse> getMovies(
-            @Path("category") String category,
+            @Path("sort_criteria") String sortCriteria,
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page
