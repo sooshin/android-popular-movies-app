@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -84,10 +85,17 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        setSupportActionBar(mToolbar);
 
         // Bind the view using ButterKnife
         ButterKnife.bind(this);
+
+        // Show back button in Collapsing Toolbar
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         // Give the TabLayout the ViewPager
         mTabLayout.setupWithViewPager(mViewPager);
@@ -199,5 +207,14 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
         // Display the genre
         mGenreTextView.setText(genreStr);
+    }
+
+    /**
+     * When the arrow icon in the app bar is clicked, finishes DetailActivity.
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
