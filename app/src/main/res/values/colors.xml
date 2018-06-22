@@ -9,4 +9,9 @@
 
     <!-- Divider color -->
     <color name="color_divider">#DADADA</color>
+
+    <!-- Gradient scrim color to separate text from the background -->
+    <color name="start_color_gradient">#40000000</color>
+    <color name="center_color_gradient">#00000000</color>
+    <color name="end_color_gradient">#1A000000</color>
 </resources>
