@@ -36,7 +36,7 @@ import static com.example.android.popularmovies.DetailActivity.EXTRA_MOVIE;
 
 public class InformationFragment extends Fragment implements Callback<MovieDetails> {
 
-    /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity
+    /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity.
      *  The callback is a method named onInformationSelected(MovieDetails movieDetails) that contains
      *  information about the MovieDetails */
     OnInfoSelectedListener mCallback;
@@ -72,8 +72,10 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     /** Member variable for the Movie object */
     private Movie mMovie;
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the fragment
+     */
     public InformationFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -88,11 +90,14 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         // Check if the Intent is not null, and has the extra we passed from MainActivity
         if (intent != null) {
             if (intent.hasExtra(EXTRA_MOVIE)) {
-                // Receive the Movie object
+                // Receive the Movie object which contains information, such as ID, original title,
+                // poster path, overview, vote average, release date, backdrop path.
                 mMovie = intent.getParcelableExtra(EXTRA_MOVIE);
             }
         }
+        // Makes a network request
         callMovieDetails();
+        // display the overview, vote average, release date of the movie.
         loadDetails();
         return rootView;
     }
@@ -101,18 +106,30 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
      * Makes a network request by calling enqueue
      */
     private void callMovieDetails() {
+        // The Retrofit class generates an implementation of the TheMovieApi interface.
         Retrofit retrofit = Controller.getClient();
         TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
 
+        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
+        // to the remote web server. Send Request:
+        // https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits
         Call<MovieDetails> callDetails = theMovieApi.getDetails(
                 mMovie.getId(), MainActivity.API_KEY, MainActivity.LANGUAGE, MainActivity.CREDITS);
+
         // Calls are executed with asynchronously with enqueue and notify callback of its response
         callDetails.enqueue(this);
     }
 
+    /**
+     * Get the detail information from the Movie object, then set them to the TextView to display the
+     * overview, vote average, release date of the movie.
+     */
     private void loadDetails() {
+        // Display the overview of the movie
         mOverviewTextView.setText(mMovie.getOverview());
+        // Display the vote average of the movie
         mVoteAverageTextView.setText(String.valueOf(mMovie.getVoteAverage()));
+        // Display the release date of the movie
         mReleaseDateTextView.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
     }
 
@@ -124,6 +141,7 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         if (response.isSuccessful()) {
             MovieDetails movieDetails = response.body();
             if (movieDetails != null) {
+                // Get the budget, revenue, vote count, status
                 int budget = movieDetails.getBudget();
                 int runtime = movieDetails.getRuntime();
                 int revenue = movieDetails.getRevenue();
@@ -133,15 +151,23 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 // Get the cast and crew for a movie
                 Credits credits = movieDetails.getCredits();
                 List<Cast> castList = credits.getCast();
+                // Create an empty ArrayList
                 List<String> castStrList = new ArrayList<>();
+                // Go through all the casts, and add the cast name to the list of strings
                 for (int i = 0; i < castList.size(); i++) {
                     Cast cast = castList.get(i);
+                    // Get the cast name
                     String castName = cast.getName();
+                    // Add the cast name to the list of strings
                     castStrList.add(castName);
                 }
+                // Join a string using a delimiter
                 String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
+                // Display the list of cast name
                 mCastTextView.setText(castStr);
 
+                // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
+                // to format the integer number
                 mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
                 mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
                 mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));

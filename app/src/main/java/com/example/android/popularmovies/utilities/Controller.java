@@ -15,7 +15,7 @@ public class Controller {
 
     public static Retrofit getClient() {
         if (sRetrofit == null) {
-            // Create the Retrofit instance
+            // Create the Retrofit instance using the builder
             sRetrofit = new Retrofit.Builder()
                     // Set the API base URL
                     .baseUrl(MOVIE_BASE_URL)

@@ -55,7 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      * @param viewGroup The ViewGroup that these ViewHolders are contained within.
      * @param viewType If your RecyclerView has more than one type of item (which ours doesn't) you
      *                  can use this viewType integer to provide a different layout.
-     * @return A new NumberViewHolder that holds the View for each list item
+     * @return A new MovieViewHolder that holds the View for each list item
      */
     @NonNull
     @Override
@@ -126,13 +126,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
      * Cache of the children views for a movie list item.
      */
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
+        /** Get a reference to the ImageView for showing thumbnail image */
         @BindView(R.id.iv_thumbnail) ImageView thumbnailImageView;
+        /** Get a reference to the TextView for showing the movie title */
         @BindView(R.id.tv_title) TextView titleTextView;
 
 
         /**
          * Constructor for our ViewHolder.
+         *
          * @param itemView The View that you inflated in {@link MovieAdapter#onCreateViewHolder(ViewGroup, int)}
          */
         public MovieViewHolder(View itemView) {

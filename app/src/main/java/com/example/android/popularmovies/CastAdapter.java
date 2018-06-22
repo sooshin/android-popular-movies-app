@@ -110,7 +110,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         /**
          * Constructor for CastViewHolder.
          *
-         * @param itemView
+         * @param itemView The View that you inflated in {@link CastAdapter#onCreateViewHolder(ViewGroup, int)}
          */
         public CastViewHolder(View itemView) {
             super(itemView);
