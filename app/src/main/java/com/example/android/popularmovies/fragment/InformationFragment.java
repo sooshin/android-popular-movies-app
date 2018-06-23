@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,8 +143,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
             MovieDetails movieDetails = response.body();
             if (movieDetails != null) {
                 // Get the budget, revenue, vote count, status
-                int budget = movieDetails.getBudget();
-                int revenue = movieDetails.getRevenue();
+                long budget = movieDetails.getBudget();
+                long revenue = movieDetails.getRevenue();
                 int voteCount = movieDetails.getVoteCount();
                 String status = movieDetails.getStatus();
 
@@ -185,6 +186,7 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     @Override
     public void onFailure(Call<MovieDetails> call, Throwable t) {
         t.printStackTrace();
+        Log.e(TAG, "failure: " + t.getMessage());
     }
 
     /**

@@ -31,7 +31,7 @@ public class FormatUtils {
      * Returns a String with a comma after every third digit from right to left and add $ at the very front.
      * (e.g. 100000000 -> $100,000,000)
      */
-    public static String formatCurrency(int number) {
+    public static String formatCurrency(long number) {
         DecimalFormat decimalFormat = new DecimalFormat("$###,###");
         return decimalFormat.format(number);
     }

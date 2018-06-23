@@ -7,7 +7,7 @@ import java.util.List;
 public class MovieDetails {
 
     @SerializedName("budget")
-    private int mBudget;
+    private long mBudget;
 
     @SerializedName("genres")
     private List<Genre> mGenres = null;
@@ -16,7 +16,7 @@ public class MovieDetails {
     private int mRuntime;
 
     @SerializedName("revenue")
-    private int mRevenue;
+    private long mRevenue;
 
     @SerializedName("status")
     private String mStatus;
@@ -27,11 +27,11 @@ public class MovieDetails {
     @SerializedName("credits")
     private Credits mCredits;
 
-    public void setBudget(int budget) {
+    public void setBudget(long budget) {
         mBudget = budget;
     }
 
-    public int getBudget() {
+    public long getBudget() {
         return mBudget;
     }
 
@@ -51,11 +51,11 @@ public class MovieDetails {
         return mRuntime;
     }
 
-    public void setRevenue(int revenue) {
+    public void setRevenue(long revenue) {
         mRevenue = revenue;
     }
 
-    public int getRevenue() {
+    public long getRevenue() {
         return mRevenue;
     }
 
