@@ -12,4 +12,7 @@
 
     <!-- Size of the loading indicator -->
     <dimen name="size_loading_indicator">42dp</dimen>
+
+    <!-- Size of the loading indicator in the activity_detail -->
+    <dimen name="size_detail_loading_indicator">26dp</dimen>
 </resources>

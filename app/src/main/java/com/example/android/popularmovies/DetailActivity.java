@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.fragment.InformationFragment;
@@ -80,6 +82,9 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** Get a reference to the TextView to display genres*/
     @BindView(R.id.tv_genre)
     TextView mGenreTextView;
+    /** ProgressBar that will indicate to the user that we are loading the data */
+    @BindView(R.id.pb_detail_loading_indicator)
+    ProgressBar mDetailLoadingIndicator;
 
     /** Movie object */
     private Movie mMovie;
@@ -123,8 +128,10 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         setCollapsingToolbarTitle();
         // Display the backdrop image
         loadBackdropImage();
-        // Display the original title and release year
-        setTitleReleaseYear();
+        // Display the original title
+        setTitle();
+        // Show loading indicator
+        mDetailLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -143,16 +150,22 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     }
 
     /**
-     * The {@link Movie} object contains information, such as ID, original title, poster path, vote average,
-     * release date, and backdrop path. Get the title and release date from the {@link Movie} and set these
-     * data to the TextViews
+     * The {@link Movie} object contains information, such as ID, original title, poster path,
+     * vote average, release date, and backdrop path. Get the title from the {@link Movie} and
+     * set the title to the TextViews
      */
-    private void setTitleReleaseYear() {
+    private void setTitle() {
         // Get the original title of the movie
         String title = mMovie.getTitle();
         // Set the original title to the TextView
         mTitleTextView.setText(title);
+    }
 
+    /**
+     * Get the release date from the {@link Movie} and display the release year. This method is
+     * called as soon as the loading indicator is gone.
+     */
+    private void showReleaseYear() {
         // Get the release date of the movie (e.g. "2018-06-20")
         String releaseDate = mMovie.getReleaseDate();
         // Get the release year (e.g. "2018")
@@ -189,6 +202,12 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
     @Override
     public void onInformationSelected(MovieDetails movieDetails) {
+        // Hide the loading indicator
+        mDetailLoadingIndicator.setVisibility(View.GONE);
+
+        // As soon as the loading indicator is gone, show release year
+        showReleaseYear();
+
         // Get the runtime of the movie from MovieDetails object
         int runtime = movieDetails.getRuntime();
         // Convert Minutes to Hours and Minutes (e.g. "118" -> "1h 58m") and set the runtime to the TextView
