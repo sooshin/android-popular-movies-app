@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -62,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** ProgressBar that will indicate to the user that we are loading the data */
     @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
 
+    /** SwipeRefreshLayout that is used whenever the user can refresh the contents of a view*/
+    @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+
+    /** MovieResponse callback that communicates responses from a server */
+    Callback<MovieResponse> mMovieResponseCallback;
+
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
 
@@ -106,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // OnSharedPreferenceChanged listener in onDestroy to avoid any memory leaks.
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
+
+        // The MainActivity has implemented the callback interface
+        mMovieResponseCallback = this;
+        // Set the color scheme of the SwipeRefreshLayout and setup OnRefreshListener
+        setSwipeRefreshLayout();
     }
 
     /**
@@ -148,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         // Hide the loading indicator
         mLoadingIndicator.setVisibility(View.GONE);
+
+        // Hide refresh progress
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /**
@@ -158,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     public void onFailure(Call<MovieResponse> call, Throwable t) {
         // Hide the loading indicator
         mLoadingIndicator.setVisibility(View.GONE);
+
+        // Hide refresh progress
+        mSwipeRefreshLayout.setRefreshing(false);
 
         NetworkError networkError = new NetworkError(t);
         String errorMessage = networkError.getAppErrorMessage();
@@ -202,6 +221,40 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         startActivity(intent);
 
         Toast.makeText(this, "toast:"  + movie.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     *  Set the SwipeRefreshLayout triggered by a swipe gesture.
+     */
+    private void setSwipeRefreshLayout() {
+        // Set the colors used in the progress animation
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+
+        // Set the listener to be notified when a refresh is triggered
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            /**
+             * Called when a swipe gesture triggers a refresh
+             */
+            @Override
+            public void onRefresh() {
+                // The Retrofit class generates an implementation of the TheMovieApi interface.
+                Retrofit retrofit = Controller.getClient();
+                TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
+
+                // Get the sort criteria currently set in Preferences
+                mSortCriteria = MoviePreferences.getPreferredSortCriteria(MainActivity.this);
+
+                // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
+                // to the remote web server. Send Request:
+                // https://api.themoviedb.org/3/movie/{sort_criteria}?api_key={API_KEY}&language=en-US&page=1
+                Call<MovieResponse> call = theMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+                call.enqueue(mMovieResponseCallback);
+
+                // Show snack bar message
+                Snackbar.make(mRecyclerView, getString(R.string.snackbar_updated), Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

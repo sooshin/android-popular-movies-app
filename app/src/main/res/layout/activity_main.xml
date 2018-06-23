@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_movie"
+    <!-- SwipeRefreshLayout that is used whenever the user can refresh the contents of a view -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_movie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <!-- Only visible when there is no Internet connection -->
     <TextView
@@ -42,6 +50,6 @@
         android:layout_width="@dimen/size_loading_indicator"
         android:layout_height="@dimen/size_loading_indicator"
         android:layout_gravity="center"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </FrameLayout>
