@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="110dp"
-                android:layout_height="156dp"
+                android:layout_height="148dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/thumbnail_content_description"
                 android:scaleType="centerCrop"
