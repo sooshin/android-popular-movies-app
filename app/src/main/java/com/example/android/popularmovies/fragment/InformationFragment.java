@@ -16,6 +16,7 @@ import com.example.android.popularmovies.MainActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
+import com.example.android.popularmovies.model.Crew;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.Controller;
@@ -67,6 +68,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     @BindView(R.id.tv_status) TextView mStatusTextView;
     /** Get a reference to the TextView for displaying the Cast */
     @BindView(R.id.tv_cast) TextView mCastTextView;
+    /** Get a reference to the TextView for displaying the director */
+    @BindView(R.id.tv_director) TextView mDirectorTextView;
 
     private Unbinder mUnbinder;
 
@@ -142,13 +145,16 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         if (response.isSuccessful()) {
             MovieDetails movieDetails = response.body();
             if (movieDetails != null) {
+                // Trigger the callback onInformationSelected
+                mCallback.onInformationSelected(movieDetails);
+
                 // Get the budget, revenue, vote count, status
                 long budget = movieDetails.getBudget();
                 long revenue = movieDetails.getRevenue();
                 int voteCount = movieDetails.getVoteCount();
                 String status = movieDetails.getStatus();
 
-                // Get the cast and crew for a movie
+                // Get the cast for a movie
                 Credits credits = movieDetails.getCredits();
                 List<Cast> castList = credits.getCast();
                 // Create an empty ArrayList
@@ -166,15 +172,23 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 // Display the list of cast name
                 mCastTextView.setText(castStr);
 
+                // Display director of the movie
+                List<Crew> crewList = credits.getCrew();
+                for (int i = 0; i < crewList.size(); i++) {
+                    Crew crew = crewList.get(i);
+                    // if job is "director", set the director's name to the TextView
+                    if (crew.getJob().equals(getString(R.string.director))) {
+                        mDirectorTextView.setText(crew.getName());
+                        break;
+                    }
+                }
+
                 // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
                 // to format the integer number
                 mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
                 mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
                 mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
                 mStatusTextView.setText(status);
-
-                // Trigger the callback onInformationSelected
-                mCallback.onInformationSelected(movieDetails);
             }
         }
     }

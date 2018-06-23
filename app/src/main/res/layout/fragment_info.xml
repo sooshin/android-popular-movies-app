@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_cast_crew_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cast_and_crew"
@@ -155,13 +155,33 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_director_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/director"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_cast_crew_label" />
+
+                <TextView
+                    android:id="@+id/tv_director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_cast_label"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_cast_crew_label"
+                    tools:text="director name" />
+
+                <TextView
                     android:id="@+id/tv_cast_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/cast"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_director" />
 
                 <TextView
                     android:id="@+id/tv_cast"
@@ -176,6 +196,7 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_cast_label"
                     app:layout_constraintTop_toTopOf="@+id/tv_cast_label"
                     tools:text="Craig T. Nelson, Holly Hunter, Sara Vowell" />
+
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
