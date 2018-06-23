@@ -32,7 +32,29 @@
     </style>
 
     <!-- TextView style for detail label in the fragment_info -->
+    <style name="OverviewLabelStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="DetailTextLabelStyle">
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_activity_small</item>
     </style>
+
+    <style name="CastTextLabelStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_activity</item>
+    </style>
+
+    <style name="DetailTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_detail</item>
+        <item name="android:layout_marginStart">@dimen/margin_detail</item>
+    </style>
+
 </resources>

@@ -17,20 +17,18 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="16dp">
+            app:contentPadding="@dimen/padding_activity">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_overview_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="@string/synopsis"
-                    android:textSize="18sp" />
+                    style="@style/OverviewLabelStyle"
+                    android:layout_marginBottom="@dimen/margin_activity"
+                    android:text="@string/synopsis" />
 
                 <TextView
                     android:id="@+id/tv_overview"
@@ -46,7 +44,7 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="16dp">
+            app:contentPadding="@dimen/padding_activity">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -54,19 +52,17 @@
 
                 <TextView
                     android:id="@+id/tv_vote_average_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
+                    style="@style/OverviewLabelStyle"
+                    android:paddingBottom="@dimen/padding_vote_average_label"
                     android:text="@string/vote_average"
-                    android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/iv_star"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/iv_star"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/size_star_image"
+                    android:layout_height="@dimen/size_star_image"
                     android:src="@drawable/star"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_vote_average"
@@ -79,7 +75,7 @@
                     android:id="@+id/tv_vote_average"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="84dp"
+                    android:layout_marginLeft="@dimen/margin_vote_average"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -93,8 +89,8 @@
                     android:id="@+id/tv_vote_ten"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="@dimen/margin_vote_ten"
+                    android:layout_marginStart="@dimen/margin_vote_ten"
                     android:text="@string/ten"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_vote_average"
                     app:layout_constraintEnd_toStartOf="@id/tv_vote_count"
@@ -105,8 +101,8 @@
 
                 <ImageView
                     android:id="@+id/iv_person"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/size_person_image"
+                    android:layout_height="@dimen/size_person_image"
                     android:src="@drawable/person"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_vote_count"
@@ -116,13 +112,13 @@
                     android:id="@+id/tv_vote_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="@dimen/margin_vote_count"
+                    android:layout_marginRight="@dimen/margin_vote_count"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_person"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/iv_person"
                     app:layout_constraintVertical_bias="0.0"
-                    tools:text="9314" />
+                    tools:text="9,314" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline"
@@ -139,7 +135,7 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="16dp">
+            app:contentPadding="@dimen/padding_activity">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -147,18 +143,14 @@
 
                 <TextView
                     android:id="@+id/tv_cast_crew_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/OverviewLabelStyle"
                     android:text="@string/cast_and_crew"
-                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_director_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    style="@style/CastTextLabelStyle"
                     android:text="@string/director"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_cast_crew_label" />
@@ -167,18 +159,16 @@
                     android:id="@+id/tv_director"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="@dimen/margin_director"
+                    android:layout_marginStart="@dimen/margin_director"
+                    android:layout_marginTop="@dimen/margin_activity"
                     app:layout_constraintStart_toEndOf="@+id/tv_cast_label"
                     app:layout_constraintTop_toBottomOf="@+id/tv_cast_crew_label"
                     tools:text="director name" />
 
                 <TextView
                     android:id="@+id/tv_cast_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    style="@style/CastTextLabelStyle"
                     android:text="@string/cast"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_director" />
@@ -187,8 +177,8 @@
                     android:id="@+id/tv_cast"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="@dimen/margin_cast"
+                    android:layout_marginStart="@dimen/margin_cast"
                     android:ellipsize="end"
                     android:maxLines="3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -205,73 +195,89 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="16dp">
+            app:contentPadding="@dimen/padding_activity">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="@string/details"
-                    android:textSize="18sp" />
+                    android:id="@+id/tv_detail_label"
+                    style="@style/OverviewLabelStyle"
+                    android:text="@string/details" />
+
+                <TextView
+                    android:id="@+id/tv_original_title_label"
+                    style="@style/DetailTextLabelStyle"
+                    android:paddingTop="@dimen/margin_activity_small"
+                    android:text="@string/original_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_label" />
+
+                <TextView
+                    android:id="@+id/tv_original_title"
+                    style="@style/DetailTextStyle"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_original_title_label"
+                    app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
+                    tools:text="Deadpool 2" />
 
                 <TextView
                     android:id="@+id/tv_release_date_label"
                     style="@style/DetailTextLabelStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/release_date" />
+                    android:text="@string/release_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_original_title_label" />
 
                 <TextView
                     android:id="@+id/tv_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/DetailTextStyle"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_release_date_label"
+                    app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
                     tools:text="2018-06-18" />
 
                 <TextView
                     android:id="@+id/tv_budget_label"
                     style="@style/DetailTextLabelStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/budget" />
+                    android:text="@string/budget"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_status_label" />
 
                 <TextView
                     android:id="@+id/tv_budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="1223944587" />
+                    style="@style/DetailTextStyle"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_budget_label"
+                    app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
+                    tools:text="$10,000,000" />
 
                 <TextView
                     android:id="@+id/tv_revenue_label"
                     style="@style/DetailTextLabelStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/revenue" />
+                    android:text="@string/revenue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_budget_label" />
 
                 <TextView
                     android:id="@+id/tv_revenue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="567892039" />
+                    style="@style/DetailTextStyle"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_revenue_label"
+                    app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
+                    tools:text="$500,000,000" />
 
                 <TextView
                     android:id="@+id/tv_status_label"
                     style="@style/DetailTextLabelStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/status" />
+                    android:text="@string/status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_release_date_label" />
 
                 <TextView
                     android:id="@+id/tv_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/DetailTextStyle"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_status_label"
+                    app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
                     tools:text="Released" />
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
 

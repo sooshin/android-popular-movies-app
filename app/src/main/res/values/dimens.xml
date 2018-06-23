@@ -3,6 +3,23 @@
     <dimen name="padding_activity_large">48dp</dimen>
 
     <dimen name="padding_activity_small">8dp</dimen>
+    <dimen name="margin_activity_small">8dp</dimen>
+
+    <!-- Common margin value used through out the app -->
+    <dimen name="margin_activity">16dp</dimen>
+
+    <!-- Margin for fragment info -->
+    <dimen name="margin_vote_average">84dp</dimen>
+    <dimen name="margin_vote_ten">4dp</dimen>
+    <dimen name="margin_vote_count">24dp</dimen>
+    <dimen name="margin_cast">40dp</dimen>
+    <dimen name="margin_director">@dimen/margin_cast</dimen>
+    <dimen name="padding_vote_average_label">4dp</dimen>
+    <dimen name="margin_detail">24dp</dimen>
+
+    <!-- Size of ImageView in fragment info-->
+    <dimen name="size_person_image">18dp</dimen>
+    <dimen name="size_star_image">48dp</dimen>
 
     <!-- Margin for the CardView in fragment_info -->
     <dimen name="margin_card_view">5dp</dimen>

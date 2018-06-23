@@ -26,6 +26,7 @@
     <string name="cast_and_crew">Cast &amp; Crew</string>
     <string name="cast">Cast</string>
     <string name="director">Director</string>
+    <string name="original_title">Original Title</string>
 
     <!-- Snack bar message that is displayed when the user performs a swipe to refresh -->
     <string name="snackbar_updated">Updated just now</string>
