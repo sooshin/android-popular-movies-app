@@ -9,4 +9,7 @@
 
     <!-- Padding for the TextView in movie_list_item -->
     <dimen name="padding_list_text">4dp</dimen>
+
+    <!-- Size of the loading indicator -->
+    <dimen name="size_loading_indicator">42dp</dimen>
 </resources>

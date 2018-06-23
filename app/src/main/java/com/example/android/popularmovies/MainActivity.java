@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     @BindView(R.id.tv_offline) TextView mOfflineTextView;
 
     @BindView(R.id.tv_error) TextView mErrorTextView;
+
+    /** ProgressBar that will indicate to the user that we are loading the data */
+    @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
 
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
@@ -115,6 +119,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
 
         Call<MovieResponse> call = theMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+
+        // Show the loading indicator before calls are executed
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+
         // Calls are executed with asynchronously with enqueue and notify callback of its response
         call.enqueue(this);
     }
@@ -137,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         } else {
             Log.e(TAG, "response Code: " + response.code());
         }
+
+        // Hide the loading indicator
+        mLoadingIndicator.setVisibility(View.GONE);
     }
 
     /**
@@ -145,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     @Override
     public void onFailure(Call<MovieResponse> call, Throwable t) {
+        // Hide the loading indicator
+        mLoadingIndicator.setVisibility(View.GONE);
+
         NetworkError networkError = new NetworkError(t);
         String errorMessage = networkError.getAppErrorMessage();
         Log.e(TAG, "Network error message: " + errorMessage);
