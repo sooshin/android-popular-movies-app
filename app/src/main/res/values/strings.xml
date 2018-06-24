@@ -31,6 +31,9 @@
     <!-- Snack bar message that is displayed when the user performs a swipe to refresh -->
     <string name="snackbar_updated">Updated just now</string>
 
+    <!-- Error message -->
+    <string name="error_message_api_key">Please make sure enter your API key.</string>
+
     <!-- The delimiter to separate genres-->
     <string name="delimiter_comma">,\u0020</string>
 

@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    /** API Status code for invalid API key or Authentication failed */
+    private static final int RESPONSE_CODE_API_STATUS = 401;
+
+    /** A numeric constant for request code */
+    private static final int REQUEST_CODE_DIALOG = 0;
+
     /** Constants  */
     public static final String API_KEY = BuildConfig.API_KEY;
     public static final String LANGUAGE = "en-US";
@@ -153,12 +159,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 List<Movie> movies = movieResponse.getMovieResults();
                 mMovieAdapter.addAll(movies);
             }
-        } else if (response.code() == 401) {
-            Log.e(TAG, "Invalid Api key");
+        } else if (response.code() == RESPONSE_CODE_API_STATUS) {
+            // Display error message when API status code is equal to 401
+            Log.e(TAG, "Invalid Api key. Response code: " + response.code());
             mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText("Please make sure enter your api key.");
+            mErrorTextView.setText(getString(R.string.error_message_api_key));
         } else {
-            Log.e(TAG, "response Code: " + response.code());
+            Log.e(TAG, "Response Code: " + response.code());
         }
 
         // Hide the loading indicator
@@ -297,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             builder.setPositiveButton(getString(R.string.go_to_settings), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivityForResult(new Intent(Settings.ACTION_SETTINGS),0);
+                    startActivityForResult(new Intent(Settings.ACTION_SETTINGS), REQUEST_CODE_DIALOG);
                 }
             });
             builder.setNegativeButton(getString(R.string.cancel), null);
