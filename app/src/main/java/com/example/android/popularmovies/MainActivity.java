@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** SwipeRefreshLayout that is used whenever the user can refresh the contents of a view*/
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
+    /** Member variable for TheMovieApi interface */
+    private TheMovieApi mMovieApi;
+
     /** MovieResponse callback that communicates responses from a server */
     Callback<MovieResponse> mMovieResponseCallback;
 
@@ -115,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
 
+        // The Retrofit class generates an implementation of the TheMovieApi interface.
+        Retrofit retrofit = Controller.getClient();
+        mMovieApi = retrofit.create(TheMovieApi.class);
+        // Make a network request by calling enqueue
         callMovieResponse();
 
         // Register MainActivity as an OnPreferenceChangedListener to receive a callback when a
@@ -133,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      * Makes a network request by calling enqueue
      */
     private void callMovieResponse() {
-        Retrofit retrofit = Controller.getClient();
-        TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
-
         // Get the sort criteria currently set in Preferences
         mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
 
-        Call<MovieResponse> call = theMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
+        // to the remote web server. Send Request:
+        // https://api.themoviedb.org/3/movie/{sort_criteria}?api_key={API_KEY}&language=en-US&page=1
+        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
 
         // Show the loading indicator before calls are executed
         mLoadingIndicator.setVisibility(View.VISIBLE);
@@ -202,7 +209,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         if (key.equals(getString(R.string.pref_sort_by_key))) {
             mSortCriteria = sharedPreferences.getString(key, getString(R.string.pref_sort_by_default));
         }
-        callMovieResponse();
+
+        // When SharedPreference changes, make a network request again
+        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+        // Calls are executed with asynchronously with enqueue and notify callback of its response
+        call.enqueue(this);
     }
 
     @Override
@@ -254,17 +265,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 // Make movie data visible
                 showMovieDataView();
 
-                // The Retrofit class generates an implementation of the TheMovieApi interface.
-                Retrofit retrofit = Controller.getClient();
-                TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
-
-                // Get the sort criteria currently set in Preferences
-                mSortCriteria = MoviePreferences.getPreferredSortCriteria(MainActivity.this);
-
-                // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-                // to the remote web server. Send Request:
-                // https://api.themoviedb.org/3/movie/{sort_criteria}?api_key={API_KEY}&language=en-US&page=1
-                Call<MovieResponse> call = theMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+                // When refreshing, make a network request again
+                Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
                 call.enqueue(mMovieResponseCallback);
 
                 // Show snack bar message
