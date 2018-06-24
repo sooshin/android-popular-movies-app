@@ -33,6 +33,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * This activity is responsible for displaying the details for a selected movie.
+ */
 public class DetailActivity extends AppCompatActivity implements InformationFragment.OnInfoSelectedListener{
 
     // Extra for the movie to be received in the intent
@@ -182,7 +185,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /**
      * Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed, otherwise hide the title.
      *
-     * reference [https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed]
+     * Reference: @see "https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed"
      */
     private void setCollapsingToolbarTitle() {
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

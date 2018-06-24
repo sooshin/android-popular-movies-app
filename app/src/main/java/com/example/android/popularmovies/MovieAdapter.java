@@ -16,6 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * {@link MovieAdapter} exposes a list of movies to a {@link android.support.v7.widget.RecyclerView}
+ */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     /** The image file size to build the complete url that is necessary for fetching the image*/

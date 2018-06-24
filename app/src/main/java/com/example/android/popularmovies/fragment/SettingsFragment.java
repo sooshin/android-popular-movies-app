@@ -9,6 +9,9 @@ import android.support.v7.preference.PreferenceScreen;
 
 import com.example.android.popularmovies.R;
 
+/**
+ * The SettingsFragment serves as the display for all of the user's settings.
+ */
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener{
 

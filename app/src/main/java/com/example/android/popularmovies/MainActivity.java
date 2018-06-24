@@ -41,6 +41,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+/**
+ * The MainActivity displays the list of movies that appear as a grid of images
+ */
 public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
         Callback<MovieResponse>, SharedPreferences.OnSharedPreferenceChangeListener {
 

@@ -36,6 +36,9 @@ import retrofit2.Retrofit;
 
 import static com.example.android.popularmovies.DetailActivity.EXTRA_MOVIE;
 
+/**
+ * The InformationFragment displays information for the selected movie.
+ */
 public class InformationFragment extends Fragment implements Callback<MovieDetails> {
 
     /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity.

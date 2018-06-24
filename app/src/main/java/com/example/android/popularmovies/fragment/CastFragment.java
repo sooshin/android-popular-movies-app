@@ -23,6 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * The CastFragment displays all of the cast members for the selected movie.
+ */
 public class CastFragment extends Fragment {
 
     /** Tag for a log message */
@@ -64,15 +67,20 @@ public class CastFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        // Get MovieDetails data from the DetailActivity
         Bundle args = getArguments();
         if (args != null) {
             MovieDetails movieDetails = args.getParcelable(DetailActivity.EXTRA_MOVIE_DETAILS);
             if (movieDetails != null) {
+                // Get Credits from MovieDetails
                 Credits credits = movieDetails.getCredits();
+                // Get the list of casts
                 mCastList = credits.getCast();
+                // Set the list of casts
                 credits.setCast(mCastList);
             }
         }
+        // add a list of casts to CastAdapter
         mCastAdapter.addAll(mCastList);
     }
 

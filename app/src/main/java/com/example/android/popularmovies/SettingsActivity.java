@@ -6,6 +6,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.android.popularmovies.fragment.SettingsFragment;
+
+/**
+ * The SettingsActivity is responsible for displaying the {@link SettingsFragment}.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

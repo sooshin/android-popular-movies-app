@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
 
+/**
+ * The DetailPagerAdapter provides the appropriate {@link Fragment} for a view pager.
+ */
 public class DetailPagerAdapter extends FragmentPagerAdapter {
 
     /** Constant value for each fragment */
@@ -18,12 +21,12 @@ public class DetailPagerAdapter extends FragmentPagerAdapter {
     /** Context of the app */
     private Context mContext;
 
-
-
+    /** String array used to display the tap title*/
     private static final String[] TAP_TITLE = new String[] {
             "Info", "Cast"
     };
 
+    /** The number of page */
     private static final int PAGE_COUNT = TAP_TITLE.length;
 
 
