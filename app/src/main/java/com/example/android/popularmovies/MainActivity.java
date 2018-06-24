@@ -28,7 +28,6 @@ import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.Controller;
-import com.example.android.popularmovies.utilities.NetworkError;
 import com.example.android.popularmovies.utilities.TheMovieApi;
 
 import java.util.ArrayList;
@@ -181,9 +180,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Hide refresh progress
         mSwipeRefreshLayout.setRefreshing(false);
 
-        NetworkError networkError = new NetworkError(t);
-        String errorMessage = networkError.getAppErrorMessage();
-        Log.e(TAG, "Network error message: " + errorMessage);
+        // When there is no internet connection, display offline message
+        if (!isOnline()) {
+            showOfflineMessage();
+            Log.e(TAG, "onFailure, offline: " + t.getMessage());
+        } else {
+            Log.e(TAG, "onFailure: " + t.getMessage());
+        }
     }
 
 
@@ -241,6 +244,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
              */
             @Override
             public void onRefresh() {
+                // Make movie data visible
+                showMovieDataView();
+
                 // The Retrofit class generates an implementation of the TheMovieApi interface.
                 Retrofit retrofit = Controller.getClient();
                 TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
