@@ -1,10 +1,20 @@
 package com.example.android.popularmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MovieDetails {
+/**
+ * A {@link MovieDetails} object includes information related to a movie details, for example,
+ * budget, genres, runtime, revenue, status, vote count, credits.
+ * This class implements Parcelable interface to allow {@link MovieDetails} object to be sent as a Parcel
+ *
+ * Reference: @see "https://stackoverflow.com/questions/7181526/how-can-i-make-my-custom-objects-parcelable"
+ */
+public class MovieDetails implements Parcelable {
 
     @SerializedName("budget")
     private long mBudget;
@@ -26,6 +36,27 @@ public class MovieDetails {
 
     @SerializedName("credits")
     private Credits mCredits;
+
+    private MovieDetails(Parcel in) {
+        mBudget = in.readLong();
+        mRuntime = in.readInt();
+        mRevenue = in.readLong();
+        mStatus = in.readString();
+        mVoteCount = in.readInt();
+        mCredits = (Credits) in.readValue(Credits.class.getClassLoader());
+    }
+
+    public static final Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
+        @Override
+        public MovieDetails createFromParcel(Parcel in) {
+            return new MovieDetails(in);
+        }
+
+        @Override
+        public MovieDetails[] newArray(int size) {
+            return new MovieDetails[size];
+        }
+    };
 
     public void setBudget(long budget) {
         mBudget = budget;
@@ -81,5 +112,20 @@ public class MovieDetails {
 
     public Credits getCredits() {
         return mCredits;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mBudget);
+        dest.writeInt(mRuntime);
+        dest.writeLong(mRevenue);
+        dest.writeString(mStatus);
+        dest.writeInt(mVoteCount);
+        dest.writeValue(mCredits);
     }
 }

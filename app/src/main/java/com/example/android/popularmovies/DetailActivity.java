@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
@@ -35,6 +37,9 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
     // Extra for the movie to be received in the intent
     public static final String EXTRA_MOVIE = "movie";
+
+    /** Extra for the movie details to pass the data from DetailActivity to CastFragment */
+    public static final String EXTRA_MOVIE_DETAILS = "movie_details";
 
     /** The base image URL to build the complete url that is necessary for fetching the image */
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -229,6 +234,18 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
         // Display the genre
         mGenreTextView.setText(genreStr);
+
+        // Create a new CastFragment
+        CastFragment castFragment = new CastFragment();
+        // Pass MovieDetails object from DetailActivity to CastFragment
+        Bundle args = new Bundle();
+        castFragment.setArguments(args);
+        args.putParcelable(EXTRA_MOVIE_DETAILS, movieDetails);
+
+        // Add the fragment to its container using a FragmentManager and a Transaction
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.cast_container, castFragment);
+        transaction.commit();
     }
 
     /**

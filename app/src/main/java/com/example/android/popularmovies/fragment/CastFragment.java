@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.CastAdapter;
+import com.example.android.popularmovies.DetailActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.Cast;
+import com.example.android.popularmovies.model.Credits;
+import com.example.android.popularmovies.model.MovieDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class CastFragment extends Fragment {
+
+    /** Tag for a log message */
+    public static final String TAG = CastFragment.class.getSimpleName();
 
     private List<Cast> mCastList;
 
@@ -52,6 +58,22 @@ public class CastFragment extends Fragment {
         mCastAdapter = new CastAdapter(mCastList);
         mRecyclerView.setAdapter(mCastAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            MovieDetails movieDetails = args.getParcelable(DetailActivity.EXTRA_MOVIE_DETAILS);
+            if (movieDetails != null) {
+                Credits credits = movieDetails.getCredits();
+                mCastList = credits.getCast();
+                credits.setCast(mCastList);
+            }
+        }
+        mCastAdapter.addAll(mCastList);
     }
 
     /**

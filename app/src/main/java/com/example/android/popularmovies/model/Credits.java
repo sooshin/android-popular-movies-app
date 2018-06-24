@@ -12,7 +12,7 @@ public class Credits {
     @SerializedName("crew")
     private List<Crew> mCrew = null;
 
-    private void setCast(List<Cast> cast) {
+    public void setCast(List<Cast> cast) {
         mCast = cast;
     }
 
