@@ -147,7 +147,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
                         @Override
                         public void onError() {
-                            mCastImageView.setImageResource(R.drawable.person);
+                            mCastImageView.setImageResource(R.drawable.account_circle);
                         }
                     });
             // Set the cast name to the TextView
