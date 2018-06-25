@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.MovieAdapter.MovieAdapterOnClickHandler;
 import com.example.android.popularmovies.data.MoviePreferences;
@@ -256,8 +255,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         intent.putExtra(DetailActivity.EXTRA_MOVIE, b);
         // Once the Intent has been created, start the DetailActivity
         startActivity(intent);
-
-        Toast.makeText(this, "toast:"  + movie.getId(), Toast.LENGTH_SHORT).show();
     }
 
     /**
