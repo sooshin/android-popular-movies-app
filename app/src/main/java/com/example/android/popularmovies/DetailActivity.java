@@ -131,7 +131,8 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(EXTRA_MOVIE)) {
-                mMovie = intent.getParcelableExtra(EXTRA_MOVIE);
+                Bundle b = intent.getBundleExtra(EXTRA_MOVIE);
+                mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
 

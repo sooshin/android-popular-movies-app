@@ -244,10 +244,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     @Override
     public void onItemClick(Movie movie) {
+        // Wrap the parcelable into a bundle
+        // Reference: @see "https://stackoverflow.com/questions/28589509/android-e-parcel-
+        // class-not-found-when-unmarshalling-only-on-samsung-tab3"
+        Bundle b = new Bundle();
+        b.putParcelable(DetailActivity.EXTRA_MOVIE, movie);
+
         // Create the Intent the will start the DetailActivity
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        // Pass the selected Movie object through Intent
-        intent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+        // Pass the bundle through Intent
+        intent.putExtra(DetailActivity.EXTRA_MOVIE, b);
         // Once the Intent has been created, start the DetailActivity
         startActivity(intent);
 

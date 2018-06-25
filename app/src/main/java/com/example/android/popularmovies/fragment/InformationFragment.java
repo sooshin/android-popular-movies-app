@@ -101,7 +101,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
             if (intent.hasExtra(EXTRA_MOVIE)) {
                 // Receive the Movie object which contains information, such as ID, original title,
                 // poster path, overview, vote average, release date, backdrop path.
-                mMovie = intent.getParcelableExtra(EXTRA_MOVIE);
+                Bundle b = intent.getBundleExtra(EXTRA_MOVIE);
+                mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
         // Makes a network request
