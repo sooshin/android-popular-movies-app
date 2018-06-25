@@ -61,13 +61,15 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     /** Get a reference to the Release Date TextView*/
     @BindView(R.id.tv_release_date) TextView mReleaseDateTextView;
 
-    /** Get a reference to the Vote Count TextView*/
+    /** Get a reference to the Vote Count TextView */
     @BindView(R.id.tv_vote_count) TextView mVoteCountTextView;
+    /** Get a reference to the Original Title TextView */
+    @BindView(R.id.tv_original_title) TextView mOriginalTitleTextView;
     /** Get a reference to the Revenue TextView */
     @BindView(R.id.tv_revenue) TextView mRevenueTextView;
     /** Get a reference to the Budget TextView */
     @BindView(R.id.tv_budget) TextView mBudgetTextView;
-    /** Get a reference to the Status TextView*/
+    /** Get a reference to the Status TextView */
     @BindView(R.id.tv_status) TextView mStatusTextView;
     /** Get a reference to the TextView for displaying the Cast */
     @BindView(R.id.tv_cast) TextView mCastTextView;
@@ -136,6 +138,8 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         mOverviewTextView.setText(mMovie.getOverview());
         // Display the vote average of the movie
         mVoteAverageTextView.setText(String.valueOf(mMovie.getVoteAverage()));
+        // Display the original title of the movie
+        mOriginalTitleTextView.setText(mMovie.getOriginalTitle());
         // Display the release date of the movie
         mReleaseDateTextView.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
     }

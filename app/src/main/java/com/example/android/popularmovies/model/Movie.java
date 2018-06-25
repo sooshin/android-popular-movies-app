@@ -40,8 +40,12 @@ public class Movie implements Parcelable {
     @SerializedName("id")
     private int mId;
 
-    /** Title of the movie */
+    /** Original title of the movie */
     @SerializedName("original_title")
+    private String mOriginalTitle;
+
+    /** Title of the movie */
+    @SerializedName("title")
     private String mTitle;
 
     /** Movie poster image thumbnail */
@@ -64,26 +68,6 @@ public class Movie implements Parcelable {
     @SerializedName("backdrop_path")
     private String mBackdropPath;
 
-    /**
-     * Constructs a new {@link Movie} object
-     *
-     * @param id is the id of the movie
-     * @param title is the original title of the movie
-     * @param posterPath is movie poster path
-     * @param overview is a plot synopsis of the movie
-     * @param voteAverage is user rating of the movie
-     * @param releaseDate is the release date of the movie
-     * @param backdropPath is backdrop image path of the movie
-     */
-    public Movie(int id, String title, String posterPath, String overview, double voteAverage, String releaseDate, String backdropPath) {
-        mId = id;
-        mTitle = title;
-        mPosterPath = posterPath;
-        mOverview = overview;
-        mVoteAverage = voteAverage;
-        mReleaseDate = releaseDate;
-        mBackdropPath = backdropPath;
-    }
 
     /**
      * Returns the id of the movie
@@ -94,6 +78,13 @@ public class Movie implements Parcelable {
 
     /**
      * Returns the original title of the movie
+     */
+    public String getOriginalTitle() {
+        return mOriginalTitle;
+    }
+
+    /**
+     * Returns the title of the movie
      */
     public String getTitle() {
         return mTitle;
@@ -141,6 +132,7 @@ public class Movie implements Parcelable {
      */
     private Movie(Parcel in) {
         mId = in.readInt();
+        mOriginalTitle = in.readString();
         mTitle = in.readString();
         mPosterPath = in.readString();
         mOverview = in.readString();
@@ -170,6 +162,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
+        dest.writeString(mOriginalTitle);
         dest.writeString(mTitle);
         dest.writeString(mPosterPath);
         dest.writeString(mOverview);
