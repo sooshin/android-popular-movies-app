@@ -199,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             showOfflineMessage();
             Log.e(TAG, "onFailure, offline: " + t.getMessage());
         } else {
+            mErrorTextView.setVisibility(View.VISIBLE);
+            mErrorTextView.setText(getString(R.string.error_message_failed));
             Log.e(TAG, "onFailure: " + t.getMessage());
         }
     }
