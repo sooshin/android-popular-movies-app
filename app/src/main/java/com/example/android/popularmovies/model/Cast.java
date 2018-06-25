@@ -1,8 +1,11 @@
 package com.example.android.popularmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Cast {
+public class Cast implements Parcelable {
 
     @SerializedName("cast_id")
     private int mCastId;
@@ -18,6 +21,27 @@ public class Cast {
 
     @SerializedName("profile_path")
     private String mProfilePath;
+
+    private Cast(Parcel in) {
+        mCastId = in.readInt();
+        mCharacter = in.readString();
+        mPersonId = in.readInt();
+        mName = in.readString();
+        mProfilePath = in.readString();
+    }
+
+    @SuppressWarnings("unused")
+    public static final Creator<Cast> CREATOR = new Creator<Cast>() {
+        @Override
+        public Cast createFromParcel(Parcel in) {
+            return new Cast(in);
+        }
+
+        @Override
+        public Cast[] newArray(int size) {
+            return new Cast[size];
+        }
+    };
 
     public void setCharacter(String character) {
         mCharacter = character;
@@ -49,5 +73,19 @@ public class Cast {
 
     public String getProfilePath() {
         return mProfilePath;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mCastId);
+        dest.writeString(mCharacter);
+        dest.writeInt(mPersonId);
+        dest.writeString(mName);
+        dest.writeString(mProfilePath);
     }
 }

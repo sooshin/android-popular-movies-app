@@ -46,6 +46,7 @@ public class MovieDetails implements Parcelable {
         mCredits = (Credits) in.readValue(Credits.class.getClassLoader());
     }
 
+    @SuppressWarnings("unused")
     public static final Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
         @Override
         public MovieDetails createFromParcel(Parcel in) {
