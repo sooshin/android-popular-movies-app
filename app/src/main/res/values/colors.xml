@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">@color/card_background</color>
+    <color name="colorPrimaryDark">@color/blue_grey_dark</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- Text color when it is offline -->
@@ -13,5 +13,17 @@
     <!-- Gradient scrim color to separate text from the background -->
     <color name="start_color_gradient">#40000000</color>
     <color name="center_color_gradient">#00000000</color>
-    <color name="end_color_gradient">#1A000000</color>
+    <color name="end_color_gradient">#96000000</color>
+
+    <!-- Text color and background color for the app -->
+    <color name="blue_grey_dark">#000a12</color>
+    <color name="card_background">#263238</color>
+    <color name="blue_grey_light">#cfd8dc</color>
+    <color name="blue_grey_200_light">#e2f1f8</color>
+    <color name="blue_grey_200">#b0bec5</color>
+
+    <!-- Color for the tab -->
+    <color name="color_indicator">#8bc34a</color>
+    <color name="color_tab_selected_text">#8bc34a</color>
+    <color name="color_tab_text">#c1d5e0</color>
 </resources>

@@ -11,6 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/blue_grey_dark"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -34,6 +35,7 @@
                     android:id="@+id/tv_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     tools:text="over view" />
 
             </LinearLayout>
@@ -76,6 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_vote_average"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -92,6 +95,7 @@
                     android:layout_marginLeft="@dimen/margin_vote_ten"
                     android:layout_marginStart="@dimen/margin_vote_ten"
                     android:text="@string/ten"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_vote_average"
                     app:layout_constraintEnd_toStartOf="@id/tv_vote_count"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -114,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_vote_count"
                     android:layout_marginRight="@dimen/margin_vote_count"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_person"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/iv_person"
@@ -162,6 +167,7 @@
                     android:layout_marginLeft="@dimen/margin_director"
                     android:layout_marginStart="@dimen/margin_director"
                     android:layout_marginTop="@dimen/margin_activity"
+                    android:textColor="@android:color/white"
                     app:layout_constraintStart_toEndOf="@+id/tv_cast_label"
                     app:layout_constraintTop_toBottomOf="@+id/tv_cast_crew_label"
                     tools:text="director name" />
@@ -181,6 +187,7 @@
                     android:layout_marginStart="@dimen/margin_cast"
                     android:ellipsize="end"
                     android:maxLines="3"
+                    android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/tv_cast_label"

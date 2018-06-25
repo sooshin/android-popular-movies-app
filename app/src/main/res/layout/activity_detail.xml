@@ -22,7 +22,8 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/blue_grey_dark">
 
                 <FrameLayout
                     android:id="@+id/frame"
@@ -53,6 +54,8 @@
                     android:paddingRight="@dimen/padding_activity"
                     android:paddingTop="@dimen/padding_activity_small"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/frame"
                     tools:text="movie title" />
@@ -63,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/padding_activity"
                     android:paddingRight="@dimen/padding_activity"
+                    android:textColor="@color/blue_grey_light"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
                     tools:text="122 min" />
@@ -71,6 +75,7 @@
                     android:id="@+id/tv_release_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/blue_grey_light"
                     app:layout_constraintLeft_toRightOf="@+id/tv_runtime"
                     app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
                     tools:text="2018" />
@@ -88,6 +93,7 @@
                         android:paddingBottom="@dimen/padding_activity_small"
                         android:paddingLeft="@dimen/padding_activity"
                         android:paddingRight="@dimen/padding_activity"
+                        android:textColor="@color/blue_grey_200_light"
                         tools:text="Action, Adventure, Animation, Family" />
 
                     <!-- ProgressBar to show the user content is loading -->
@@ -113,8 +119,10 @@
         <!-- Provides a horizontal layout to display tabs -->
         <android.support.design.widget.TabLayout
             android:id="@+id/sliding_tabs"
+            style="@style/CategoryTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/blue_grey_dark"
             app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
