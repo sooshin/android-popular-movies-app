@@ -50,6 +50,9 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** The image file size to build the complete url that is necessary for fetching the image*/
     private static final String BACKDROP_FILE_SIZE ="w500";
 
+    /** The base URL used for sharing text*/
+    private static final String SHARE_URL = "https://www.themoviedb.org/movie/";
+
     /** The beginIndex and endIndex to be used for getting a substring of Release Date */
     private static final int RELEASE_YEAR_BEGIN_INDEX = 0;
     private static final int RELEASE_YEAR_END_INDEX = 4;
@@ -268,11 +271,23 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         return true;
     }
 
+    /**
+     * Uses the ShareCompat Intent builder to create our share intent for sharing.
+     * Return the newly created intent.
+     *
+     * @return The Intent to use to start our share.
+     */
     private Intent createShareIntent() {
+        // Text message to share
+        String shareText = mMovie.getTitle() + getString(R.string.new_line)
+                + SHARE_URL + mMovie.getId();
+
+        // Create share intent
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setText("test")
-                .getIntent();
+                .setType(getString(R.string.share_intent_type_text))
+                .setText(shareText)
+                .setChooserTitle(getString(R.string.chooser_title))
+                .createChooserIntent();
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         return shareIntent;
     }
