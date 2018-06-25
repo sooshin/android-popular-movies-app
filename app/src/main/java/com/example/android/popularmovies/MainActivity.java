@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Reference to Offline TextView*/
     @BindView(R.id.tv_offline) TextView mOfflineTextView;
 
+    /** Reference to the error message TextView */
     @BindView(R.id.tv_error) TextView mErrorTextView;
 
     /** ProgressBar that will indicate to the user that we are loading the data */
@@ -160,7 +161,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     @Override
     public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+        // Hide the loading indicator
+        mLoadingIndicator.setVisibility(View.GONE);
+
+        // Hide refresh progress
+        mSwipeRefreshLayout.setRefreshing(false);
+
         if (response.isSuccessful()) {
+            // Make movie data visible and hide error message
+            showMovieDataView();
+
             MovieResponse movieResponse = response.body();
             if (movieResponse != null) {
                 List<Movie> movies = movieResponse.getMovieResults();
@@ -174,12 +184,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         } else {
             Log.e(TAG, "Response Code: " + response.code());
         }
-
-        // Hide the loading indicator
-        mLoadingIndicator.setVisibility(View.GONE);
-
-        // Hide refresh progress
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /**
@@ -194,11 +198,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Hide refresh progress
         mSwipeRefreshLayout.setRefreshing(false);
 
-        // When there is no internet connection, display offline message
         if (!isOnline()) {
+            // When there is no internet connection, display offline message
             showOfflineMessage();
             Log.e(TAG, "onFailure, offline: " + t.getMessage());
         } else {
+            // When an error occurred, display error message
             mErrorTextView.setVisibility(View.VISIBLE);
             mErrorTextView.setText(getString(R.string.error_message_failed));
             Log.e(TAG, "onFailure: " + t.getMessage());
@@ -264,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
              */
             @Override
             public void onRefresh() {
-                // Make movie data visible
+                // Make movie data visible and hide error message
                 showMovieDataView();
 
                 // When refreshing, make a network request again
@@ -324,8 +329,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      * hide the offline message.
      */
     private void showMovieDataView() {
-        // First, make sure the offline message is invisible
+        // First, make sure the offline message or error message is invisible
         mOfflineTextView.setVisibility(View.INVISIBLE);
+        mErrorTextView.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         mRecyclerView.setVisibility(View.VISIBLE);
     }
