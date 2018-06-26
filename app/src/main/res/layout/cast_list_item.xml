@@ -7,12 +7,12 @@
 
     <ImageView
         android:id="@+id/iv_cast"
-        android:layout_width="72dp"
-        android:layout_height="84dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/width_cast_image"
+        android:layout_height="@dimen/height_cast_image"
+        android:layout_marginBottom="@dimen/margin_activity_small"
+        android:layout_marginLeft="@dimen/margin_activity"
+        android:layout_marginStart="@dimen/margin_activity"
+        android:layout_marginTop="@dimen/margin_activity_small"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,9 +22,9 @@
         android:id="@+id/tv_cast_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginLeft="@dimen/margin_cast_name"
+        android:layout_marginStart="@dimen/margin_cast_name"
+        android:layout_marginTop="@dimen/margin_activity"
         android:fontFamily="@font/source_sans_pro_semi_bold"
         android:textColor="@android:color/white"
         android:textSize="18sp"
@@ -37,11 +37,11 @@
         android:id="@+id/tv_cast_character"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="@dimen/margin_activity"
+        android:layout_marginEnd="@dimen/margin_activity"
+        android:layout_marginLeft="@dimen/margin_cast_character"
+        android:layout_marginRight="@dimen/margin_activity"
+        android:layout_marginStart="@dimen/margin_cast_character"
         android:fontFamily="@font/source_sans_pro_regular"
         android:textColor="@android:color/white"
         android:textSize="16sp"
@@ -58,9 +58,10 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
+        android:layout_height="@dimen/height_divider"
         android:background="@color/color_divider" />
 
 </android.support.constraint.ConstraintLayout>

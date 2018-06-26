@@ -33,7 +33,7 @@
                     <ImageView
                         android:id="@+id/iv_backdrop"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="@dimen/height_detail_image"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/backdrop_content_description"
                         android:scaleType="centerCrop"
@@ -41,7 +41,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="@dimen/height_detail_image"
                         android:background="@drawable/scrim_gradient" />
                 </FrameLayout>
 

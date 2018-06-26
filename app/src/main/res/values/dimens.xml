@@ -32,4 +32,27 @@
 
     <!-- Size of the loading indicator in the activity_detail -->
     <dimen name="size_detail_loading_indicator">26dp</dimen>
+
+    <!-- Height of the ImageView in the activity_detail -->
+    <dimen name="height_detail_image">200dp</dimen>
+
+    <!-- Size of the cast image in the cast_list_item -->
+    <dimen name="width_cast_image">72dp</dimen>
+    <dimen name="height_cast_image">84dp</dimen>
+    <!-- Margin for the cast name TextView in the cast_list_item -->
+    <dimen name="margin_cast_name">24dp</dimen>
+    <!-- Margin for the cast character TextView in the cast_list_item -->
+    <dimen name="margin_cast_character">@dimen/margin_cast_name</dimen>
+    <!-- Height of the divider in the cast_list_item -->
+    <dimen name="height_divider">0.1dp</dimen>
+
+    <!-- CardView-->
+    <dimen name="card_corner_radius">0dp</dimen>
+    <dimen name="card_elevation">0.7dp</dimen>
+    <dimen name="card_max_elevation">1dp</dimen>
+    <dimen name="card_content_padding_zero">0dp</dimen>
+
+    <dimen name="width_movie_image">110dp</dimen>
+    <dimen name="height_movie_image">148dp</dimen>
+    <dimen name="width_movie_text">@dimen/width_movie_image</dimen>
 </resources>
