@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/padding_activity_small">
@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                android:layout_width="@dimen/width_movie_image"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/height_movie_image"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/thumbnail_content_description"
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="@dimen/width_movie_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_thumbnail"
                 android:ellipsize="end"

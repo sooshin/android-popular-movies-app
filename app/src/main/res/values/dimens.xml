@@ -52,7 +52,5 @@
     <dimen name="card_max_elevation">1dp</dimen>
     <dimen name="card_content_padding_zero">0dp</dimen>
 
-    <dimen name="width_movie_image">110dp</dimen>
     <dimen name="height_movie_image">148dp</dimen>
-    <dimen name="width_movie_text">@dimen/width_movie_image</dimen>
 </resources>

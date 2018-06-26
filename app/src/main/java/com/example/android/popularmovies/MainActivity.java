@@ -84,8 +84,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
 
-    /** Constants for the span count in the grid layout manager */
+    /** Constant for the span count in the grid layout manager */
     private static final int GRID_SPAN_COUNT = 3;
+    /** Constant for the grid spacing (px)*/
+    private static final int GRID_SPACING = 8;
+    /** True when including edge */
+    private static final boolean GRID_INCLUDE_EDGE = true;
 
     /** String for the sort criteria("most popular and highest rated") */
     private String mSortCriteria;
@@ -134,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         mMovieResponseCallback = this;
         // Set the color scheme of the SwipeRefreshLayout and setup OnRefreshListener
         setSwipeRefreshLayout();
+
+        // Set column spacing to make each column have the same spacing
+        setColumnSpacing();
     }
 
     /**
@@ -347,6 +354,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         mRecyclerView.setVisibility(View.INVISIBLE);
         // Then, show the offline message
         mOfflineTextView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Set column spacing to make each column have the same spacing.
+     */
+    private void setColumnSpacing() {
+        GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(
+                GRID_SPAN_COUNT, GRID_SPACING, GRID_INCLUDE_EDGE);
+        mRecyclerView.addItemDecoration(decoration);
     }
 
     /**
