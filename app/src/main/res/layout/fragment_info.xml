@@ -33,8 +33,7 @@
 
                 <TextView
                     android:id="@+id/tv_overview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTextStyle"
                     android:textColor="@android:color/white"
                     tools:text="over view" />
 
@@ -78,8 +77,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_vote_average"
+                    android:fontFamily="@font/source_sans_pro_semi_bold"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline"
                     app:layout_constraintLeft_toRightOf="@+id/iv_star"
@@ -90,8 +90,7 @@
 
                 <TextView
                     android:id="@+id/tv_vote_ten"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTextStyle"
                     android:layout_marginLeft="@dimen/margin_vote_ten"
                     android:layout_marginStart="@dimen/margin_vote_ten"
                     android:text="@string/ten"
@@ -114,8 +113,7 @@
 
                 <TextView
                     android:id="@+id/tv_vote_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTextStyle"
                     android:layout_marginEnd="@dimen/margin_vote_count"
                     android:layout_marginRight="@dimen/margin_vote_count"
                     android:textColor="@android:color/white"
@@ -162,8 +160,7 @@
 
                 <TextView
                     android:id="@+id/tv_director"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTextStyle"
                     android:layout_marginLeft="@dimen/margin_director"
                     android:layout_marginStart="@dimen/margin_director"
                     android:layout_marginTop="@dimen/margin_activity"
@@ -186,8 +183,10 @@
                     android:layout_marginLeft="@dimen/margin_cast"
                     android:layout_marginStart="@dimen/margin_cast"
                     android:ellipsize="end"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:maxLines="3"
                     android:textColor="@android:color/white"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/tv_cast_label"

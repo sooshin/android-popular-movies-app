@@ -37,7 +37,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/source_sans_pro_semi_bold</item>
     </style>
 
     <style name="DetailTextLabelStyle">
@@ -45,6 +45,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_activity_small</item>
+        <item name="android:fontFamily">@font/source_sans_pro_semi_bold</item>
     </style>
 
     <style name="CastTextLabelStyle">
@@ -52,6 +53,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_activity</item>
         <item name="android:textColor">@color/blue_grey_200</item>
+        <item name="android:fontFamily">@font/source_sans_pro_semi_bold</item>
     </style>
 
     <style name="DetailTextStyle">
@@ -60,6 +62,15 @@
         <item name="android:layout_marginLeft">@dimen/margin_detail</item>
         <item name="android:layout_marginStart">@dimen/margin_detail</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="BasicTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
