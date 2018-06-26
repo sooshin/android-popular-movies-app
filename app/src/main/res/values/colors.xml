@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/card_background</color>
     <color name="colorPrimaryDark">@color/blue_grey_dark</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#8BC34A</color>
 
     <!-- Text color when it is offline -->
     <color name="color_offline">#A3A3A3</color>
