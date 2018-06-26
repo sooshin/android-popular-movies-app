@@ -232,7 +232,7 @@
                     style="@style/DetailTextLabelStyle"
                     android:text="@string/release_date"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_original_title_label" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_original_title" />
 
                 <TextView
                     android:id="@+id/tv_release_date"
