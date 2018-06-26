@@ -22,10 +22,11 @@
             android:layout_height="match_parent"
             android:background="@color/card_background">
 
-            <ImageView
+            <!-- 2:3 aspect ratio Image view -->
+            <com.example.android.popularmovies.TwoThreeImageView
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_movie_image"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/thumbnail_content_description"
                 android:scaleType="centerCrop"
