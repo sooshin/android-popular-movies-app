@@ -22,13 +22,13 @@ public class Credits implements Parcelable {
 
     private Credits(Parcel in) {
         if (in.readByte() == 0x01) {
-            mCast = new ArrayList<Cast>();
+            mCast = new ArrayList<>();
             in.readList(mCast, Cast.class.getClassLoader());
         } else {
             mCast = null;
         }
         if (in.readByte() == 0x01) {
-            mCrew = new ArrayList<Crew>();
+            mCrew = new ArrayList<>();
             in.readList(mCrew, Crew.class.getClassLoader());
         } else {
             mCrew = null;
