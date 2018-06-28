@@ -64,6 +64,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     public static final int PAGE = 1;
     public static final String CREDITS = "credits";
 
+    /** Constant for the span count in the grid layout manager */
+    private static final int GRID_SPAN_COUNT = 3;
+    /** Constant for the grid spacing (px)*/
+    private static final int GRID_SPACING = 8;
+    /** True when including edge */
+    private static final boolean GRID_INCLUDE_EDGE = true;
+
     /** Reference to RecyclerView */
     @BindView(R.id.rv_movie) RecyclerView mRecyclerView;
 
@@ -87,13 +94,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
-
-    /** Constant for the span count in the grid layout manager */
-    private static final int GRID_SPAN_COUNT = 3;
-    /** Constant for the grid spacing (px)*/
-    private static final int GRID_SPACING = 8;
-    /** True when including edge */
-    private static final boolean GRID_INCLUDE_EDGE = true;
 
     /** String for the sort criteria("most popular and highest rated") */
     private String mSortCriteria;
@@ -244,12 +244,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Unregister MainActivity as an OnPreferenceChangedListener to avoid any memory leaks
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //callMovieResponse();
     }
 
     /**

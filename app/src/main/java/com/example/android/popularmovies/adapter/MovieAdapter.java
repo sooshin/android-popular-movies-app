@@ -106,19 +106,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return mMovies.size();
     }
 
-    public void setMovies(List<Movie> movies) {
-        mMovies = movies;
-        notifyDataSetChanged();
-    }
-
-    /**
-     * This method is to clear all data, a list of {@link Movie} objects
-     */
-    public void clearAll() {
-        mMovies.clear();
-        notifyDataSetChanged();
-    }
-
     /**
      * This method is to add a list of {@link Movie}s
      *
