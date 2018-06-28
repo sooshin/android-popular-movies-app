@@ -30,6 +30,8 @@ import java.util.List;
  */
 public class Credits implements Parcelable {
 
+    private final static int BYTE = 0x01;
+
     @SerializedName("cast")
     private List<Cast> mCast;
 
@@ -37,13 +39,13 @@ public class Credits implements Parcelable {
     private List<Crew> mCrew;
 
     private Credits(Parcel in) {
-        if (in.readByte() == 0x01) {
+        if (in.readByte() == BYTE) {
             mCast = new ArrayList<>();
             in.readList(mCast, Cast.class.getClassLoader());
         } else {
             mCast = null;
         }
-        if (in.readByte() == 0x01) {
+        if (in.readByte() == BYTE) {
             mCrew = new ArrayList<>();
             in.readList(mCrew, Crew.class.getClassLoader());
         } else {
