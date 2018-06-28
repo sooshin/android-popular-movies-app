@@ -26,15 +26,6 @@
         <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <!-- CardView style in the fragment_info.xml -->
     <style name="CardViewStyle" parent="CardView">
         <item name="android:layout_marginBottom">@dimen/margin_card_view</item>
