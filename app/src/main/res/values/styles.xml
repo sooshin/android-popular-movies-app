@@ -10,6 +10,10 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
+    <!-- Detail activity theme for translucent status bar -->
+    <style name="DetailTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
     <!-- Settings theme -->
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/blue_grey_500</item>
