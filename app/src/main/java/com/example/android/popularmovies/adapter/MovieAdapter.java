@@ -144,7 +144,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
          *
          * @param itemView The View that you inflated in {@link MovieAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        public MovieViewHolder(View itemView) {
+        MovieViewHolder(View itemView) {
             super(itemView);
 
             // Bind the view using ButterKnife

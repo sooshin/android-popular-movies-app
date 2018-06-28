@@ -114,7 +114,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
          *
          * @param itemView The View that you inflated in {@link CastAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        public CastViewHolder(View itemView) {
+        CastViewHolder(View itemView) {
             super(itemView);
 
             // Bind the view using ButterKnife
@@ -127,7 +127,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
          *
          * @param cast The cast object
          */
-        public void bind(Cast cast) {
+         void bind(Cast cast) {
             // The complete profile image url
             String profile = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + cast.getProfilePath();
             // Load image with Picasso library
