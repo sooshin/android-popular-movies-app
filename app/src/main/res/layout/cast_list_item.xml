@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/margin_activity"
         android:layout_marginTop="@dimen/margin_activity_small"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/cast_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
