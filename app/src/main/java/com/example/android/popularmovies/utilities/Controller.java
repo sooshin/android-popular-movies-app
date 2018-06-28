@@ -11,6 +11,7 @@ public class Controller {
     /** The base movie URL from TMDb */
     private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/";
 
+    /** Static variable for Retrofit */
     private static Retrofit sRetrofit = null;
 
     public static Retrofit getClient() {

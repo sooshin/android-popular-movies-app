@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * The {@link MovieResponse} object includes information related to page, total results, total pages,
+ * and the list of Movies.
+ */
 public class MovieResponse {
 
     @SerializedName("page")

@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A {@link Cast} object includes information related to movie cast.
+ * This class implements Parcelable interface to allow {@link Cast} object to be sent as a Parcel
+ */
 public class Cast implements Parcelable {
 
     @SerializedName("cast_id")

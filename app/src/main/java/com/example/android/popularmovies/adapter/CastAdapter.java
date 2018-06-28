@@ -134,7 +134,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
             Picasso.with(itemView.getContext())
                     .load(profile)
                     // Create circular avatars
-                    // Reference [https://stackoverflow.com/questions/26112150/android-create-circular-image-with-picasso]
+                    // Reference: @see "https://stackoverflow.com/questions/26112150/android-create
+                    // -circular-image-with-picasso"
                     .into(mCastImageView, new Callback() {
                         @Override
                         public void onSuccess() {

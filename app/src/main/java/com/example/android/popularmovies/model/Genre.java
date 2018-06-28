@@ -2,6 +2,9 @@ package com.example.android.popularmovies.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A {@link Genre} object includes information related to the genre of the movie.
+ */
 public class Genre {
 
     @SerializedName("id")

@@ -8,6 +8,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A {@link Credits} object includes information related to movie cast and crew.
+ * This class implements Parcelable interface to allow {@link Credits} object to be sent as a Parcel
+ */
 public class Credits implements Parcelable {
 
     @SerializedName("cast")

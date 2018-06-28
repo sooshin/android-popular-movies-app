@@ -31,12 +31,15 @@ public class CastFragment extends Fragment {
     /** Tag for a log message */
     public static final String TAG = CastFragment.class.getSimpleName();
 
+    /** Member variable for the list of casts */
     private List<Cast> mCastList;
 
+    /** Member variable for CastAdapter */
     private CastAdapter mCastAdapter;
 
     private Unbinder mUnbinder;
 
+    /** Get a reference to RecyclerView */
     @BindView(R.id.rv_cast) RecyclerView mRecyclerView;
 
     /**
@@ -52,13 +55,18 @@ public class CastFragment extends Fragment {
         // Bind the view using ButterKnife
         mUnbinder = ButterKnife.bind(this, rootView);
 
+        // A LinearLayoutManager is responsible for measuring and positioning item views within a
+        // RecyclerView into a linear list.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
+        // Create an empty ArrayList
         mCastList = new ArrayList<>();
 
+        // The CastAdapter is responsible for displaying each item in the list.
         mCastAdapter = new CastAdapter(mCastList);
+        // Set Adapter on RecyclerView
         mRecyclerView.setAdapter(mCastAdapter);
         return rootView;
     }

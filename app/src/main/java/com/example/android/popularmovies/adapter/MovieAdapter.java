@@ -81,10 +81,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
+        // Get the movie title
         String title = movie.getTitle();
+        // Get the complete thumbnail path
         String thumbnail = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
-
+        // Display the title
         holder.titleTextView.setText(title);
+        // Load thumbnail with Picasso library
         Picasso.with(holder.itemView.getContext())
                 .load(thumbnail)
                 .into(holder.thumbnailImageView);
@@ -136,7 +139,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         /** Get a reference to the TextView for showing the movie title */
         @BindView(R.id.tv_title) TextView titleTextView;
 
-
         /**
          * Constructor for our ViewHolder.
          *
@@ -145,6 +147,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public MovieViewHolder(View itemView) {
             super(itemView);
 
+            // Bind the view using ButterKnife
             ButterKnife.bind(this, itemView);
             // Call setOnClickListener on  the View passed into the constructor
             itemView.setOnClickListener(this);

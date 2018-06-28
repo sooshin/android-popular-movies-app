@@ -51,6 +51,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline"
         tools:text="cast character" />
 
+    <!-- Horizontal guide line -->
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"

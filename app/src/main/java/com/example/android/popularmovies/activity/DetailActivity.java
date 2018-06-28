@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.activity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -41,13 +42,14 @@ import butterknife.ButterKnife;
  */
 public class DetailActivity extends AppCompatActivity implements InformationFragment.OnInfoSelectedListener{
 
-    // Tag for logging
+    /** Tag for logging */
     public static final String TAG = DetailActivity.class.getSimpleName();
 
-    // Extra for the movie to be received in the intent
+    /** Extra for the movie to be received in the intent */
     public static final String EXTRA_MOVIE = "movie";
 
-    /** Extra for the movie details to pass the data from DetailActivity to CastFragment */
+    /** Extra for the movie details to pass the data from DetailActivity to CastFragment.
+     *  Movie details contains budget, genre, runtime, revenue, status, vote count, credits. */
     public static final String EXTRA_MOVIE_DETAILS = "movie_details";
 
     /** The base image URL to build the complete url that is necessary for fetching the image */
@@ -75,6 +77,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     @BindView(R.id.sliding_tabs)
     TabLayout mTabLayout;
 
+    /** Get a reference to the TextView to display the title */
     @BindView(R.id.tv_detail_title)
     TextView mTitleTextView;
 
@@ -106,6 +109,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** Movie object */
     private Movie mMovie;
 
+    /** Get a reference to the FragmentManager */
     private FragmentManager mFragmentManager;
 
     @Override
@@ -135,7 +139,8 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Set the adapter onto the ViewPager
         mViewPager.setAdapter(pagerAdapter);
 
-        // Get the movie data from the MainActivity
+        // Get the movie data from the MainActivity. The movie data includes the movie id, original title,
+        // title, poster path, overview, vote average, release date, and backdrop path.
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(EXTRA_MOVIE)) {
@@ -152,6 +157,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         setTitle();
         // Show loading indicator
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
+        // Get the FragmentManager for interacting with fragments associated with DetailActivity
         mFragmentManager = getSupportFragmentManager();
     }
 
@@ -201,6 +207,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
      * Reference: @see "https://stackoverflow.com/questions/31662416/show-collapsingtoolbarlayout-title-only-when-collapsed"
      */
     private void setCollapsingToolbarTitle() {
+        // Set onOffsetChangedListener to determine when CollapsingToolbar is collapsed
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -211,9 +218,11 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
+                    // Show title when a CollapsingToolbarLayout is fully collapse
                     mCollapsingToolbar.setTitle(mMovie.getTitle());
                     isShow = true;
                 } else if (isShow) {
+                    // Otherwise hide the title
                     mCollapsingToolbar.setTitle(" ");
                     isShow = false;
                 }
@@ -221,6 +230,11 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         });
     }
 
+    /**
+     * Define the behavior for onInformationSelected
+     * @param movieDetails The movie details contains information, such as budget, genre, runtime,
+     *                    revenue, status, vote count, credits.
+     */
     @Override
     public void onInformationSelected(MovieDetails movieDetails) {
         // Hide the loading indicator

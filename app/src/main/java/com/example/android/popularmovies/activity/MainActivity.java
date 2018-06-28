@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** A numeric constant for request code */
     private static final int REQUEST_CODE_DIALOG = 0;
 
-    /** Constants  */
+    /** Constants that are used to request the network call */
     public static final String API_KEY = BuildConfig.API_KEY;
     public static final String LANGUAGE = "en-US";
     public static final int PAGE = 1;
@@ -183,7 +183,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
             MovieResponse movieResponse = response.body();
             if (movieResponse != null) {
+                // Get the list of movies
                 List<Movie> movies = movieResponse.getMovieResults();
+                //  Add a list of Movies
                 mMovieAdapter.addAll(movies);
             }
         } else if (response.code() == RESPONSE_CODE_API_STATUS) {
@@ -220,9 +222,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         }
     }
 
-
+    /**
+     * When preferences have been changed, make a network request again.
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // If the key is equal to sort_by, update the sort by preference
         if (key.equals(getString(R.string.pref_sort_by_key))) {
             mSortCriteria = sharedPreferences.getString(key, getString(R.string.pref_sort_by_default));
         }
