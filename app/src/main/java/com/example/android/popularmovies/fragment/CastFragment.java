@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.popularmovies.CastAdapter;
-import com.example.android.popularmovies.DetailActivity;
+import com.example.android.popularmovies.adapter.CastAdapter;
+import com.example.android.popularmovies.activity.DetailActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;

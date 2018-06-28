@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.MainActivity;
+import com.example.android.popularmovies.activity.MainActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
@@ -35,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.DetailActivity.EXTRA_MOVIE;
+import static com.example.android.popularmovies.activity.DetailActivity.EXTRA_MOVIE;
 
 /**
  * The InformationFragment displays information for the selected movie.

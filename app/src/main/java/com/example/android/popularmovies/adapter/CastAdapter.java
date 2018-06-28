@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activity.DetailActivity;
 import com.example.android.popularmovies.model.Cast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -125,7 +127,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
          *
          * @param cast The cast object
          */
-        void bind(Cast cast) {
+        public void bind(Cast cast) {
             // The complete profile image url
             String profile = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + cast.getProfilePath();
             // Load image with Picasso library

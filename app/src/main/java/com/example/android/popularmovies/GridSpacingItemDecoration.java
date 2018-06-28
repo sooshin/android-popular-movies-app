@@ -21,7 +21,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
      * @param spacing The spacing between each grid item
      * @param includeEdge Whether to include left and right margins
      */
-    GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+    public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
         this.spanCount = spanCount;
         this.spacing = spacing;
         this.includeEdge = includeEdge;

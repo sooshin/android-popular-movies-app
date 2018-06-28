@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +22,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.MovieAdapter.MovieAdapterOnClickHandler;
+import com.example.android.popularmovies.BuildConfig;
+import com.example.android.popularmovies.GridSpacingItemDecoration;
+import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.adapter.MovieAdapter;
+import com.example.android.popularmovies.adapter.MovieAdapter.MovieAdapterOnClickHandler;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
