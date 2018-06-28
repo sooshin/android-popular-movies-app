@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -175,28 +176,37 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                     // Add the cast name to the list of strings
                     castStrList.add(castName);
                 }
-                // Join a string using a delimiter
-                String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
-                // Display the list of cast name
-                mCastTextView.setText(castStr);
 
-                // Display director of the movie
-                List<Crew> crewList = credits.getCrew();
-                for (int i = 0; i < crewList.size(); i++) {
-                    Crew crew = crewList.get(i);
-                    // if job is "director", set the director's name to the TextView
-                    if (crew.getJob().equals(getString(R.string.director))) {
-                        mDirectorTextView.setText(crew.getName());
-                        break;
+                // Get the Activity the InformationFragment is currently associated with
+                Activity activity = getActivity();
+                // Check if the Activity is not null to avoid IllegalStateException: InformationFragment
+                // not attached to a context.
+                // @see "https://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-
+                // fragment-not-attached-to-activity"
+                if (activity != null) {
+                    // Join a string using a delimiter
+                    String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
+                    // Display the list of cast name
+                    mCastTextView.setText(castStr);
+
+                    // Display director of the movie
+                    List<Crew> crewList = credits.getCrew();
+                    for (int i = 0; i < crewList.size(); i++) {
+                        Crew crew = crewList.get(i);
+                        // if job is "director", set the director's name to the TextView
+                        if (crew.getJob().equals(getString(R.string.director))) {
+                            mDirectorTextView.setText(crew.getName());
+                            break;
+                        }
                     }
-                }
 
-                // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
-                // to format the integer number
-                mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
-                mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
-                mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
-                mStatusTextView.setText(status);
+                    // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
+                    // to format the integer number
+                    mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
+                    mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
+                    mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
+                    mStatusTextView.setText(status);
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
@@ -37,6 +38,9 @@ import butterknife.ButterKnife;
  * This activity is responsible for displaying the details for a selected movie.
  */
 public class DetailActivity extends AppCompatActivity implements InformationFragment.OnInfoSelectedListener{
+
+    // Tag for logging
+    public static final String TAG = DetailActivity.class.getSimpleName();
 
     // Extra for the movie to be received in the intent
     public static final String EXTRA_MOVIE = "movie";
@@ -100,6 +104,8 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     /** Movie object */
     private Movie mMovie;
 
+    private FragmentManager mFragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +150,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         setTitle();
         // Show loading indicator
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
+        mFragmentManager = getSupportFragmentManager();
     }
 
     /**
@@ -250,9 +257,14 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         args.putParcelable(EXTRA_MOVIE_DETAILS, movieDetails);
 
         // Add the fragment to its container using a FragmentManager and a Transaction
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.cast_container, castFragment);
-        transaction.commit();
+
+        // Allows the commit to be executed after an activity's state is saved
+        // to avoid IllegalStateException: Can not perform this action after onSaveInstanceState.
+        //@see "https://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception
+        // -can-not-perform-this-action-after-onsa/10261438#10261438"
+        transaction.commitAllowingStateLoss();
     }
 
     /**
