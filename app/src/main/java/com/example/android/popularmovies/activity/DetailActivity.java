@@ -1,7 +1,6 @@
 package com.example.android.popularmovies.activity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -172,7 +171,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Load image with Picasso library
         Picasso.with(this)
                 .load(backdrop)
-                .placeholder(R.drawable.photo)
+                .error(R.drawable.photo)
                 .into(mBackdropImageView);
     }
 
