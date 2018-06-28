@@ -15,10 +15,10 @@ import java.util.List;
 public class Credits implements Parcelable {
 
     @SerializedName("cast")
-    private List<Cast> mCast = null;
+    private List<Cast> mCast;
 
     @SerializedName("crew")
-    private List<Crew> mCrew = null;
+    private List<Crew> mCrew;
 
     private Credits(Parcel in) {
         if (in.readByte() == 0x01) {
