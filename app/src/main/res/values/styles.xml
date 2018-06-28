@@ -10,6 +10,22 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
+    <!-- Settings theme -->
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/blue_grey_500</item>
+        <item name="colorPrimaryDark">@color/blue_grey_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Because we're using a preference fragments compat library, we need to add a theme -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <!-- Style for Preference theme in the Settings -->
+    <style name="PreferenceThemeOverlay">
+        <item name="android:background">@color/card_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

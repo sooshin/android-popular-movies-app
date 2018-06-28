@@ -31,7 +31,8 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
