@@ -124,13 +124,26 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Bind the view using ButterKnife
         ButterKnife.bind(this);
 
-        // Show back button in Collapsing Toolbar
-        setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
+        // Get the movie data from the MainActivity. The movie data includes the movie id, original title,
+        // title, poster path, overview, vote average, release date, and backdrop path.
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_MOVIE)) {
+                Bundle b = intent.getBundleExtra(EXTRA_MOVIE);
+                mMovie = b.getParcelable(EXTRA_MOVIE);
+            }
         }
+
+        // Setup the UI
+        setupUI();
+    }
+
+    /**
+     *  This method is called from onCreate to setup the UI
+     */
+    private void setupUI() {
+        // Show back button in Collapsing Toolbar
+        showBackButton();
 
         // Give the TabLayout the ViewPager
         mTabLayout.setupWithViewPager(mViewPager);
@@ -143,16 +156,6 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         // Set the adapter onto the ViewPager
         mViewPager.setAdapter(pagerAdapter);
 
-        // Get the movie data from the MainActivity. The movie data includes the movie id, original title,
-        // title, poster path, overview, vote average, release date, and backdrop path.
-        Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.hasExtra(EXTRA_MOVIE)) {
-                Bundle b = intent.getBundleExtra(EXTRA_MOVIE);
-                mMovie = b.getParcelable(EXTRA_MOVIE);
-            }
-        }
-
         // Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed
         setCollapsingToolbarTitle();
         // Display the backdrop image
@@ -163,6 +166,18 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
         // Get the FragmentManager for interacting with fragments associated with DetailActivity
         mFragmentManager = getSupportFragmentManager();
+    }
+
+    /**
+     * Show back button in Collapsing Toolbar
+     */
+    private void showBackButton() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
     }
 
     /**
