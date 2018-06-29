@@ -106,4 +106,7 @@ public final class Constant {
     public static final int TWO = 2;
     public static final int THREE = 3;
 
+    /** Constant used in GridSpacingItemDecoration */
+    public static final int ONE = 1;
+
 }

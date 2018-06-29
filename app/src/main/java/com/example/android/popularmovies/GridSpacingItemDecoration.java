@@ -20,6 +20,8 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import static com.example.android.popularmovies.utilities.Constant.ONE;
+
 /**
  * Set column spacing to make each column have the same spacing.
  *
@@ -55,7 +57,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             // spacing - column * ((1f / spanCount) * spacing)
             outRect.left = spacing - column * spacing / spanCount;
             // (column + 1) * ((1f / spanCount) * spacing)
-            outRect.right = (column + 1) * spacing / spanCount;
+            outRect.right = (column + ONE) * spacing / spanCount;
 
             // top edge
             if (position < spanCount) {
@@ -67,7 +69,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             // column * ((1f / spanCount) * spacing)
             outRect.left = column * spacing / spanCount;
             // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-            outRect.right = spacing - (column + 1) * spacing / spanCount;
+            outRect.right = spacing - (column + ONE) * spacing / spanCount;
             if (position >= spanCount) {
                 // item top
                 outRect.top = spacing;
