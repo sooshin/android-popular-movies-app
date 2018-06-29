@@ -52,6 +52,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
+import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_BEGIN_INDEX;
+import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_END_INDEX;
+import static com.example.android.popularmovies.utilities.Constant.SHARE_INTENT_TYPE_TEXT;
+import static com.example.android.popularmovies.utilities.Constant.SHARE_URL;
+
 /**
  * This activity is responsible for displaying the details for a selected movie.
  */
@@ -59,26 +68,6 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
     /** Tag for logging */
     public static final String TAG = DetailActivity.class.getSimpleName();
-
-    /** Extra for the movie to be received in the intent */
-    public static final String EXTRA_MOVIE = "movie";
-
-    /** Extra for the movie details to pass the data from DetailActivity to CastFragment.
-     *  Movie details contains budget, genre, runtime, revenue, status, vote count, credits. */
-    public static final String EXTRA_MOVIE_DETAILS = "movie_details";
-
-    /** The base image URL to build the complete url that is necessary for fetching the image */
-    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
-
-    /** The image file size to build the complete url that is necessary for fetching the image*/
-    private static final String BACKDROP_FILE_SIZE ="w500";
-
-    /** The base URL used for sharing text*/
-    private static final String SHARE_URL = "https://www.themoviedb.org/movie/";
-
-    /** The beginIndex and endIndex to be used for getting a substring of Release Date */
-    private static final int RELEASE_YEAR_BEGIN_INDEX = 0;
-    private static final int RELEASE_YEAR_END_INDEX = 4;
 
     /** ImageView for the backdrop image */
     @BindView(R.id.iv_backdrop)
@@ -328,7 +317,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
         // Create share intent
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType(getString(R.string.share_intent_type_text))
+                .setType(SHARE_INTENT_TYPE_TEXT)
                 .setText(shareText)
                 .setChooserTitle(getString(R.string.chooser_title))
                 .createChooserIntent();

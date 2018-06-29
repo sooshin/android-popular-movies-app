@@ -38,7 +38,7 @@ public class FormatUtils {
      * (e.g. 1000 -> 1,000)
      */
     public static String formatNumber(int number) {
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        DecimalFormat decimalFormat = new DecimalFormat(Constant.PATTERN_FORMAT_NUMBER);
         return decimalFormat.format(number);
     }
 
@@ -48,7 +48,7 @@ public class FormatUtils {
      * (e.g. 100000000 -> $100,000,000)
      */
     public static String formatCurrency(long number) {
-        DecimalFormat decimalFormat = new DecimalFormat("$###,###");
+        DecimalFormat decimalFormat = new DecimalFormat(Constant.PATTERN_FORMAT_CURRENCY);
         return decimalFormat.format(number);
     }
 
@@ -58,7 +58,8 @@ public class FormatUtils {
      */
     public static String formatDate(String releaseDate) {
         // Create a SimpleDateFormat instance
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                Constant.PATTERN_FORMAT_DATE_INPUT, Locale.getDefault());
         // Parse the release date into a Date object
         Date date = null;
         try {
@@ -68,7 +69,8 @@ public class FormatUtils {
         }
 
         // Initialize a SimpleDateFormat instance
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat(
+                Constant.PATTERN_FORMAT_DATE_OUTPUT, Locale.getDefault());
         // Convert the date "yyyy-MM-dd" to the date "MMM dd, yyy"
         return outputDateFormat.format(date);
     }

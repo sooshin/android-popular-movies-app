@@ -24,13 +24,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.popularmovies.utilities.Constant.BYTE;
+
 /**
  * A {@link Credits} object includes information related to movie cast and crew.
  * This class implements Parcelable interface to allow {@link Credits} object to be sent as a Parcel
  */
 public class Credits implements Parcelable {
-
-    private final static int BYTE = 0x01;
 
     @SerializedName("cast")
     private List<Cast> mCast;

@@ -25,9 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.popularmovies.adapter.CastAdapter;
-import com.example.android.popularmovies.activity.DetailActivity;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.adapter.CastAdapter;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.MovieDetails;
@@ -38,6 +37,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
 
 /**
  * The CastFragment displays all of the cast members for the selected movie.
@@ -94,7 +95,7 @@ public class CastFragment extends Fragment {
         // Get MovieDetails data from the DetailActivity
         Bundle args = getArguments();
         if (args != null) {
-            MovieDetails movieDetails = args.getParcelable(DetailActivity.EXTRA_MOVIE_DETAILS);
+            MovieDetails movieDetails = args.getParcelable(EXTRA_MOVIE_DETAILS);
             if (movieDetails != null) {
                 // Get Credits from MovieDetails
                 Credits credits = movieDetails.getCredits();

@@ -20,15 +20,14 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
+import static com.example.android.popularmovies.utilities.Constant.THREE;
+import static com.example.android.popularmovies.utilities.Constant.TWO;
+
 /**
  * The ThreeTwoImageView class is responsible for making ImageView 3:2 aspect ratio.
  * The ThreeTwoImageView is used for movie backdrop image in the activity_detail.xml.
  */
 public class ThreeTwoImageView extends AppCompatImageView {
-
-    /** Constant value */
-    private static final int TWO = 2;
-    private static final int THREE = 3;
 
     /**
      * Creates ThreeTwoImageView

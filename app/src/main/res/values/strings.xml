@@ -67,8 +67,7 @@
 
     <!-- Chooser title in share intent -->
     <string name="chooser_title">Share a movie</string>
-    <!-- Type of the share intent data -->
-    <string name="share_intent_type_text">text/plain</string>
+
     <!-- Split string by new line -->
     <string name="new_line">\n</string>
 

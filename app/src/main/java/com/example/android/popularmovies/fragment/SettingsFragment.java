@@ -25,14 +25,13 @@ import android.support.v7.preference.PreferenceScreen;
 
 import com.example.android.popularmovies.R;
 
+import static com.example.android.popularmovies.utilities.Constant.DEFAULT_VALUE;
+
 /**
  * The SettingsFragment serves as the display for all of the user's settings.
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener{
-
-    /** The default value used in the preference summary */
-    private static final String DEFAULT_VALUE = "";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

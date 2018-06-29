@@ -24,27 +24,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
+import com.example.android.popularmovies.utilities.Constant;
+
+import static com.example.android.popularmovies.utilities.Constant.CAST;
+import static com.example.android.popularmovies.utilities.Constant.INFORMATION;
 
 /**
  * The DetailPagerAdapter provides the appropriate {@link Fragment} for a view pager.
  */
 public class DetailPagerAdapter extends FragmentPagerAdapter {
 
-    /** Constant value for each fragment */
-    private static final int INFORMATION = 0;
-    private static final int CAST = 1;
-
     /** Context of the app */
     private Context mContext;
-
-    /** String array used to display the tap title*/
-    private static final String[] TAP_TITLE = new String[] {
-            "Info", "Cast"
-    };
-
-    /** The number of page */
-    private static final int PAGE_COUNT = TAP_TITLE.length;
-
 
     /**
      * Creates a new {@link DetailPagerAdapter} object
@@ -76,7 +67,7 @@ public class DetailPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return Constant.PAGE_COUNT;
     }
 
     /**
@@ -88,6 +79,6 @@ public class DetailPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return TAP_TITLE[position % PAGE_COUNT].toUpperCase();
+        return Constant.TAP_TITLE[position % Constant.PAGE_COUNT].toUpperCase();
     }
 }

@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.activity.DetailActivity;
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -34,13 +33,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
+
 /**
  * {@link MovieAdapter} exposes a list of movies to a {@link android.support.v7.widget.RecyclerView}
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-
-    /** The image file size to build the complete url that is necessary for fetching the image*/
-    private static final String IMAGE_FILE_SIZE = "w185";
 
     /** Member variable for the list of {@link Movie}s */
     private List<Movie> mMovies;
@@ -100,7 +99,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         // Get the movie title
         String title = movie.getTitle();
         // Get the complete thumbnail path
-        String thumbnail = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
+        String thumbnail = IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
         // Display the title
         holder.titleTextView.setText(title);
         // Load thumbnail with Picasso library

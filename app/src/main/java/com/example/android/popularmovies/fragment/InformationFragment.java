@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.activity.MainActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
@@ -51,7 +50,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.activity.DetailActivity.EXTRA_MOVIE;
+import static com.example.android.popularmovies.utilities.Constant.API_KEY;
+import static com.example.android.popularmovies.utilities.Constant.CREDITS;
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
+import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 
 /**
  * The InformationFragment displays information for the selected movie.
@@ -141,7 +143,7 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         // to the remote web server. Send Request:
         // https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits
         Call<MovieDetails> callDetails = theMovieApi.getDetails(
-                mMovie.getId(), MainActivity.API_KEY, MainActivity.LANGUAGE, MainActivity.CREDITS);
+                mMovie.getId(), API_KEY, LANGUAGE, CREDITS);
 
         // Calls are executed with asynchronously with enqueue and notify callback of its response
         callDetails.enqueue(this);

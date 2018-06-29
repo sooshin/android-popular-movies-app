@@ -20,15 +20,14 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
+import static com.example.android.popularmovies.utilities.Constant.THREE;
+import static com.example.android.popularmovies.utilities.Constant.TWO;
+
 /**
  * The TwoThreeImageView class is responsible for making ImageView 2:3 aspect ratio.
  * The TwoThreeImageView is used for movie poster in the movie_list_item.xml.
  */
 public class TwoThreeImageView extends AppCompatImageView {
-
-    /** Constant value */
-    private static final int TWO = 2;
-    private static final int THREE = 3;
 
     /**
      * Creates a TwoThreeImageView

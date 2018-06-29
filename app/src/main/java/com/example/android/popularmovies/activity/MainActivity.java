@@ -38,7 +38,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.MovieAdapter;
@@ -59,6 +58,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.example.android.popularmovies.utilities.Constant.API_KEY;
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
+import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_EDGE;
+import static com.example.android.popularmovies.utilities.Constant.GRID_SPACING;
+import static com.example.android.popularmovies.utilities.Constant.GRID_SPAN_COUNT;
+import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
+import static com.example.android.popularmovies.utilities.Constant.PAGE;
+import static com.example.android.popularmovies.utilities.Constant.REQUEST_CODE_DIALOG;
+import static com.example.android.popularmovies.utilities.Constant.RESPONSE_CODE_API_STATUS;
+
 /**
  * The MainActivity displays the list of movies that appear as a grid of images
  */
@@ -67,25 +76,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    /** API Status code for invalid API key or Authentication failed */
-    private static final int RESPONSE_CODE_API_STATUS = 401;
-
-    /** A numeric constant for request code */
-    private static final int REQUEST_CODE_DIALOG = 0;
-
-    /** Constants that are used to request the network call */
-    public static final String API_KEY = BuildConfig.API_KEY;
-    public static final String LANGUAGE = "en-US";
-    public static final int PAGE = 1;
-    public static final String CREDITS = "credits";
-
-    /** Constant for the span count in the grid layout manager */
-    private static final int GRID_SPAN_COUNT = 3;
-    /** Constant for the grid spacing (px)*/
-    private static final int GRID_SPACING = 8;
-    /** True when including edge */
-    private static final boolean GRID_INCLUDE_EDGE = true;
 
     /** Reference to RecyclerView */
     @BindView(R.id.rv_movie) RecyclerView mRecyclerView;
@@ -273,12 +263,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Reference: @see "https://stackoverflow.com/questions/28589509/android-e-parcel-
         // class-not-found-when-unmarshalling-only-on-samsung-tab3"
         Bundle b = new Bundle();
-        b.putParcelable(DetailActivity.EXTRA_MOVIE, movie);
+        b.putParcelable(EXTRA_MOVIE, movie);
 
         // Create the Intent the will start the DetailActivity
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         // Pass the bundle through Intent
-        intent.putExtra(DetailActivity.EXTRA_MOVIE, b);
+        intent.putExtra(EXTRA_MOVIE, b);
         // Once the Intent has been created, start the DetailActivity
         startActivity(intent);
     }

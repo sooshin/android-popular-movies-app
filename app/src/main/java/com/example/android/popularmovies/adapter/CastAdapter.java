@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.activity.DetailActivity;
 import com.example.android.popularmovies.model.Cast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -39,13 +38,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
+
 /**
  * {@link CastAdapter} exposes a list of casts to a {@link android.support.v7.widget.RecyclerView}
  */
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
-
-    /** The image file size to build the complete url that is necessary for fetching the image*/
-    private static final String IMAGE_FILE_SIZE = "w185";
 
     /** Member variable for the list of {@link Cast}s */
     private List<Cast> mCasts;
@@ -145,7 +144,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
          */
          void bind(Cast cast) {
             // The complete profile image url
-            String profile = DetailActivity.IMAGE_BASE_URL + IMAGE_FILE_SIZE + cast.getProfilePath();
+            String profile = IMAGE_BASE_URL + IMAGE_FILE_SIZE + cast.getProfilePath();
             // Load image with Picasso library
             Picasso.with(itemView.getContext())
                     .load(profile)
