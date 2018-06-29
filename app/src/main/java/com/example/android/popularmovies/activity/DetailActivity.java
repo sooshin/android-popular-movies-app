@@ -285,11 +285,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         mGenreTextView.setText(genreStr);
 
         // Create a new CastFragment
-        CastFragment castFragment = new CastFragment();
-        // Pass MovieDetails object from DetailActivity to CastFragment
-        Bundle args = new Bundle();
-        castFragment.setArguments(args);
-        args.putParcelable(EXTRA_MOVIE_DETAILS, movieDetails);
+        CastFragment castFragment = newInstance(movieDetails);
 
         // Add the fragment to its container using a FragmentManager and a Transaction
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -300,6 +296,24 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         //@see "https://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception
         // -can-not-perform-this-action-after-onsa/10261438#10261438"
         transaction.commitAllowingStateLoss();
+    }
+
+    /**
+     * Returns {@link CastFragment} to display all of the cast members for the selected movie.
+     *
+     * @param movieDetails The MovieDetails object that contains budget, genre, runtime,
+     *                    revenue, status, vote count, credits of the movie.
+     */
+    public static CastFragment newInstance(MovieDetails movieDetails) {
+        // Create a new CastFragment
+        CastFragment castFragment = new CastFragment();
+
+        // Pass MovieDetails object from DetailActivity to CastFragment
+        Bundle args = new Bundle();
+        castFragment.setArguments(args);
+        args.putParcelable(EXTRA_MOVIE_DETAILS, movieDetails);
+
+        return castFragment;
     }
 
     /**
