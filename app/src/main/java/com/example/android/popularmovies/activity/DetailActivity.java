@@ -160,7 +160,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         setCollapsingToolbarTitle();
         // Display the backdrop image
         loadBackdropImage();
-        // Display the original title
+        // Display title
         setTitle();
         // Show loading indicator
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
@@ -196,14 +196,14 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     }
 
     /**
-     * The {@link Movie} object contains information, such as ID, original title, poster path,
+     * The {@link Movie} object contains information, such as ID, original title, title, poster path,
      * vote average, release date, and backdrop path. Get the title from the {@link Movie} and
      * set the title to the TextViews
      */
     private void setTitle() {
-        // Get the original title of the movie
+        // Get title of the movie
         String title = mMovie.getTitle();
-        // Set the original title to the TextView
+        // Set title to the TextView
         mTitleTextView.setText(title);
     }
 
