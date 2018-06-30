@@ -63,6 +63,9 @@ public final class Constant {
     /** The image file size to build the complete url that is necessary for fetching the image*/
     public static final String BACKDROP_FILE_SIZE ="w500";
 
+    /** The YouTube base URL that is necessary for displaying trailers */
+    public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
+
     /** The base URL used for sharing text*/
     public static final String SHARE_URL = "https://www.themoviedb.org/movie/";
 

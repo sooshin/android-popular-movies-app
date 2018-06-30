@@ -17,6 +17,7 @@
 package com.example.android.popularmovies.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -29,6 +30,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -43,7 +45,11 @@ import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
+import com.example.android.popularmovies.model.Video;
+import com.example.android.popularmovies.model.VideoResponse;
+import com.example.android.popularmovies.utilities.Controller;
 import com.example.android.popularmovies.utilities.FormatUtils;
+import com.example.android.popularmovies.utilities.TheMovieApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,20 +57,28 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
+import static com.example.android.popularmovies.utilities.Constant.API_KEY;
 import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
+import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_BEGIN_INDEX;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_END_INDEX;
 import static com.example.android.popularmovies.utilities.Constant.SHARE_INTENT_TYPE_TEXT;
 import static com.example.android.popularmovies.utilities.Constant.SHARE_URL;
+import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_BASE_URL;
 
 /**
  * This activity is responsible for displaying the details for a selected movie.
  */
-public class DetailActivity extends AppCompatActivity implements InformationFragment.OnInfoSelectedListener{
+public class DetailActivity extends AppCompatActivity implements
+        InformationFragment.OnInfoSelectedListener, Callback<VideoResponse> {
 
     /** Tag for logging */
     public static final String TAG = DetailActivity.class.getSimpleName();
@@ -110,6 +124,9 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
     @BindView(R.id.pb_detail_loading_indicator)
     ProgressBar mDetailLoadingIndicator;
 
+    @BindView(R.id.iv_play_circle)
+    ImageView mPlayCircleImageView;
+
     /** Movie object */
     private Movie mMovie;
 
@@ -136,6 +153,7 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
 
         // Setup the UI
         setupUI();
+        callVideoResponse();
     }
 
     /**
@@ -166,6 +184,65 @@ public class DetailActivity extends AppCompatActivity implements InformationFrag
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
         // Get the FragmentManager for interacting with fragments associated with DetailActivity
         mFragmentManager = getSupportFragmentManager();
+    }
+
+    /**
+     * Makes a network request by calling enqueue
+     */
+    private void callVideoResponse() {
+        // The Retrofit class generates an implementation of the TheMovieApi interface.
+        Retrofit retrofit = Controller.getClient();
+        TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
+
+        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
+        // to the remote web server. Send Request:
+        // https://api.themoviedb.org/3/movie/{id}/videos?api_key={API_KEY}&language=en-US
+        Call<VideoResponse> callVideoResponse = theMovieApi.getVideos(
+                mMovie.getId(), API_KEY, LANGUAGE);
+
+        // Calls are executed with asynchronously with enqueue and notify callback of its response
+        callVideoResponse.enqueue(this);
+    }
+
+    /**
+     * Invoked for a received HTTP response.
+     */
+    @Override
+    public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
+        if (response.isSuccessful()) {
+            VideoResponse videoResponse = response.body();
+            if (videoResponse != null) {
+                List<Video> videos = videoResponse.getVideoResults();
+                videoResponse.setVideoResults(videos);
+
+                if (videos.size() != 0) {
+                    final Video firstVideo = videos.get(0);
+                    mPlayCircleImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            launchTrailer(firstVideo);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * Use Intent to open a YouTube link in either the native app or a web browser of choice
+     *
+     * @param video The video object that contains YouTube url
+     */
+    private void launchTrailer(Video video) {
+        String firstVideoKey = video.getKey();
+        String firstVideoUrl = YOUTUBE_BASE_URL + firstVideoKey;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(firstVideoUrl));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFailure(Call<VideoResponse> call, Throwable t) {
+        Log.e(TAG, "onFailure: " + t.getMessage());
     }
 
     /**

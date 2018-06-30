@@ -19,6 +19,7 @@ package com.example.android.popularmovies.utilities;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.model.ReviewResponse;
+import com.example.android.popularmovies.model.VideoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -53,4 +54,12 @@ public interface TheMovieApi {
             @Query("language") String language,
             @Query("page") int page
     );
+
+    @GET("movie/{id}/videos")
+    Call<VideoResponse> getVideos(
+            @Path("id") int id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language
+    );
+
 }

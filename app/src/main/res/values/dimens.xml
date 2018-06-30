@@ -48,6 +48,8 @@
 
     <!-- Size of the loading indicator in the activity_detail -->
     <dimen name="size_detail_loading_indicator">26dp</dimen>
+    <!-- Size of play circle ImageView in the activity_detail -->
+    <dimen name="size_play_image">60dp</dimen>
 
     <!-- Size of the cast image in the cast_list_item -->
     <dimen name="width_cast_image">72dp</dimen>

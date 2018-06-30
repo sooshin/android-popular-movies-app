@@ -63,6 +63,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:background="@drawable/scrim_gradient" />
+
+                    <!-- Play button image -->
+                    <ImageView
+                        android:id="@+id/iv_play_circle"
+                        android:layout_width="@dimen/size_play_image"
+                        android:layout_height="@dimen/size_play_image"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:contentDescription="@string/play_content_description"
+                        android:background="@drawable/play_circle"/>
+
                 </FrameLayout>
 
                 <TextView

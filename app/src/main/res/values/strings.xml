@@ -17,10 +17,11 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">PopularMovies</string>
 
-    <!-- The content description of the movie poster image, backdrop image and cast images -->
+    <!-- The content description of the movie poster image, backdrop image, cast images and play image -->
     <string name="thumbnail_content_description">Movie poster image thumbnail</string>
     <string name="backdrop_content_description">Backdrop image</string>
     <string name="cast_content_description">Cast images</string>
+    <string name="play_content_description">Trailer play button</string>
 
     <!-- Strings related to the network-->
     <string name="no_network_title">No Network Available</string>
