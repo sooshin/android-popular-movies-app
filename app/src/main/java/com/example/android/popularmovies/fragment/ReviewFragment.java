@@ -17,6 +17,7 @@
 package com.example.android.popularmovies.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -51,7 +52,8 @@ import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 import static com.example.android.popularmovies.utilities.Constant.PAGE;
 
-public class ReviewFragment extends Fragment implements Callback<ReviewResponse> {
+public class ReviewFragment extends Fragment implements
+        Callback<ReviewResponse>, ReviewAdapter.ReviewAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = ReviewFragment.class.getSimpleName();
@@ -106,7 +108,7 @@ public class ReviewFragment extends Fragment implements Callback<ReviewResponse>
         mReviews = new ArrayList<>();
 
         // The ReviewAdapter is responsible for displaying each item in the list.
-        mReviewAdapter = new ReviewAdapter(mReviews);
+        mReviewAdapter = new ReviewAdapter(mReviews, this);
         // Set ReviewAdapter on RecyclerView
         mRecyclerView.setAdapter(mReviewAdapter);
 
@@ -168,4 +170,15 @@ public class ReviewFragment extends Fragment implements Callback<ReviewResponse>
         mUnbinder.unbind();
     }
 
+    /**
+     * Handles RecyclerView item clicks to open a website that displays the user review.
+     *
+     * @param url The URL that displays the user review
+     */
+    @Override
+    public void onItemClick(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
 }

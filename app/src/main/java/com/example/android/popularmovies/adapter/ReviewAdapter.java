@@ -36,13 +36,26 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     /** Member variable for the list of {@link Review}s */
     private List<Review> mReviews;
 
+    /** An on-click handler that we've defined to make it easy for a Fragment to interface with
+     * our RecyclerView
+     */
+    private final ReviewAdapterOnClickHandler mOnClickHandler;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface ReviewAdapterOnClickHandler {
+        void onItemClick(String url);
+    }
+
     /**
      * Constructor for ReviewAdapter that accepts a list of reviews to display
      *
      * @param reviews List of {@link Review}s
      */
-    public ReviewAdapter(List<Review> reviews) {
+    public ReviewAdapter(List<Review> reviews, ReviewAdapterOnClickHandler onClickHandler) {
         mReviews = reviews;
+        mOnClickHandler = onClickHandler;
     }
 
     @NonNull
@@ -74,7 +87,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     /**
      * Cache of the children views for a review list item.
      */
-    public class ReviewViewHolder extends RecyclerView.ViewHolder {
+    public class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_review_author)
         TextView mReviewAuthorTextView;
@@ -92,11 +105,25 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
             // Bind the view using ButterKnife
             ButterKnife.bind(this, itemView);
+            // Call setOnClickListener on  the View passed into the constructor
+            itemView.setOnClickListener(this);
         }
 
         void bind(Review review) {
             mReviewAuthorTextView.setText(review.getAuthor());
             mReviewContentTextView.setText(review.getContent());
+        }
+
+        /**
+         * Called by the child views during a click.
+         *
+         * @param v The View that was clicked
+         */
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Review review = mReviews.get(adapterPosition);
+            mOnClickHandler.onItemClick(review.getUrl());
         }
     }
 }
