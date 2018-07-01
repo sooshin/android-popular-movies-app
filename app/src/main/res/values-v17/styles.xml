@@ -24,4 +24,13 @@
         <item name="android:fontFamily">@font/source_sans_pro_regular</item>
         <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="MessageTextStyle">
+        <item name="android:drawablePadding">@dimen/padding_activity</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:padding">@dimen/padding_activity_large</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
 </resources>

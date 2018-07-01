@@ -99,6 +99,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!-- Style for the message when there is no reviews available -->
+    <style name="MessageTextStyle">
+        <item name="android:drawablePadding">@dimen/padding_activity</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:padding">@dimen/padding_activity_large</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/color_indicator</item>
         <item name="tabSelectedTextColor">@color/color_tab_selected_text</item>

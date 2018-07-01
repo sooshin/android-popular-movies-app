@@ -53,6 +53,10 @@
     <string name="error_message_api_key">Please make sure enter your API key.</string>
     <string name="error_message_failed">Failed to connect to the TMDB API.</string>
 
+    <!-- A message when there are no reviews available -->
+    <string name="message_no_reviews">No reviews found.\n\nSorry, we couldn\'t find any reviews,
+        please check back later.</string>
+
     <!-- The delimiter to separate genres-->
     <string name="delimiter_comma">,\u0020</string>
 

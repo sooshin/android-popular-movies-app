@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.ReviewAdapter;
@@ -64,6 +65,10 @@ public class ReviewFragment extends Fragment implements
     /** Get a reference to RecyclerView */
     @BindView(R.id.rv_review)
     RecyclerView mRecyclerView;
+
+    /** Get a reference to the TextView that displays a message saying that no reviews found */
+    @BindView(R.id.tv_no_reviews)
+    TextView mNoReviewsTextView;
 
     /** Member variable for ReviewAdapter */
     private ReviewAdapter mReviewAdapter;
@@ -145,8 +150,12 @@ public class ReviewFragment extends Fragment implements
                 // Get the list of reviews
                 mReviews = reviewResponse.getReviewResults();
                 reviewResponse.setReviewResults(mReviews);
-
-                mReviewAdapter.addAll(mReviews);
+                if (!mReviews.isEmpty()) {
+                    mReviewAdapter.addAll(mReviews);
+                } else {
+                    // If there are no reviews, show a message that says no reviews found
+                    showNoReviewsMessage();
+                }
             }
         }
     }
@@ -180,5 +189,16 @@ public class ReviewFragment extends Fragment implements
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
+    }
+
+    /**
+     * This method will make the message that says no reviews found visible and
+     * hide the View for the review data
+     */
+    private void showNoReviewsMessage() {
+        // First, hide the currently visible data
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        // Then, show a message that says no reviews found
+        mNoReviewsTextView.setVisibility(View.VISIBLE);
     }
 }
