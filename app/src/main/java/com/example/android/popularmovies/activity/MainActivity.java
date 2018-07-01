@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             mErrorTextView.setText(getString(R.string.error_message_api_key));
         } else {
             Log.e(TAG, "Response Code: " + response.code());
+            mErrorTextView.setVisibility(View.VISIBLE);
+            mErrorTextView.setText(getString(R.string.error_message_failed));
         }
     }
 
