@@ -171,11 +171,13 @@ public class ReviewFragment extends Fragment implements
 
     /**
      * When binding a fragment in onCreateView, set the views to null in onDestroyView.
-     * Butter Knife returns an Unbinder instance when calling bind
+     * Butter Knife returns an Unbinder instance when calling bind.
+     * In ReviewFragment, it seems the call to onDestroyView() is really quick, so
+     * override onDestroy() method to delay it.
      */
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         mUnbinder.unbind();
     }
 
