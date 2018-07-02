@@ -224,8 +224,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             Log.e(TAG, "onFailure, offline: " + t.getMessage());
         } else {
             // When an error occurred, display error message
-            mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText(getString(R.string.error_message_failed));
+            showErrorMessage();
             Log.e(TAG, "onFailure: " + t.getMessage());
         }
     }
@@ -365,6 +364,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         mRecyclerView.setVisibility(View.INVISIBLE);
         // Then, show the offline message
         mOfflineTextView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * When an error occurred, display error message
+     */
+    private void showErrorMessage() {
+        // First, hide the currently visible data
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        // Then, show an error message
+        mErrorTextView.setVisibility(View.VISIBLE);
+        mErrorTextView.setText(getString(R.string.error_message_failed));
     }
 
     /**
