@@ -66,6 +66,10 @@ public final class Constant {
     /** The YouTube base URL that is necessary for displaying trailers */
     public static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
 
+    /** The YouTube thumbnail base URL that is used to display YouTube video Thumbnails*/
+    public static final String YOUTUBE_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/";
+    public static final String YOUTUBE_THUMBNAIL_URL_JPG = "/0.jpg";
+
     /** The base URL used for sharing text*/
     public static final String SHARE_URL = "https://www.themoviedb.org/movie/";
 
@@ -87,9 +91,10 @@ public final class Constant {
     public static final int INFORMATION = 0;
     public static final int CAST = 1;
     public static final int REVIEWS = 2;
+    public static final int TRAILERS = 3;
 
     /** String array used to display the tap title*/
-    public static final String[] TAP_TITLE = new String[] {"Info", "Cast", "Reviews"};
+    public static final String[] TAP_TITLE = new String[] {"Info", "Cast", "Reviews", "Trailers"};
 
     /** The number of page */
     public static final int PAGE_COUNT = TAP_TITLE.length;

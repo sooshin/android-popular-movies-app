@@ -25,11 +25,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.fragment.ReviewFragment;
+import com.example.android.popularmovies.fragment.TrailerFragment;
 import com.example.android.popularmovies.utilities.Constant;
 
 import static com.example.android.popularmovies.utilities.Constant.CAST;
 import static com.example.android.popularmovies.utilities.Constant.INFORMATION;
 import static com.example.android.popularmovies.utilities.Constant.REVIEWS;
+import static com.example.android.popularmovies.utilities.Constant.TRAILERS;
 
 /**
  * The DetailPagerAdapter provides the appropriate {@link Fragment} for a view pager.
@@ -62,6 +64,8 @@ public class DetailPagerAdapter extends FragmentPagerAdapter {
                 return new CastFragment();
             case REVIEWS:
                 return new ReviewFragment();
+            case TRAILERS:
+                return new TrailerFragment();
         }
         return null;
     }
