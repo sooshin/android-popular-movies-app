@@ -216,6 +216,7 @@ public class DetailActivity extends AppCompatActivity implements
                 videoResponse.setVideoResults(videos);
 
                 if (videos.size() != 0) {
+                    mPlayCircleImageView.setVisibility(View.VISIBLE);
                     final Video firstVideo = videos.get(0);
                     mPlayCircleImageView.setOnClickListener(new View.OnClickListener() {
                         @Override

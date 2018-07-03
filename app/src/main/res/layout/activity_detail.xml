@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Soojeong Shin
   ~
   ~  Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,8 +69,9 @@
                         android:layout_width="@dimen/size_play_image"
                         android:layout_height="@dimen/size_play_image"
                         android:layout_gravity="center_horizontal|center_vertical"
+                        android:background="@drawable/play_circle"
                         android:contentDescription="@string/play_content_description"
-                        android:background="@drawable/play_circle"/>
+                        android:visibility="invisible" />
 
                 </FrameLayout>
 
