@@ -33,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_THUMBNAIL_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_THUMBNAIL_URL_JPG;
 
@@ -44,13 +45,28 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     /** Member variable for the list of {@link Video}s*/
     private List<Video> mVideos;
 
+    /** An on-click handler that we've defined to make it easy for a Fragment to interface with
+     * our RecyclerView
+     */
+    private final TrailerAdapterOnClickHandler mOnClickHandler;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface TrailerAdapterOnClickHandler {
+        void onItemClick(String videoUrl);
+    }
+
     /**
      * Constructor for TrailerAdapter that accepts a list of trailers to display
      *
      * @param videos List of {@link Video}s
+     * @param onClickHandler The on-click handler for this adapter. This single handler is called
+     *                       when an item is clicked.
      */
-    public TrailerAdapter(List<Video> videos) {
+    public TrailerAdapter(List<Video> videos, TrailerAdapterOnClickHandler onClickHandler) {
         mVideos = videos;
+        mOnClickHandler = onClickHandler;
     }
 
     /**
@@ -110,7 +126,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     /**
      * Cache of the children views for a trailer list item.
      */
-    public class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         /** Get a reference to the ImageView to display trailer thumbnail */
         @BindView(R.id.iv_trailer_thumbnail)
         ImageView mTrailerThumbnailImageView;
@@ -118,6 +134,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         /** Get a reference to the */
         @BindView(R.id.tv_trailer_name)
         TextView mTrailerNameTextView;
+
+        /** Get a reference to the ImageView that displays play circle image on the YouTube thumbnail */
+        @BindView(R.id.iv_trailer_play_circle)
+        ImageView mPlayTrailerImageView;
 
         /**
          * Constructor for our ViewHolder
@@ -129,6 +149,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
             // Bind the view using ButterKnife
             ButterKnife.bind(this, itemView);
+            // Call setOnClickListener on the trailer thumbnail ImageView
+            mTrailerThumbnailImageView.setOnClickListener(this);
         }
 
         void bind(Video video) {
@@ -146,6 +168,22 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             // Get the video name and set name to the TextView to display the trailer name
             String videoName = video.getName();
             mTrailerNameTextView.setText(videoName);
+        }
+
+        /**
+         * Called by the child views during a click.
+         *
+         * @param v The View that was clicked
+         */
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Video video = mVideos.get(adapterPosition);
+            // Get the video key
+            String videoKey = video.getKey();
+            // Get the complete YouTube video url to display a trailer video
+            String videoUrl = YOUTUBE_BASE_URL + videoKey;
+            mOnClickHandler.onItemClick(videoUrl);
         }
     }
 }

@@ -17,6 +17,7 @@
 package com.example.android.popularmovies.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -51,7 +52,7 @@ import static com.example.android.popularmovies.utilities.Constant.API_KEY;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 
-public class TrailerFragment extends Fragment implements Callback<VideoResponse> {
+public class TrailerFragment extends Fragment implements Callback<VideoResponse>, TrailerAdapter.TrailerAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = TrailerFragment.class.getSimpleName();
@@ -100,7 +101,7 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
         mVideos = new ArrayList<>();
 
         // The TrailerAdapter is responsible for displaying each item in the list.
-        mTrailerAdapter = new TrailerAdapter(mVideos);
+        mTrailerAdapter = new TrailerAdapter(mVideos, this);
         // Set TrailerAdapter on RecyclerView
         mRecyclerView.setAdapter(mTrailerAdapter);
 
@@ -174,5 +175,23 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    /**
+     * When a movie trailer selected, use an Intent to open a YouTube link
+     *
+     * @param videoUrl YouTube video url to display a trailer video
+     */
+    @Override
+    public void onItemClick(String videoUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+        /*
+         * This is a check we perform with every implicit Intent that we launch. In some cases,
+         * the device where this code is running might not have an Activity to perform the action
+         * with the data we've specified. Without this check, in those cases your app would crash.
+         */
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

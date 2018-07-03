@@ -14,7 +14,6 @@
   ~  limitations under the License.
   -->
 
-
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardViewStyle"
@@ -27,16 +26,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_trailer_thumbnail"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:contentDescription="@string/trailer_thumbnail_content_description" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <!-- YouTube trailer thumbnail -->
+            <ImageView
+                android:id="@+id/iv_trailer_thumbnail"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/trailer_thumbnail_content_description" />
+
+            <!-- Play button image -->
+            <ImageView
+                android:id="@+id/iv_trailer_play_circle"
+                android:layout_width="@dimen/size_play_image"
+                android:layout_height="@dimen/size_play_image"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:background="@drawable/play_circle"
+                android:contentDescription="@string/play_content_description" />
+
+        </FrameLayout>
+
+        <!-- Trailer name -->
         <TextView
             android:id="@+id/tv_trailer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingTop="@dimen/padding_activity_small"
