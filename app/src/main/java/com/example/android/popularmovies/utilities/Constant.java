@@ -118,4 +118,8 @@ public final class Constant {
     /** Constant used in GridSpacingItemDecoration */
     public static final int ONE = 1;
 
+    public static final String RESULTS_RUNTIME = "runtime";
+    public static final String RESULTS_RELEASE_YEAR = "release_year";
+    public static final String RESULTS_GENRE = "genre";
+
 }

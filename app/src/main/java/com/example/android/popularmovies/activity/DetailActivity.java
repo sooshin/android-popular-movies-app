@@ -70,6 +70,9 @@ import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_UR
 import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_BEGIN_INDEX;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_END_INDEX;
+import static com.example.android.popularmovies.utilities.Constant.RESULTS_GENRE;
+import static com.example.android.popularmovies.utilities.Constant.RESULTS_RELEASE_YEAR;
+import static com.example.android.popularmovies.utilities.Constant.RESULTS_RUNTIME;
 import static com.example.android.popularmovies.utilities.Constant.SHARE_INTENT_TYPE_TEXT;
 import static com.example.android.popularmovies.utilities.Constant.SHARE_URL;
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_BASE_URL;
@@ -154,6 +157,18 @@ public class DetailActivity extends AppCompatActivity implements
         // Setup the UI
         setupUI();
         callVideoResponse();
+
+        if (savedInstanceState != null) {
+            mDetailLoadingIndicator.setVisibility(View.GONE);
+
+            String resultRuntime = savedInstanceState.getString(RESULTS_RUNTIME);
+            String resultReleaseYear = savedInstanceState.getString(RESULTS_RELEASE_YEAR);
+            String resultGenre = savedInstanceState.getString(RESULTS_GENRE);
+
+            mRuntimeTextView.setText(resultRuntime);
+            mReleaseYearTextView.setText(resultReleaseYear);
+            mGenreTextView.setText(resultGenre);
+        }
     }
 
     /**
@@ -430,5 +445,19 @@ public class DetailActivity extends AppCompatActivity implements
                 .createChooserIntent();
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         return shareIntent;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String resultRuntime = mRuntimeTextView.getText().toString();
+        outState.putString(RESULTS_RUNTIME, resultRuntime);
+
+        String resultReleaseYear = mReleaseYearTextView.getText().toString();
+        outState.putString(RESULTS_RELEASE_YEAR, resultReleaseYear);
+
+        String resultGenre = mGenreTextView.getText().toString();
+        outState.putString(RESULTS_GENRE, resultGenre);
     }
 }
