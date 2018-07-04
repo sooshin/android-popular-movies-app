@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -64,6 +65,7 @@ import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_
 import static com.example.android.popularmovies.utilities.Constant.GRID_SPACING;
 import static com.example.android.popularmovies.utilities.Constant.GRID_SPAN_COUNT;
 import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
+import static com.example.android.popularmovies.utilities.Constant.LAYOUT_MANAGER_STATE;
 import static com.example.android.popularmovies.utilities.Constant.PAGE;
 import static com.example.android.popularmovies.utilities.Constant.REQUEST_CODE_DIALOG;
 import static com.example.android.popularmovies.utilities.Constant.RESPONSE_CODE_API_STATUS;
@@ -103,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** String for the sort criteria("most popular and highest rated") */
     private String mSortCriteria;
+
+    /** Member variable for restoring list items positions on device rotation */
+    private Parcelable mSavedLayoutState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +156,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         // Set column spacing to make each column have the same spacing
         setColumnSpacing();
+
+        if (savedInstanceState != null) {
+            // Get the scroll position
+            mSavedLayoutState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+            // Restore the scroll position
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+        }
     }
 
     /**
@@ -193,6 +205,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 List<Movie> movies = movieResponse.getMovieResults();
                 //  Add a list of Movies
                 mMovieAdapter.addAll(movies);
+                // Restore the scroll position after setting up the adapter with the list of movies
+                mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
             }
         } else if (response.code() == RESPONSE_CODE_API_STATUS) {
             // Display error message when API status code is equal to 401
@@ -407,5 +421,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Method for persisting data across Activity recreation
+     *
+     * Reference: @see "https://stackoverflow.com/questions/27816217/how-to-save-recyclerviews-scroll
+     * -position-using-recyclerview-state"
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Store the scroll position in our bundle
+        outState.putParcelable(LAYOUT_MANAGER_STATE,
+                mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 }

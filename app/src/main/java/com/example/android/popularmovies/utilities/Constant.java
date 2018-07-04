@@ -122,4 +122,7 @@ public final class Constant {
     public static final String RESULTS_RELEASE_YEAR = "release_year";
     public static final String RESULTS_GENRE = "genre";
 
+    /** Key for storing the scroll position in MainActivity */
+    public static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
+
 }
