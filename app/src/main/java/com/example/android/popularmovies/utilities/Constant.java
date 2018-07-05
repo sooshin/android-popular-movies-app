@@ -126,4 +126,7 @@ public final class Constant {
     public static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
 
     public static final String DATABASE_NAME = "favoritemovies";
+
+    /** The number of threads in the pool used in AppExecutors */
+    public static final int NUMBER_OF_THREADS_THREE = 3;
 }
