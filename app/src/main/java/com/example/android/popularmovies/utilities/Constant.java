@@ -125,4 +125,5 @@ public final class Constant {
     /** Key for storing the scroll position in MainActivity */
     public static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
 
+    public static final String DATABASE_NAME = "favoritemovies";
 }
