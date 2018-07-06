@@ -16,6 +16,8 @@
 
 package com.example.android.popularmovies.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -32,7 +35,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,35 +48,30 @@ import com.example.android.popularmovies.adapter.MovieAdapter.MovieAdapterOnClic
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
-import com.example.android.popularmovies.utilities.Controller;
+import com.example.android.popularmovies.utilities.InjectorUtils;
 import com.example.android.popularmovies.utilities.TheMovieApi;
+import com.example.android.popularmovies.viewmodel.MainActivityViewModel;
+import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.utilities.Constant.API_KEY;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_EDGE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_SPACING;
 import static com.example.android.popularmovies.utilities.Constant.GRID_SPAN_COUNT;
-import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 import static com.example.android.popularmovies.utilities.Constant.LAYOUT_MANAGER_STATE;
-import static com.example.android.popularmovies.utilities.Constant.PAGE;
 import static com.example.android.popularmovies.utilities.Constant.REQUEST_CODE_DIALOG;
-import static com.example.android.popularmovies.utilities.Constant.RESPONSE_CODE_API_STATUS;
 
 /**
  * The MainActivity displays the list of movies that appear as a grid of images
  */
 public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
-        Callback<MovieResponse>, SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -109,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Member variable for restoring list items positions on device rotation */
     private Parcelable mSavedLayoutState;
 
+    /** ViewModel for MainActivity */
+    private MainActivityViewModel mMainViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,11 +137,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
 
-        // The Retrofit class generates an implementation of the TheMovieApi interface.
-        Retrofit retrofit = Controller.getClient();
-        mMovieApi = retrofit.create(TheMovieApi.class);
-        // Make a network request by calling enqueue
-        callMovieResponse();
+        // Get the sort criteria currently set in Preferences
+        mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
+        setupViewModel(mSortCriteria);
 
         // Register MainActivity as an OnPreferenceChangedListener to receive a callback when a
         // SharedPreference has changed. Please note that we must unregister MainActivity as an
@@ -149,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
-        // The MainActivity has implemented the callback interface
-        mMovieResponseCallback = this;
         // Set the color scheme of the SwipeRefreshLayout and setup OnRefreshListener
         setSwipeRefreshLayout();
 
@@ -165,82 +161,32 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         }
     }
 
-    /**
-     * Makes a network request by calling enqueue
-     */
-    private void callMovieResponse() {
-        // Get the sort criteria currently set in Preferences
-        mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
+    private void setupViewModel(String sortCriteria) {
+        MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(
+                MainActivity.this, sortCriteria);
+        mMainViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
 
-        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-        // to the remote web server. Send Request:
-        // https://api.themoviedb.org/3/movie/{sort_criteria}?api_key={API_KEY}&language=en-US&page=1
-        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+        mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
+            @Override
+            public void onChanged(@Nullable MovieResponse movieResponse) {
+                if (movieResponse != null) {
+                    // Get the list of movies
+                    List<Movie> movies = movieResponse.getMovieResults();
+                    //  Add a list of Movies
+                    mMovieAdapter.addAll(movies);
+                    // Restore the scroll position after setting up the adapter with the list of movies
+                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                }
 
-        // Show the loading indicator before calls are executed
-        mLoadingIndicator.setVisibility(View.VISIBLE);
-
-        // Calls are executed with asynchronously with enqueue and notify callback of its response
-        call.enqueue(this);
-    }
-
-    /**
-     * Invoked for a received HTTP response.
-     */
-    @Override
-    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-        // Hide the loading indicator
-        mLoadingIndicator.setVisibility(View.GONE);
-
-        // Hide refresh progress
-        mSwipeRefreshLayout.setRefreshing(false);
-
-        if (response.isSuccessful()) {
-            // Make movie data visible and hide error message
-            showMovieDataView();
-
-            MovieResponse movieResponse = response.body();
-            if (movieResponse != null) {
-                // Get the list of movies
-                List<Movie> movies = movieResponse.getMovieResults();
-                //  Add a list of Movies
-                mMovieAdapter.addAll(movies);
-                // Restore the scroll position after setting up the adapter with the list of movies
-                mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                // Show the movie list or the loading screen based on whether the movie data exists
+                // and is loaded
+                if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
+                    hideLoadingAndRefresh();
+                } else {
+                    showLoading();
+                }
             }
-        } else if (response.code() == RESPONSE_CODE_API_STATUS) {
-            // Display error message when API status code is equal to 401
-            Log.e(TAG, "Invalid Api key. Response code: " + response.code());
-            mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText(getString(R.string.error_message_api_key));
-        } else {
-            Log.e(TAG, "Response Code: " + response.code());
-            mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText(getString(R.string.error_message_failed));
-        }
-    }
-
-    /**
-     * Invoked when a network exception occurred talking to the server or when an unexpected exception
-     * occurred creating the request or processing the response.
-     */
-    @Override
-    public void onFailure(Call<MovieResponse> call, Throwable t) {
-        // Hide the loading indicator
-        mLoadingIndicator.setVisibility(View.GONE);
-
-        // Hide refresh progress
-        mSwipeRefreshLayout.setRefreshing(false);
-
-        if (!isOnline()) {
-            // When there is no internet connection, display offline message
-            showOfflineMessage();
-            Log.e(TAG, "onFailure, offline: " + t.getMessage());
-        } else {
-            // When an error occurred, display error message
-            showErrorMessage();
-            Log.e(TAG, "onFailure: " + t.getMessage());
-        }
+        });
     }
 
     /**
@@ -253,10 +199,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             mSortCriteria = sharedPreferences.getString(key, getString(R.string.pref_sort_by_default));
         }
 
-        // When SharedPreference changes, make a network request again
-        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
-        // Calls are executed with asynchronously with enqueue and notify callback of its response
-        call.enqueue(this);
+//        // When SharedPreference changes, make a network request again
+//        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
+//        // Calls are executed with asynchronously with enqueue and notify callback of its response
+//        call.enqueue(this);
+        // ToDo:
     }
 
     @Override
@@ -307,9 +254,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 showMovieDataView();
 
                 // When refreshing, make a network request again
-                Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
-                call.enqueue(mMovieResponseCallback);
+                // ToDo:
 
+                hideLoadingAndRefresh();
                 // Show snack bar message
                 Snackbar.make(mRecyclerView, getString(R.string.snackbar_updated), Snackbar.LENGTH_SHORT).show();
             }
@@ -435,5 +382,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Store the scroll position in our bundle
         outState.putParcelable(LAYOUT_MANAGER_STATE,
                 mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    private void showLoading() {
+        // First, hide the movie data
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        // Then, show the loading indicator
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingAndRefresh() {
+        // First, hide the loading indicator
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        // Hide refresh progress
+        mSwipeRefreshLayout.setRefreshing(false);
+        // Then, make sure the movie data is visible
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 }
