@@ -17,13 +17,15 @@
 package com.example.android.popularmovies.fragment;
 
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +37,10 @@ import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Crew;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
-import com.example.android.popularmovies.utilities.Controller;
 import com.example.android.popularmovies.utilities.FormatUtils;
-import com.example.android.popularmovies.utilities.TheMovieApi;
+import com.example.android.popularmovies.utilities.InjectorUtils;
+import com.example.android.popularmovies.viewmodel.InfoViewModel;
+import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,20 +48,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.utilities.Constant.API_KEY;
-import static com.example.android.popularmovies.utilities.Constant.CREDITS;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
-import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 
 /**
  * The InformationFragment displays information for the selected movie.
  */
-public class InformationFragment extends Fragment implements Callback<MovieDetails> {
+public class InformationFragment extends Fragment {
 
     /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity.
      *  The callback is a method named onInformationSelected(MovieDetails movieDetails) that contains
@@ -100,10 +96,97 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
     /** Member variable for the Movie object */
     private Movie mMovie;
 
+    /** ViewModel for InformationFragment */
+    private InfoViewModel mInfoViewModel;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
      */
     public InformationFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Get movie data from the MainActivity
+        mMovie = getMovieData();
+
+        // Observe the data and update the UI
+        setupViewModel(this.getActivity(), mMovie.getId());
+
+        // display the overview, vote average, release date of the movie.
+        loadDetails();
+    }
+
+    /**
+     * Every time the user data is updated, the onChanged callback will be invoked and update the UI
+     */
+    private void setupViewModel(Context context, int movieId) {
+        InfoViewModelFactory factory = InjectorUtils.provideInfoViewModelFactory(context, movieId);
+        mInfoViewModel = ViewModelProviders.of(this, factory).get(InfoViewModel.class);
+
+        // Retrieve live data object using the getMovieDetails() method from the ViewModel
+        mInfoViewModel.getMovieDetails().observe(this, new Observer<MovieDetails>() {
+            @Override
+            public void onChanged(@Nullable MovieDetails movieDetails) {
+                if (movieDetails != null) {
+                    // Trigger the callback onInformationSelected
+                    mCallback.onInformationSelected(movieDetails);
+
+                    // Get the budget, revenue, vote count, status
+                    long budget = movieDetails.getBudget();
+                    long revenue = movieDetails.getRevenue();
+                    int voteCount = movieDetails.getVoteCount();
+                    String status = movieDetails.getStatus();
+
+                    // Get the cast for a movie
+                    Credits credits = movieDetails.getCredits();
+                    List<Cast> castList = credits.getCast();
+                    // Create an empty ArrayList
+                    List<String> castStrList = new ArrayList<>();
+                    // Go through all the casts, and add the cast name to the list of strings
+                    for (int i = 0; i < castList.size(); i++) {
+                        Cast cast = castList.get(i);
+                        // Get the cast name
+                        String castName = cast.getName();
+                        // Add the cast name to the list of strings
+                        castStrList.add(castName);
+                    }
+
+                    // Get the Activity the InformationFragment is currently associated with
+                    Activity activity = getActivity();
+                    // Check if the Activity is not null to avoid IllegalStateException: InformationFragment
+                    // not attached to a context.
+                    // @see "https://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-
+                    // fragment-not-attached-to-activity"
+                    if (activity != null) {
+                        // Join a string using a delimiter
+                        String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
+                        // Display the list of cast name
+                        mCastTextView.setText(castStr);
+
+                        // Display director of the movie
+                        List<Crew> crewList = credits.getCrew();
+                        for (int i = 0; i < crewList.size(); i++) {
+                            Crew crew = crewList.get(i);
+                            // if job is "director", set the director's name to the TextView
+                            if (crew.getJob().equals(getString(R.string.director))) {
+                                mDirectorTextView.setText(crew.getName());
+                                break;
+                            }
+                        }
+
+                        // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
+                        // to format the integer number
+                        mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
+                        mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
+                        mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
+                        mStatusTextView.setText(status);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -113,6 +196,13 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         // Bind the view using ButterKnife
         mUnbinder = ButterKnife.bind(this, rootView);
 
+        return rootView;
+    }
+
+    /**
+     * Gets movie data from the MainActivity.
+     */
+    private Movie getMovieData() {
         // Store the Intent
         Intent intent = getActivity().getIntent();
         // Check if the Intent is not null, and has the extra we passed from MainActivity
@@ -124,29 +214,7 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
                 mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
-        // Makes a network request
-        callMovieDetails();
-        // display the overview, vote average, release date of the movie.
-        loadDetails();
-        return rootView;
-    }
-
-    /**
-     * Makes a network request by calling enqueue
-     */
-    private void callMovieDetails() {
-        // The Retrofit class generates an implementation of the TheMovieApi interface.
-        Retrofit retrofit = Controller.getClient();
-        TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
-
-        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-        // to the remote web server. Send Request:
-        // https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US&append_to_response=credits
-        Call<MovieDetails> callDetails = theMovieApi.getDetails(
-                mMovie.getId(), API_KEY, LANGUAGE, CREDITS);
-
-        // Calls are executed with asynchronously with enqueue and notify callback of its response
-        callDetails.enqueue(this);
+        return mMovie;
     }
 
     /**
@@ -162,81 +230,6 @@ public class InformationFragment extends Fragment implements Callback<MovieDetai
         mOriginalTitleTextView.setText(mMovie.getOriginalTitle());
         // Display the release date of the movie
         mReleaseDateTextView.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
-    }
-
-    /**
-     * Invoked for a received HTTP response.
-     */
-    @Override
-    public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-        if (response.isSuccessful()) {
-            MovieDetails movieDetails = response.body();
-            if (movieDetails != null) {
-                // Trigger the callback onInformationSelected
-                mCallback.onInformationSelected(movieDetails);
-
-                // Get the budget, revenue, vote count, status
-                long budget = movieDetails.getBudget();
-                long revenue = movieDetails.getRevenue();
-                int voteCount = movieDetails.getVoteCount();
-                String status = movieDetails.getStatus();
-
-                // Get the cast for a movie
-                Credits credits = movieDetails.getCredits();
-                List<Cast> castList = credits.getCast();
-                // Create an empty ArrayList
-                List<String> castStrList = new ArrayList<>();
-                // Go through all the casts, and add the cast name to the list of strings
-                for (int i = 0; i < castList.size(); i++) {
-                    Cast cast = castList.get(i);
-                    // Get the cast name
-                    String castName = cast.getName();
-                    // Add the cast name to the list of strings
-                    castStrList.add(castName);
-                }
-
-                // Get the Activity the InformationFragment is currently associated with
-                Activity activity = getActivity();
-                // Check if the Activity is not null to avoid IllegalStateException: InformationFragment
-                // not attached to a context.
-                // @see "https://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-
-                // fragment-not-attached-to-activity"
-                if (activity != null) {
-                    // Join a string using a delimiter
-                    String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
-                    // Display the list of cast name
-                    mCastTextView.setText(castStr);
-
-                    // Display director of the movie
-                    List<Crew> crewList = credits.getCrew();
-                    for (int i = 0; i < crewList.size(); i++) {
-                        Crew crew = crewList.get(i);
-                        // if job is "director", set the director's name to the TextView
-                        if (crew.getJob().equals(getString(R.string.director))) {
-                            mDirectorTextView.setText(crew.getName());
-                            break;
-                        }
-                    }
-
-                    // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
-                    // to format the integer number
-                    mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
-                    mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
-                    mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
-                    mStatusTextView.setText(status);
-                }
-            }
-        }
-    }
-
-    /**
-     * Invoked when a network exception occurred talking to the server or when an unexpected exception
-     * occurred creating the request or processing the response.
-     */
-    @Override
-    public void onFailure(Call<MovieDetails> call, Throwable t) {
-        t.printStackTrace();
-        Log.e(TAG, "failure: " + t.getMessage());
     }
 
     /**

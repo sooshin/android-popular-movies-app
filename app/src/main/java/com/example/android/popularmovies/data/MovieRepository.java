@@ -131,6 +131,7 @@ public class MovieRepository {
                     @Override
                     public void onFailure(Call<MovieDetails> call, Throwable t) {
                         movieDetailsData.setValue(null);
+                        Log.e(TAG, "Failed getting MovieDetails: " + t.getMessage());
                     }
                 });
         return movieDetailsData;
