@@ -16,6 +16,7 @@
 
 package com.example.android.popularmovies.activity;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 //        // Calls are executed with asynchronously with enqueue and notify callback of its response
 //        call.enqueue(this);
         // ToDo:
+        makeNetworkRequest();
     }
 
     @Override
@@ -255,12 +257,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
                 // When refreshing, make a network request again
                 // ToDo:
+                makeNetworkRequest();
 
                 hideLoadingAndRefresh();
                 // Show snack bar message
                 Snackbar.make(mRecyclerView, getString(R.string.snackbar_updated), Snackbar.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void makeNetworkRequest() {
+        LiveData<MovieResponse> movieResponseLiveData = mMainViewModel.getMovieResponse();
+        MovieResponse movieResponse = movieResponseLiveData.getValue();
+        if (movieResponse != null) {
+            // Get the list of movies
+            List<Movie> movies = movieResponse.getMovieResults();
+            //  Add a list of Movies
+            mMovieAdapter.addAll(movies);
+        }
     }
 
     /**
