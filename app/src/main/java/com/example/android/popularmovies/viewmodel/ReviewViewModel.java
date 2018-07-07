@@ -27,14 +27,14 @@ import com.example.android.popularmovies.model.ReviewResponse;
  */
 public class ReviewViewModel extends ViewModel {
     private final MovieRepository mRepository;
-    private final LiveData<ReviewResponse> mMovieResponse;
+    private final LiveData<ReviewResponse> mReviewResponse;
 
     public ReviewViewModel (MovieRepository repository, int movieId) {
         mRepository = repository;
-        mMovieResponse = mRepository.getReviewResponse(movieId);
+        mReviewResponse = mRepository.getReviewResponse(movieId);
     }
 
     public LiveData<ReviewResponse> getReviewResponse() {
-        return mMovieResponse;
+        return mReviewResponse;
     }
 }
