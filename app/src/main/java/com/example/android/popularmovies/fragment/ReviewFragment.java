@@ -16,14 +16,17 @@
 
 package com.example.android.popularmovies.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +37,9 @@ import com.example.android.popularmovies.adapter.ReviewAdapter;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.ReviewResponse;
-import com.example.android.popularmovies.utilities.Controller;
-import com.example.android.popularmovies.utilities.TheMovieApi;
+import com.example.android.popularmovies.utilities.InjectorUtils;
+import com.example.android.popularmovies.viewmodel.ReviewViewModel;
+import com.example.android.popularmovies.viewmodel.ReviewViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +47,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.utilities.Constant.API_KEY;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
-import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
-import static com.example.android.popularmovies.utilities.Constant.PAGE;
 
-public class ReviewFragment extends Fragment implements
-        Callback<ReviewResponse>, ReviewAdapter.ReviewAdapterOnClickHandler {
+public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = ReviewFragment.class.getSimpleName();
@@ -78,6 +74,9 @@ public class ReviewFragment extends Fragment implements
     /** Member variable for the Movie object */
     private Movie mMovie;
 
+    /** ViewModel for ReviewFragment */
+    private ReviewViewModel mReviewViewModel;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
      */
@@ -85,11 +84,8 @@ public class ReviewFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_review, container, false);
-
-        // Bind the view using ButterKnife
-        mUnbinder = ButterKnife.bind(this, rootView);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // Store the Intent
         Intent intent = getActivity().getIntent();
@@ -102,6 +98,42 @@ public class ReviewFragment extends Fragment implements
                 mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
+
+        // Observe the data and update the UI
+        setupViewModel(this.getActivity());
+    }
+
+    /**
+     * Every time the user data is updated, the onChanged callback will be invoked and update the UI
+     */
+    private void setupViewModel(Context context) {
+        ReviewViewModelFactory factory = InjectorUtils.provideReviewViewModelFactory(context, mMovie.getId());
+        mReviewViewModel = ViewModelProviders.of(this, factory).get(ReviewViewModel.class);
+
+        mReviewViewModel.getReviewResponse().observe(this, new Observer<ReviewResponse>() {
+            @Override
+            public void onChanged(@Nullable ReviewResponse reviewResponse) {
+                if (reviewResponse != null) {
+                    // Get the list of reviews
+                    mReviews = reviewResponse.getReviewResults();
+                    reviewResponse.setReviewResults(mReviews);
+                    if (!mReviews.isEmpty()) {
+                        mReviewAdapter.addAll(mReviews);
+                    } else {
+                        // If there are no reviews, show a message that says no reviews found
+                        showNoReviewsMessage();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_review, container, false);
+
+        // Bind the view using ButterKnife
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         // A LinearLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a linear list.
@@ -117,56 +149,7 @@ public class ReviewFragment extends Fragment implements
         // Set ReviewAdapter on RecyclerView
         mRecyclerView.setAdapter(mReviewAdapter);
 
-        callMovieReviews();
         return rootView;
-    }
-
-    /**
-     * Makes a network request by calling enqueue
-     */
-    private void callMovieReviews() {
-        // The Retrofit class generates an implementation of the TheMovieApi interface.
-        Retrofit retrofit = Controller.getClient();
-        TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
-
-        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-        // to the remote web server. Send Request:
-        // https://api.themoviedb.org/3/movie/{id}/reviews?api_key={API_KEY}&language=en-US&page=1
-        Call<ReviewResponse> callReviewResponse = theMovieApi.getReviews(
-                mMovie.getId(), API_KEY, LANGUAGE, PAGE);
-
-        // Calls are executed with asynchronously with enqueue and notify callback of its response
-        callReviewResponse.enqueue(this);
-    }
-
-    /**
-     * Invoked for a received HTTP response.
-     */
-    @Override
-    public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
-        if(response.isSuccessful()) {
-            ReviewResponse reviewResponse = response.body();
-            if (reviewResponse != null) {
-                // Get the list of reviews
-                mReviews = reviewResponse.getReviewResults();
-                reviewResponse.setReviewResults(mReviews);
-                if (!mReviews.isEmpty()) {
-                    mReviewAdapter.addAll(mReviews);
-                } else {
-                    // If there are no reviews, show a message that says no reviews found
-                    showNoReviewsMessage();
-                }
-            }
-        }
-    }
-
-    /**
-     * Invoked when a network exception occurred talking to the server or when an unexpected exception
-     * occurred creating the request or processing the response.
-     */
-    @Override
-    public void onFailure(Call<ReviewResponse> call, Throwable t) {
-        Log.e(TAG, "onFailure: " + t.getMessage());
     }
 
     /**

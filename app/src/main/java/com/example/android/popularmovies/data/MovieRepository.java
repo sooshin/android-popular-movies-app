@@ -148,6 +148,9 @@ public class MovieRepository {
         // https://api.themoviedb.org/3/movie/{id}/reviews?api_key={API_KEY}&language=en-US&page=1
         mTheMovieApi.getReviews(movieId, API_KEY, LANGUAGE, PAGE)
                 .enqueue(new Callback<ReviewResponse>() {
+                    /**
+                     * Invoked for a received HTTP response.
+                     */
                     @Override
                     public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
                         if (response.isSuccessful()) {
@@ -156,9 +159,14 @@ public class MovieRepository {
                         }
                     }
 
+                    /**
+                     * Invoked when a network exception occurred talking to the server or when an unexpected exception
+                     * occurred creating the request or processing the response.
+                     */
                     @Override
                     public void onFailure(Call<ReviewResponse> call, Throwable t) {
                         reviewResponseData.setValue(null);
+                        Log.e(TAG, "Failed getting ReviewResponse: " + t.getMessage());
                     }
                 });
         return reviewResponseData;
