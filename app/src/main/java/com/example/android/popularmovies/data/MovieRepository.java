@@ -195,6 +195,7 @@ public class MovieRepository {
                     @Override
                     public void onFailure(Call<VideoResponse> call, Throwable t) {
                         videoResponseData.setValue(null);
+                        Log.e(TAG, "Failed getting VideoResponse: " + t.getMessage());
                     }
                 });
         return videoResponseData;

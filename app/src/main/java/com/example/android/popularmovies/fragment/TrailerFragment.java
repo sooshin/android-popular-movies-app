@@ -16,14 +16,17 @@
 
 package com.example.android.popularmovies.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +37,9 @@ import com.example.android.popularmovies.adapter.TrailerAdapter;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.model.VideoResponse;
-import com.example.android.popularmovies.utilities.Controller;
-import com.example.android.popularmovies.utilities.TheMovieApi;
+import com.example.android.popularmovies.utilities.InjectorUtils;
+import com.example.android.popularmovies.viewmodel.TrailerViewModel;
+import com.example.android.popularmovies.viewmodel.TrailerViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +47,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
-import static com.example.android.popularmovies.utilities.Constant.API_KEY;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
-import static com.example.android.popularmovies.utilities.Constant.LANGUAGE;
 
-public class TrailerFragment extends Fragment implements Callback<VideoResponse>, TrailerAdapter.TrailerAdapterOnClickHandler {
+public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = TrailerFragment.class.getSimpleName();
@@ -75,10 +73,47 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
     @BindView(R.id.tv_no_trailers)
     TextView mNoTrailersTextView;
 
+    /** ViewModel for TrailerFragment */
+    private TrailerViewModel mTrailerViewModel;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
      */
     public TrailerFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Get movie data from the MainActivity
+        mMovie = getMovieData();
+
+        // Observe the data and update the UI
+        setupViewModel(this.getActivity(), mMovie.getId());
+    }
+
+    /**
+     * Every time the user data is updated, the onChanged callback will be invoked and update the UI
+     */
+    private void setupViewModel(Context context, int movieId) {
+        TrailerViewModelFactory factory = InjectorUtils.provideTrailerViewModelFactory(context, movieId);
+        mTrailerViewModel = ViewModelProviders.of(this, factory).get(TrailerViewModel.class);
+
+        // Retrieve live data object using the getVideoResponse() method from the ViewModel
+        mTrailerViewModel.getVideoResponse().observe(this, new Observer<VideoResponse>() {
+            @Override
+            public void onChanged(@Nullable VideoResponse videoResponse) {
+                if (videoResponse != null) {
+                    mVideos = videoResponse.getVideoResults();
+                    videoResponse.setVideoResults(mVideos);
+
+                    if (!mVideos.isEmpty()) {
+                        mTrailerAdapter.addAll(mVideos);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -87,9 +122,6 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
 
         // Bind the view using ButterKnife
         mUnbinder = ButterKnife.bind(this, rootView);
-
-        // Get movie data from the MainActivity
-        getMovieData();
 
         // A LinearLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a linear list.
@@ -105,14 +137,13 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
         // Set TrailerAdapter on RecyclerView
         mRecyclerView.setAdapter(mTrailerAdapter);
 
-        callMovieTrailers();
         return rootView;
     }
 
     /**
      * Gets movie data from the MainActivity.
      */
-    private void getMovieData() {
+    private Movie getMovieData() {
         // Store the Intent
         Intent intent = getActivity().getIntent();
         // Check if the Intent is not null, and has the extra we passed from MainActivity
@@ -124,47 +155,7 @@ public class TrailerFragment extends Fragment implements Callback<VideoResponse>
                 mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
-    }
-
-    /**
-     * Makes a network request by calling enqueue
-     */
-    private void callMovieTrailers() {
-        // The Retrofit class generates an implementation of the TheMovieApi interface.
-        Retrofit retrofit = Controller.getClient();
-        TheMovieApi theMovieApi = retrofit.create(TheMovieApi.class);
-
-        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-        // to the remote web server. Send Request:
-        // https://api.themoviedb.org/3/movie/{id}/videos?api_key={API_KEY}&language=en-US
-        Call<VideoResponse> callVideoResponse = theMovieApi.getVideos(
-                mMovie.getId(), API_KEY, LANGUAGE);
-
-        // Calls are executed with asynchronously with enqueue and notify callback of its response
-        callVideoResponse.enqueue(this);
-    }
-
-    /**
-     * Invoked for a received HTTP response.
-     */
-    @Override
-    public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
-        if (response.isSuccessful()) {
-            VideoResponse videoResponse = response.body();
-            if (videoResponse != null) {
-                mVideos = videoResponse.getVideoResults();
-                videoResponse.setVideoResults(mVideos);
-
-                if (!mVideos.isEmpty()) {
-                    mTrailerAdapter.addAll(mVideos);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<VideoResponse> call, Throwable t) {
-        Log.e(TAG, "onFailure: " + t.getMessage());
+        return mMovie;
     }
 
     /**
