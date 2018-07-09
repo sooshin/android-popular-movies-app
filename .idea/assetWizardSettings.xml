@@ -14,9 +14,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="comment" />
+                            <entry key="outputName" value="favorite_border" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\downloads-d\comment.svg" />
+                            <entry key="sourceFile" value="D:\downloads-d\favorite_border.svg" />
                           </map>
                         </option>
                       </PersistentState>
