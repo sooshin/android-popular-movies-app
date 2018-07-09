@@ -43,4 +43,7 @@
     <color name="color_indicator">#8bc34a</color>
     <color name="color_tab_selected_text">#8bc34a</color>
     <color name="color_tab_text">#c1d5e0</color>
+
+    <!-- Color for the fab -->
+    <color name="color_fab">#ff1744</color>
 </resources>
