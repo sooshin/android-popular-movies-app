@@ -21,6 +21,7 @@ import android.content.Context;
 import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieRepository;
+import com.example.android.popularmovies.viewmodel.FavViewModelFactory;
 import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 import com.example.android.popularmovies.viewmodel.ReviewViewModelFactory;
@@ -57,5 +58,10 @@ public class InjectorUtils {
     public static TrailerViewModelFactory provideTrailerViewModelFactory(Context context, int movieId) {
         MovieRepository repository = provideRepository(context.getApplicationContext());
         return new TrailerViewModelFactory(repository, movieId);
+    }
+
+    public static FavViewModelFactory provideFavViewModelFactory(Context context, int movieId) {
+        MovieRepository repository = provideRepository(context.getApplicationContext());
+        return new FavViewModelFactory(repository, movieId);
     }
 }

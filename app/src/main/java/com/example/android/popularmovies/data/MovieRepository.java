@@ -208,4 +208,8 @@ public class MovieRepository {
     public LiveData<List<MovieEntry>> getFavoriteMovies() {
         return mMovieDao.loadAllMovies();
     }
+
+    public LiveData<MovieEntry> getFavoriteMovieByMovieId(int movieId) {
+        return mMovieDao.loadMovieByMovieId(movieId);
+    }
 }
