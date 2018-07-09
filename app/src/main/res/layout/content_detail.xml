@@ -31,4 +31,10 @@
 
     </android.support.v4.view.ViewPager>
 
+    <!-- This container holds the CastFragment -->
+    <FrameLayout
+        android:id="@+id/cast_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </android.support.constraint.ConstraintLayout>
