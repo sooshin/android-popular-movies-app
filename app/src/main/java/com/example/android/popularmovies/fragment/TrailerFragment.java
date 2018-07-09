@@ -52,6 +52,15 @@ import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
 public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerAdapterOnClickHandler {
 
+    /** Define a new interface OnTrailerSelectedListener that triggers a Callback in the host activity.
+     *  The callback is a method named onTrailerSelected(Video video) that contains the first trailer
+     */
+    TrailerFragment.OnTrailerSelectedListener mCallback;
+
+    public interface OnTrailerSelectedListener {
+        void onTrailerSelected(Video video);
+    }
+
     /** Tag for a log message */
     private static final String TAG = TrailerFragment.class.getSimpleName();
 
@@ -108,6 +117,10 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
                     mVideos = videoResponse.getVideoResults();
                     videoResponse.setVideoResults(mVideos);
 
+                    // Trigger the callback onTrailerSelected
+                    // to transfer the first trailer from TrailerFragment to DetailActivity
+                    mCallback.onTrailerSelected(mVideos.get(0));
+
                     if (!mVideos.isEmpty()) {
                         mTrailerAdapter.addAll(mVideos);
                     }
@@ -156,6 +169,20 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
             }
         }
         return mMovie;
+    }
+
+    /**
+     * Override onAttach to make sure that the container activity has implemented the callback
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnTrailerSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnTrailerSelectedListener");
+        }
     }
 
     /**
