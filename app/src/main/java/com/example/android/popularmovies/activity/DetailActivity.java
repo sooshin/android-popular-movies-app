@@ -16,11 +16,18 @@
 
 package com.example.android.popularmovies.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,8 +44,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.DetailPagerAdapter;
+import com.example.android.popularmovies.data.MovieDatabase;
+import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.fragment.TrailerFragment;
@@ -47,13 +57,18 @@ import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utilities.FormatUtils;
+import com.example.android.popularmovies.utilities.InjectorUtils;
+import com.example.android.popularmovies.viewmodel.FavViewModel;
+import com.example.android.popularmovies.viewmodel.FavViewModelFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
@@ -121,6 +136,26 @@ public class DetailActivity extends AppCompatActivity implements
     @BindView(R.id.iv_play_circle)
     ImageView mPlayCircleImageView;
 
+    /** Floating action button to allow the user to favorite or unfavorite a movie */
+    @BindView(R.id.fab)
+    FloatingActionButton mFavoriteFab;
+
+    /** CoordinateLayout that holds view of the snackbar */
+    @BindView(R.id.coordinator)
+    CoordinatorLayout mCoordinatorLayout;
+
+    /** ViewModel for Favorites */
+    private FavViewModel mFavViewModel;
+
+    /** True when the movie is in favorites collection, otherwise false */
+    private boolean mIsInFavorites;
+
+    /** Member variable for the MovieDatabase*/
+    private MovieDatabase mDb;
+
+    /** Member variable for the MovieEntry */
+    private MovieEntry mMovieEntry;
+
     /** Movie object */
     private Movie mMovie;
 
@@ -144,6 +179,11 @@ public class DetailActivity extends AppCompatActivity implements
                 mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
+
+        // Get the MovieDatabase instance
+        mDb = MovieDatabase.getInstance(getApplicationContext());
+        // Check if the movie is in the favorites collection or not
+        mIsInFavorites = isInFavoritesCollection();
 
         // Setup the UI
         setupUI();
@@ -189,6 +229,96 @@ public class DetailActivity extends AppCompatActivity implements
         mDetailLoadingIndicator.setVisibility(View.VISIBLE);
         // Get the FragmentManager for interacting with fragments associated with DetailActivity
         mFragmentManager = getSupportFragmentManager();
+    }
+
+    /**
+     * This method is called when the fab button is clicked.
+     * If the movie is not in the favorites collection, insert the movie data into the database.
+     * Otherwise, delete the movie data from the database
+     */
+    @OnClick(R.id.fab)
+    public void onFavoriteClick() {
+        // Create a new MovieEntry
+        mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getTitle(), new Date());
+
+        if (!mIsInFavorites) {
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Insert a movie to the MovieDatabase by using the movieDao
+                    mDb.movieDao().insertMovie(mMovieEntry);
+                }
+            });
+
+            // Show snack bar message "Added to your favorites collection"
+            showSnackbarAdded();
+        } else {
+            mMovieEntry = mFavViewModel.getMovieEntry().getValue();
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Delete a movie from the MovieDatabase by using the movieDao
+                    mDb.movieDao().deleteMovie(mMovieEntry);
+                }
+            });
+
+            // Show snack bar message "Removed from your favorites collection"
+            showSnackbarRemoved();
+        }
+    }
+
+    /**
+     * Return true and set a favoriteFab image to full heart image if the movie is in favorites collection.
+     * Otherwise return false and set favoriteFab image to border heart image.
+     */
+    private boolean isInFavoritesCollection() {
+        FavViewModelFactory factory = InjectorUtils.provideFavViewModelFactory(
+                DetailActivity.this, mMovie.getId());
+        mFavViewModel = ViewModelProviders.of(this, factory).get(FavViewModel.class);
+
+        mFavViewModel.getMovieEntry().observe(this, new Observer<MovieEntry>() {
+            @Override
+            public void onChanged(@Nullable MovieEntry movieEntry) {
+                if (mFavViewModel.getMovieEntry().getValue() == null) {
+                    mFavoriteFab.setImageResource(R.drawable.favorite_border);
+                    mIsInFavorites = false;
+                } else {
+                    mFavoriteFab.setImageResource(R.drawable.favorite);
+                    mIsInFavorites = true;
+                }
+            }
+        });
+        return mIsInFavorites;
+    }
+
+    /**
+     * Show a snackbar message when a movie added to MovieDatabase
+     *
+     * Reference: @see "https://stackoverflow.com/questions/34020891/how-to-change-background-color-of-the-snackbar"
+     */
+    private void showSnackbarAdded() {
+        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, R.string.snackbar_added, Snackbar.LENGTH_SHORT);
+        // Set background color of the snackbar
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.WHITE);
+        // Set text color of the snackbar
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.BLACK);
+        snackbar.show();
+    }
+
+    /**
+     * Show a snackbar message when a movie removed from MovieDatbase
+     */
+    private void showSnackbarRemoved() {
+        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, R.string.snackbar_removed, Snackbar.LENGTH_SHORT);
+        // Set background color of the snackbar
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.WHITE);
+        // Set background color of the snackbar
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.BLACK);
+        snackbar.show();
     }
 
     @Override
