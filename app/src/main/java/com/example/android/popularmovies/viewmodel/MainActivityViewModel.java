@@ -28,7 +28,7 @@ import com.example.android.popularmovies.model.MovieResponse;
 public class MainActivityViewModel extends ViewModel {
 
     private final MovieRepository mRepository;
-    private final LiveData<MovieResponse> mMovieResponse;
+    private LiveData<MovieResponse> mMovieResponse;
 
     public MainActivityViewModel(MovieRepository repository, String sortCriteria) {
         mRepository = repository;
@@ -37,5 +37,9 @@ public class MainActivityViewModel extends ViewModel {
 
     public LiveData<MovieResponse> getMovieResponse() {
         return mMovieResponse;
+    }
+
+    public void setMovieResponse(String sortCriteria) {
+        mMovieResponse = mRepository.getMovies(sortCriteria);
     }
 }

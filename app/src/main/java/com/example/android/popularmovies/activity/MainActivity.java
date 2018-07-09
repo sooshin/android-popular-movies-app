@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(
                 MainActivity.this, sortCriteria);
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
-
+        mMainViewModel.setMovieResponse(sortCriteria);
         mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
             @Override
             public void onChanged(@Nullable MovieResponse movieResponse) {
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 //        // Calls are executed with asynchronously with enqueue and notify callback of its response
 //        call.enqueue(this);
         // ToDo:
-        makeNetworkRequest();
+        setupViewModel(mSortCriteria);
     }
 
     @Override
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
                 // When refreshing, make a network request again
                 // ToDo:
-                makeNetworkRequest();
+                setupViewModel(mSortCriteria);
 
                 hideLoadingAndRefresh();
                 // Show snack bar message
