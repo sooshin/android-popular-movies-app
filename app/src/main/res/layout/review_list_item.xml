@@ -34,6 +34,9 @@
             <TextView
                 android:id="@+id/tv_review_author"
                 style="@style/OverviewLabelStyle"
+                android:drawablePadding="@dimen/padding_activity_small"
+                android:drawableLeft="@drawable/face"
+                android:drawableStart="@drawable/face"
                 tools:text="review author" />
 
             <TextView
