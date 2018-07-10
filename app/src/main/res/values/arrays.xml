@@ -22,6 +22,7 @@
         <item>@string/pref_sort_by_label_top_rated</item>
         <item>@string/pref_sort_by_label_now_playing</item>
         <item>@string/pref_sort_by_label_upcoming</item>
+        <item>@string/pref_sort_by_label_favorites</item>
     </string-array>
 
     <string-array name="pref_sort_by_values">
@@ -29,5 +30,6 @@
         <item>@string/pref_sort_by_top_rated</item>
         <item>@string/pref_sort_by_now_playing</item>
         <item>@string/pref_sort_by_upcoming</item>
+        <item>@string/pref_sort_by_favorites</item>
     </string-array>
 </resources>

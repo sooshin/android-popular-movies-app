@@ -107,6 +107,9 @@
     <!-- Label for upcoming option in sort by preference -->
     <string name="pref_sort_by_label_upcoming">Upcoming</string>
 
+    <!-- Label for favorites option in sort by preference -->
+    <string name="pref_sort_by_label_favorites">Favorites</string>
+
     <!-- Value in SharedPreferences for popular option -->
     <string name="pref_sort_by_popular" translatable="false">popular</string>
 
@@ -118,5 +121,8 @@
 
     <!-- Value in SharedPreferences for upcoming option -->
     <string name="pref_sort_by_upcoming" translatable="false">upcoming</string>
+
+    <!-- Value in SharedPreferences for favorites option -->
+    <string name="pref_sort_by_favorites" translatable="false">favorites</string>
 
 </resources>
