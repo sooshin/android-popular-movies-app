@@ -71,6 +71,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
+import static com.example.android.popularmovies.utilities.Constant.CAST;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
@@ -87,7 +88,8 @@ import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_BASE_
  * This activity is responsible for displaying the details for a selected movie.
  */
 public class DetailActivity extends AppCompatActivity implements
-        InformationFragment.OnInfoSelectedListener, TrailerFragment.OnTrailerSelectedListener {
+        InformationFragment.OnInfoSelectedListener, TrailerFragment.OnTrailerSelectedListener,
+        InformationFragment.OnViewAllSelectedListener {
 
     /** Tag for logging */
     public static final String TAG = DetailActivity.class.getSimpleName();
@@ -542,5 +544,13 @@ public class DetailActivity extends AppCompatActivity implements
 
         String resultGenre = mGenreTextView.getText().toString();
         outState.putString(RESULTS_GENRE, resultGenre);
+    }
+
+    /**
+     * Switch to CastFragment in a ViewPager when "VIEW ALL" TextView is clicked in the DetailActivity
+     */
+    @Override
+    public void onViewAllSelected() {
+        mViewPager.setCurrentItem(CAST);
     }
 }

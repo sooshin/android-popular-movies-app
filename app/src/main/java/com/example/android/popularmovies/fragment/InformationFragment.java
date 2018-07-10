@@ -47,6 +47,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
@@ -63,6 +64,18 @@ public class InformationFragment extends Fragment {
 
     public interface OnInfoSelectedListener {
         void onInformationSelected(MovieDetails movieDetails);
+    }
+
+    /**
+     * Define a new interface OnViewAllSelectedListener that triggers a Callback in the host activity.
+     * The callback is a method named onViewAllSelected() that is triggered when the user clicks
+     * "VIEW ALL" TextView
+     */
+    OnViewAllSelectedListener mViewAllCallback;
+
+    /** OnViewAllSelectedListener interface, calls a method in the host activity named onViewAllSelected */
+    public interface OnViewAllSelectedListener {
+        void onViewAllSelected();
     }
 
     /** Tag for logging */
@@ -90,6 +103,8 @@ public class InformationFragment extends Fragment {
     @BindView(R.id.tv_cast) TextView mCastTextView;
     /** Get a reference to the TextView for displaying the director */
     @BindView(R.id.tv_director) TextView mDirectorTextView;
+    /** Get a reference to the TextView */
+    @BindView(R.id.tv_view_all) TextView mViewAllTextView;
 
     private Unbinder mUnbinder;
 
@@ -249,6 +264,15 @@ public class InformationFragment extends Fragment {
     }
 
     /**
+     * Called when "VIEW ALL" TextView is clicked
+     */
+    @OnClick(R.id.tv_view_all)
+    public void onViewAllClick() {
+        // Trigger the callback onViewAllSelected
+        mViewAllCallback.onViewAllSelected();
+    }
+
+    /**
      * Override onAttach to make sure that the container activity has implemented the callback
      */
     @Override
@@ -259,6 +283,13 @@ public class InformationFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnInfoSelectedListener");
+        }
+
+        try {
+            mViewAllCallback = (OnViewAllSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnViewAllSelectedListener");
         }
     }
 
