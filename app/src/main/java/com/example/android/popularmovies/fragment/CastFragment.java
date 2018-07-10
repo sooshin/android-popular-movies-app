@@ -16,8 +16,13 @@
 
 package com.example.android.popularmovies.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +34,11 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.CastAdapter;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
+import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
+import com.example.android.popularmovies.utilities.InjectorUtils;
+import com.example.android.popularmovies.viewmodel.InfoViewModel;
+import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
+import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
 /**
  * The CastFragment displays all of the cast members for the selected movie.
@@ -58,6 +67,16 @@ public class CastFragment extends Fragment {
 
     /** Get a reference to RecyclerView */
     @BindView(R.id.rv_cast) RecyclerView mRecyclerView;
+
+    /** Member variable for the Movie object */
+    private Movie mMovie;
+
+    /**
+     *  ViewModel for InformationFragment.
+     *  MovieDetails data contains the cast data of the movie, and get casts data from the getDetails
+     *  method in the InfoViewModel
+     */
+    private InfoViewModel mInfoViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
@@ -89,23 +108,62 @@ public class CastFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        // Get MovieDetails data from the DetailActivity
-        Bundle args = getArguments();
-        if (args != null) {
-            MovieDetails movieDetails = args.getParcelable(EXTRA_MOVIE_DETAILS);
-            if (movieDetails != null) {
-                // Get Credits from MovieDetails
-                Credits credits = movieDetails.getCredits();
-                // Get the list of casts
-                mCastList = credits.getCast();
-                // Set the list of casts
-                credits.setCast(mCastList);
+        // Get movie data from the MainActivity
+        mMovie = getMovieData();
+
+        // Observe the data and update the UI
+        setupViewModel(this.getActivity(), mMovie.getId());
+    }
+
+    private void setupViewModel(Context context, int movieId) {
+        // Get the ViewModel from the factory
+        InfoViewModelFactory factory = InjectorUtils.provideInfoViewModelFactory(context, movieId);
+        mInfoViewModel = ViewModelProviders.of(this, factory).get(InfoViewModel.class);
+
+        // Retrieve live data object using the getMovieDetails() method from the ViewModel
+        mInfoViewModel.getMovieDetails().observe(this, new Observer<MovieDetails>() {
+            @Override
+            public void onChanged(@Nullable MovieDetails movieDetails) {
+                if (movieDetails != null) {
+                    // Display cast of the movie
+                    loadCast(movieDetails);
+                }
+            }
+        });
+    }
+
+    /**
+     * Gets movie data from the MainActivity.
+     */
+    private Movie getMovieData() {
+        // Store the Intent
+        Intent intent = getActivity().getIntent();
+        // Check if the Intent is not null, and has the extra we passed from MainActivity
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_MOVIE)) {
+                // Receive the Movie object which contains information, such as ID, original title,
+                // poster path, overview, vote average, release date, backdrop path.
+                Bundle b = intent.getBundleExtra(EXTRA_MOVIE);
+                mMovie = b.getParcelable(EXTRA_MOVIE);
             }
         }
-        // add a list of casts to CastAdapter
+        return mMovie;
+    }
+
+    /**
+     * Display the cast of the movie
+     */
+    private void loadCast(MovieDetails movieDetails) {
+        // Get Credits from the MovieDetails
+        Credits credits = movieDetails.getCredits();
+        // Get the list of casts
+        mCastList = credits.getCast();
+        // Set the list of casts
+        credits.setCast(mCastList);
+        // Add a list of casts to CastAdapter
         mCastAdapter.addAll(mCastList);
     }
 
