@@ -30,7 +30,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -49,7 +48,6 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.DetailPagerAdapter;
 import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieEntry;
-import com.example.android.popularmovies.fragment.CastFragment;
 import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.fragment.TrailerFragment;
 import com.example.android.popularmovies.model.Genre;
@@ -73,7 +71,6 @@ import butterknife.OnClick;
 import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
 import static com.example.android.popularmovies.utilities.Constant.CAST;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
-import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE_DETAILS;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_BEGIN_INDEX;
 import static com.example.android.popularmovies.utilities.Constant.RELEASE_YEAR_END_INDEX;
@@ -461,37 +458,6 @@ public class DetailActivity extends AppCompatActivity implements
         String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
         // Display the genre
         mGenreTextView.setText(genreStr);
-
-        // Create a new CastFragment
-        CastFragment castFragment = newInstance(movieDetails);
-
-        // Add the fragment to its container using a FragmentManager and a Transaction
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.cast_container, castFragment);
-
-        // Allows the commit to be executed after an activity's state is saved
-        // to avoid IllegalStateException: Can not perform this action after onSaveInstanceState.
-        //@see "https://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception
-        // -can-not-perform-this-action-after-onsa/10261438#10261438"
-        transaction.commitAllowingStateLoss();
-    }
-
-    /**
-     * Returns {@link CastFragment} to display all of the cast members for the selected movie.
-     *
-     * @param movieDetails The MovieDetails object that contains budget, genre, runtime,
-     *                    revenue, status, vote count, credits of the movie.
-     */
-    public static CastFragment newInstance(MovieDetails movieDetails) {
-        // Create a new CastFragment
-        CastFragment castFragment = new CastFragment();
-
-        // Pass MovieDetails object from DetailActivity to CastFragment
-        Bundle args = new Bundle();
-        castFragment.setArguments(args);
-        args.putParcelable(EXTRA_MOVIE_DETAILS, movieDetails);
-
-        return castFragment;
     }
 
     /**
