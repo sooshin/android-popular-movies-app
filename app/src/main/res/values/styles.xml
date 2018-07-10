@@ -99,6 +99,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="ViewAllTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/source_sans_pro_semi_bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <!-- Style for the message when there is no reviews available -->
     <style name="MessageTextStyle">
         <item name="android:drawablePadding">@dimen/padding_activity</item>

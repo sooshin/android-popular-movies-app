@@ -46,6 +46,7 @@
     <string name="cast">Cast</string>
     <string name="director">Director</string>
     <string name="original_title">Original Title</string>
+    <string name="view_all">View All</string>
 
     <!-- Snack bar message that is displayed when the user performs a swipe to refresh -->
     <string name="snackbar_updated">Updated just now</string>

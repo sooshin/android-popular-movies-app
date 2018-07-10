@@ -209,6 +209,15 @@
                     app:layout_constraintTop_toTopOf="@+id/tv_cast_label"
                     tools:text="Craig T. Nelson, Holly Hunter, Sara Vowell" />
 
+                <TextView
+                    android:id="@+id/tv_view_all"
+                    style="@style/ViewAllTextStyle"
+                    android:layout_marginTop="@dimen/margin_activity"
+                    android:text="@string/view_all"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_cast"
+                    tools:text="View All" />
+
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
