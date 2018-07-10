@@ -43,8 +43,10 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.adapter.FavoriteAdapter;
 import com.example.android.popularmovies.adapter.MovieAdapter;
 import com.example.android.popularmovies.adapter.MovieAdapter.MovieAdapterOnClickHandler;
+import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
@@ -92,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
 
+    /** Exposes a list of favorite movies from a list of MovieEntry to a RecyclerView */
+    private FavoriteAdapter mFavoriteAdapter;
+
     /** String for the sort criteria("most popular and highest rated") */
     private String mSortCriteria;
 
@@ -123,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         List<Movie> movies = new ArrayList<>();
         // Create MovieAdapter that is responsible for linking our movie data with the Views
         mMovieAdapter = new MovieAdapter(movies, this);
-        // Set the MovieAdapter to the RecyclerView
-        mRecyclerView.setAdapter(mMovieAdapter);
+        // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
+        mFavoriteAdapter = new FavoriteAdapter(this);
 
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
@@ -157,28 +162,49 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(
                 MainActivity.this, sortCriteria);
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
-        mMainViewModel.setMovieResponse(sortCriteria);
-        mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
-            @Override
-            public void onChanged(@Nullable MovieResponse movieResponse) {
-                if (movieResponse != null) {
-                    // Get the list of movies
-                    List<Movie> movies = movieResponse.getMovieResults();
-                    //  Add a list of Movies
-                    mMovieAdapter.addAll(movies);
-                    // Restore the scroll position after setting up the adapter with the list of movies
-                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
-                }
 
-                // Show the movie list or the loading screen based on whether the movie data exists
-                // and is loaded
-                if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
-                    hideLoadingAndRefresh();
-                } else {
-                    showLoading();
+        // Set a new value for the MovieResponse
+        mMainViewModel.setMovieResponse(sortCriteria);
+        // Set a new value for the list of MovieEntries
+        mMainViewModel.setFavoriteMovies();
+
+        // If the sortCriteria is equal to "favorites", set the FavoriteAdapter to the RecyclerView
+        // and observe the list of MovieEntry and update UI to display favorite movies
+        if (sortCriteria.equals(getString(R.string.pref_sort_by_favorites))) {
+            mRecyclerView.setAdapter(mFavoriteAdapter);
+            mMainViewModel.getFavoriteMovies().observe(this, new Observer<List<MovieEntry>>() {
+                @Override
+                public void onChanged(@Nullable List<MovieEntry> movieEntries) {
+                    // Set the list of MovieEntries to display favorite movies
+                    mFavoriteAdapter.setMovies(movieEntries);
                 }
-            }
-        });
+            });
+        } else {
+            // Otherwise, set the MovieAdapter to the RecyclerView and observe the MovieResponse
+            // and update the UI to display movies
+            mRecyclerView.setAdapter(mMovieAdapter);
+            mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
+                @Override
+                public void onChanged(@Nullable MovieResponse movieResponse) {
+                    if (movieResponse != null) {
+                        // Get the list of movies
+                        List<Movie> movies = movieResponse.getMovieResults();
+                        // Add a list of Movies
+                        mMovieAdapter.addAll(movies);
+                        // Restore the scroll position after setting up the adapter with the list of movies
+                        mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                    }
+
+                    // Show the movie list or the loading screen based on whether the movie data exists
+                    // and is loaded
+                    if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
+                        hideLoadingAndRefresh();
+                    } else {
+                        showLoading();
+                    }
+                }
+            });
+        }
     }
 
     /**

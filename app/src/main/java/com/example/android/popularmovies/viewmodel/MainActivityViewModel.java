@@ -19,8 +19,11 @@ package com.example.android.popularmovies.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MovieRepository;
 import com.example.android.popularmovies.model.MovieResponse;
+
+import java.util.List;
 
 /**
  * {@link ViewModel} for MainActivity
@@ -29,6 +32,7 @@ public class MainActivityViewModel extends ViewModel {
 
     private final MovieRepository mRepository;
     private LiveData<MovieResponse> mMovieResponse;
+    private LiveData<List<MovieEntry>> mFavoriteMovies;
 
     public MainActivityViewModel(MovieRepository repository, String sortCriteria) {
         mRepository = repository;
@@ -41,5 +45,13 @@ public class MainActivityViewModel extends ViewModel {
 
     public void setMovieResponse(String sortCriteria) {
         mMovieResponse = mRepository.getMovies(sortCriteria);
+    }
+
+    public LiveData<List<MovieEntry>> getFavoriteMovies() {
+        return mFavoriteMovies;
+    }
+
+    public void setFavoriteMovies() {
+        mFavoriteMovies = mRepository.getFavoriteMovies();
     }
 }
