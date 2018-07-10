@@ -16,7 +16,6 @@
 
 package com.example.android.popularmovies.activity;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -50,7 +49,6 @@ import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.utilities.TheMovieApi;
 import com.example.android.popularmovies.viewmodel.MainActivityViewModel;
 import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
@@ -59,7 +57,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Callback;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_EDGE;
@@ -91,12 +88,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** SwipeRefreshLayout that is used whenever the user can refresh the contents of a view*/
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
-
-    /** Member variable for TheMovieApi interface */
-    private TheMovieApi mMovieApi;
-
-    /** MovieResponse callback that communicates responses from a server */
-    Callback<MovieResponse> mMovieResponseCallback;
 
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
@@ -200,11 +191,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             mSortCriteria = sharedPreferences.getString(key, getString(R.string.pref_sort_by_default));
         }
 
-//        // When SharedPreference changes, make a network request again
-//        Call<MovieResponse> call = mMovieApi.getMovies(mSortCriteria, API_KEY, LANGUAGE, PAGE);
-//        // Calls are executed with asynchronously with enqueue and notify callback of its response
-//        call.enqueue(this);
-        // ToDo:
+        // When SharedPreference changes, observe the data and update the UI
         setupViewModel(mSortCriteria);
     }
 
@@ -255,8 +242,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 // Make movie data visible and hide error message
                 showMovieDataView();
 
-                // When refreshing, make a network request again
-                // ToDo:
+                // When refreshing, observe the data and update the UI
                 setupViewModel(mSortCriteria);
 
                 hideLoadingAndRefresh();
@@ -264,17 +250,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 Snackbar.make(mRecyclerView, getString(R.string.snackbar_updated), Snackbar.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void makeNetworkRequest() {
-        LiveData<MovieResponse> movieResponseLiveData = mMainViewModel.getMovieResponse();
-        MovieResponse movieResponse = movieResponseLiveData.getValue();
-        if (movieResponse != null) {
-            // Get the list of movies
-            List<Movie> movies = movieResponse.getMovieResults();
-            //  Add a list of Movies
-            mMovieAdapter.addAll(movies);
-        }
     }
 
     /**
