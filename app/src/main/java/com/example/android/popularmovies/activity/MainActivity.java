@@ -178,6 +178,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 public void onChanged(@Nullable List<MovieEntry> movieEntries) {
                     // Set the list of MovieEntries to display favorite movies
                     mFavoriteAdapter.setMovies(movieEntries);
+                    if (movieEntries == null) {
+                        // Display Empty view
+                        // ToDo:
+                    } else if(!isOnline()) {
+                        showMovieDataView();
+                    }
                 }
             });
         } else {
@@ -197,9 +203,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                     }
 
                     // Show the movie list or the loading screen based on whether the movie data exists
-                    // and is loaded
+                    // and is loaded.
                     if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
                         hideLoadingAndRefresh();
+                    } else if (!isOnline()) {
+                        // When offline, show a message displaying that it is offline
+                        hideLoadingAndRefresh();
+                        showOfflineMessage();
                     } else {
                         showLoading();
                     }
