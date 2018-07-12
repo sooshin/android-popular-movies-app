@@ -71,6 +71,7 @@ import static com.example.android.popularmovies.utilities.Constant.REQUEST_CODE_
  * The MainActivity displays the list of movies that appear as a grid of images
  */
 public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
+        FavoriteAdapter.FavoriteAdapterOnClickHandler,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Tag for a log message */
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Create MovieAdapter that is responsible for linking our movie data with the Views
         mMovieAdapter = new MovieAdapter(movies, this);
         // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
-        mFavoriteAdapter = new FavoriteAdapter(this);
+        mFavoriteAdapter = new FavoriteAdapter(this, this);
 
         // Show a dialog when there is no internet connection
         showNetworkDialog(isOnline());
@@ -239,6 +240,33 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Wrap the parcelable into a bundle
         // Reference: @see "https://stackoverflow.com/questions/28589509/android-e-parcel-
         // class-not-found-when-unmarshalling-only-on-samsung-tab3"
+        Bundle b = new Bundle();
+        b.putParcelable(EXTRA_MOVIE, movie);
+
+        // Create the Intent the will start the DetailActivity
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        // Pass the bundle through Intent
+        intent.putExtra(EXTRA_MOVIE, b);
+        // Once the Intent has been created, start the DetailActivity
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFavItemClick(MovieEntry movieEntry) {
+
+        int movieId = movieEntry.getMovieId();
+        String originalTitle = movieEntry.getOriginalTitle();
+        String title = movieEntry.getTitle();
+        String posterPath = movieEntry.getPosterPath();
+        String overview = movieEntry.getOverview();
+        double voteAverage = movieEntry.getVoteAverage();
+        String releaseDate = movieEntry.getReleaseDate();
+        String backdropPath = movieEntry.getBackdropPath();
+
+        Movie movie = new Movie(movieId, originalTitle, title, posterPath, overview,
+                voteAverage, releaseDate, backdropPath);
+
+        // Wrap the parcelable into a bundle
         Bundle b = new Bundle();
         b.putParcelable(EXTRA_MOVIE, movie);
 

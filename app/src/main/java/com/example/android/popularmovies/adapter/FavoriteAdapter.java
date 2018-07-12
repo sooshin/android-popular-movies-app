@@ -22,15 +22,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.MovieEntry;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
+import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
 
 /**
  * Exposes a list of favorite movies from a list of {@link MovieEntry} to a {@link RecyclerView}
@@ -39,14 +44,28 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
     /** Member variable for the list of MovieEntries that holds movie data */
     private List<MovieEntry> mMovieEntries;
+
     /** Context we use to utility methods, app resources and layout inflaters */
     private Context mContext;
+
+    /** An on-click handler that we've defined to make it easy for a Activity to interface with
+     * our RecyclerView
+     */
+    private final FavoriteAdapterOnClickHandler mOnClickHandler;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface FavoriteAdapterOnClickHandler {
+        void onFavItemClick(MovieEntry movieEntry);
+    }
 
     /**
      * Constructor for the FavoriteAdapter
      */
-    public FavoriteAdapter(Context context) {
+    public FavoriteAdapter(Context context, FavoriteAdapterOnClickHandler onClickHandler) {
         mContext = context;
+        mOnClickHandler = onClickHandler;
     }
 
     /**
@@ -103,7 +122,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     /**
      * Cache of the children views for favorite movie list item.
      */
-    public class FavoriteViewHolder extends RecyclerView.ViewHolder {
+    public class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        /** Get a reference to the ImageView for showing thumbnail image */
+        @BindView(R.id.iv_thumbnail)
+        ImageView mThumbnailImageView;
 
         /** Get a reference to the TextView for showing the movie title */
         @BindView(R.id.tv_title)
@@ -117,10 +139,31 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
             // Bind the view using ButterKnife
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         void bind(MovieEntry movieEntry) {
+            // Get the complete thumbnail path
+            String thumbnail = IMAGE_BASE_URL + IMAGE_FILE_SIZE + movieEntry.getPosterPath();
+
+            // Load thumbnail with Picasso library
+            Picasso.with(itemView.getContext())
+                    .load(thumbnail)
+                    .into(mThumbnailImageView);
+
             mTitleTextView.setText(movieEntry.getTitle());
+        }
+
+        /**
+         * Called whenever a user clicks on an movie in the list
+         * @param v The View that was clicked
+         */
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            MovieEntry movieEntry = mMovieEntries.get(adapterPosition);
+
+            mOnClickHandler.onFavItemClick(movieEntry);
         }
     }
 }
