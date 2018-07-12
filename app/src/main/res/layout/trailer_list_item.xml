@@ -52,8 +52,7 @@
         <!-- Trailer name -->
         <TextView
             android:id="@+id/tv_trailer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BasicTextStyle"
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxLines="2"
