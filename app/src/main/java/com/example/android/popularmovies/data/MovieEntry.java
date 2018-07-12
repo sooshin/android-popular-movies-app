@@ -32,7 +32,25 @@ public class MovieEntry {
     @ColumnInfo(name = "movie_id")
     private int movieId;
 
+    @ColumnInfo(name= "original_title")
+    private String originalTitle;
+
     private String title;
+
+    @ColumnInfo(name = "poster_path")
+    private String posterPath;
+
+    private String overview;
+
+    @ColumnInfo(name = "vote_average")
+    private double voteAverage;
+
+    @ColumnInfo(name = "release_date")
+    private String releaseDate;
+
+    @ColumnInfo(name = "backdropPath")
+    private String backdropPath;
+
     private Date date;
 
     /**
@@ -43,19 +61,33 @@ public class MovieEntry {
      * @param date Date the user added to the favorite list
      */
     @Ignore
-    public MovieEntry(int movieId, String title, Date date) {
+    public MovieEntry(int movieId, String originalTitle, String title, String posterPath, String overview,
+                      double voteAverage, String releaseDate, String backdropPath, Date date) {
         this.movieId = movieId;
+        this.originalTitle = originalTitle;
         this.title = title;
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+        this.releaseDate = releaseDate;
+        this.backdropPath = backdropPath;
         this.date = date;
     }
 
     /**
      * Constructor used by Room to create MovieEntries
      */
-    public MovieEntry(int id, int movieId, String title, Date date) {
+    public MovieEntry(int id, int movieId, String originalTitle, String title, String posterPath, String overview,
+                      double voteAverage, String releaseDate, String backdropPath, Date date) {
         this.id = id;
         this.movieId = movieId;
+        this.originalTitle = originalTitle;
         this.title = title;
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+        this.releaseDate = releaseDate;
+        this.backdropPath = backdropPath;
         this.date = date;
     }
 
@@ -67,8 +99,32 @@ public class MovieEntry {
         return movieId;
     }
 
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
     }
 
     public Date getDate() {

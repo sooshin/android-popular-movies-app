@@ -238,7 +238,9 @@ public class DetailActivity extends AppCompatActivity implements
     @OnClick(R.id.fab)
     public void onFavoriteClick() {
         // Create a new MovieEntry
-        mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getTitle(), new Date());
+        mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
+                mMovie.getPosterPath(), mMovie.getOverview(), mMovie.getVoteAverage(),
+                mMovie.getReleaseDate(), mMovie.getBackdropPath(), new Date());
 
         if (!mIsInFavorites) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
