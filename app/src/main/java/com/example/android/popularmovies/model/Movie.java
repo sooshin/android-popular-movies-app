@@ -84,6 +84,17 @@ public class Movie implements Parcelable {
     @SerializedName("backdrop_path")
     private String mBackdropPath;
 
+    public Movie(int movieId, String originalTitle, String title, String posterPath, String overview,
+                 double voteAverage, String releaseDate, String backdropPath) {
+        mId = movieId;
+        mOriginalTitle = originalTitle;
+        mTitle = title;
+        mPosterPath = posterPath;
+        mOverview = overview;
+        mVoteAverage = voteAverage;
+        mReleaseDate =releaseDate;
+        mBackdropPath = backdropPath;
+    }
 
     /**
      * Returns the id of the movie
