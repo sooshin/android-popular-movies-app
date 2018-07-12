@@ -18,8 +18,11 @@ package com.example.android.popularmovies.activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -224,8 +227,9 @@ public class DetailActivity extends AppCompatActivity implements
         loadBackdropImage();
         // Display title
         setTitle();
-        // Show loading indicator
-        mDetailLoadingIndicator.setVisibility(View.VISIBLE);
+
+        // When it is online, show loading indicator, otherwise hide loading indicator.
+        showLoading(isOnline());
         // Get the FragmentManager for interacting with fragments associated with DetailActivity
         mFragmentManager = getSupportFragmentManager();
     }
@@ -520,5 +524,33 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onViewAllSelected() {
         mViewPager.setCurrentItem(CAST);
+    }
+
+    /**
+     * Check if there is the network connectivity
+     *
+     * @return true if connected to the network
+     */
+    private boolean isOnline() {
+        // Get a reference to the ConnectivityManager to check the state of network connectivity
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    /**
+     * When it is online, show loading indicator, otherwise hide loading indicator.
+     *
+     * @param isOnline true if connected to the network
+     */
+    private void showLoading(boolean isOnline) {
+        if (!isOnline) {
+            mDetailLoadingIndicator.setVisibility(View.GONE);
+        } else {
+            mDetailLoadingIndicator.setVisibility(View.VISIBLE);
+        }
     }
 }
