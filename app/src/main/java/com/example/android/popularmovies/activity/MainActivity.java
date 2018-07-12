@@ -178,6 +178,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 public void onChanged(@Nullable List<MovieEntry> movieEntries) {
                     // Set the list of MovieEntries to display favorite movies
                     mFavoriteAdapter.setMovies(movieEntries);
+
+                    // Restore the scroll position after setting up the adapter with the list of favorite movies
+                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+
                     if (movieEntries == null) {
                         // Display Empty view
                         // ToDo:
