@@ -16,6 +16,7 @@
 
 package com.example.android.popularmovies.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
@@ -23,20 +24,15 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.databinding.CastListItemBinding;
 import com.example.android.popularmovies.model.Cast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
@@ -70,9 +66,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @NonNull
     @Override
     public CastViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cast_list_item, viewGroup, false);
-        return new CastViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        CastListItemBinding castItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.cast_list_item, viewGroup, false);
+        return new CastViewHolder(castItemBinding);
     }
 
     /**
@@ -117,28 +114,22 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
      * Cache of the children views for a cast list item.
      */
     public class CastViewHolder extends RecyclerView.ViewHolder {
-        /** Get a reference to the ImageView for showing profile image */
-        @BindView(R.id.iv_cast) ImageView mCastImageView;
-        /** Get a reference to the TextView for showing the cast name */
-        @BindView(R.id.tv_cast_name) TextView mCastNameTextView;
-        /** Get a reference to the TextView for showing the character name */
-        @BindView(R.id.tv_cast_character) TextView mCharacterTextView;
+        /** This field is used for data binding */
+        CastListItemBinding mCastItemBinding;
 
         /**
          * Constructor for CastViewHolder.
          *
-         * @param itemView The View that you inflated in {@link CastAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param castItemBinding The View that you inflated in {@link CastAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        CastViewHolder(View itemView) {
-            super(itemView);
-
-            // Bind the view using ButterKnife
-            ButterKnife.bind(this, itemView);
+        CastViewHolder(CastListItemBinding castItemBinding) {
+            super(castItemBinding.getRoot());
+            mCastItemBinding = castItemBinding;
         }
 
         /**
          * This method will take an Cast object as input and use that cast to display the appropriate
-         * text within a list item.
+         * text and an image within a list item.
          *
          * @param cast The cast object
          */
@@ -151,28 +142,26 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
                     // Create circular avatars
                     // Reference: @see "https://stackoverflow.com/questions/26112150/android-create
                     // -circular-image-with-picasso"
-                    .into(mCastImageView, new Callback() {
+                    .into(mCastItemBinding.ivCast, new Callback() {
                         @Override
                         public void onSuccess() {
-                            Bitmap imageBitmap = ((BitmapDrawable) mCastImageView.getDrawable())
+                            Bitmap imageBitmap = ((BitmapDrawable) mCastItemBinding.ivCast.getDrawable())
                                     .getBitmap();
                             RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(
                                     itemView.getContext().getResources(), // to determine density
                                     imageBitmap); // image to round
                             drawable.setCircular(true);
-                            mCastImageView.setImageDrawable(drawable);
+                            mCastItemBinding.ivCast.setImageDrawable(drawable);
                         }
 
                         @Override
                         public void onError() {
-                            mCastImageView.setImageResource(R.drawable.account_circle);
+                            mCastItemBinding.ivCast.setImageResource(R.drawable.account_circle);
                         }
                     });
-            // Set the cast name to the TextView
-            mCastNameTextView.setText(cast.getName());
-            // Set the character name to the TextView
-            mCharacterTextView.setText(cast.getCharacter());
 
+            // Set the cast name and character name to the TextViews
+            mCastItemBinding.setCast(cast);
         }
     }
 }

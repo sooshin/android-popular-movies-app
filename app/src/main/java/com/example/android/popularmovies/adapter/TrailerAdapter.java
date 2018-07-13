@@ -16,22 +16,19 @@
 
 package com.example.android.popularmovies.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.databinding.TrailerListItemBinding;
 import com.example.android.popularmovies.model.Video;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_THUMBNAIL_BASE_URL;
@@ -81,9 +78,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     @NonNull
     @Override
     public TrailerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.trailer_list_item, viewGroup, false);
-        return new TrailerViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        TrailerListItemBinding trailerItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.trailer_list_item, viewGroup, false);
+        return new TrailerViewHolder(trailerItemBinding);
     }
 
     /**
@@ -127,30 +125,20 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
      * Cache of the children views for a trailer list item.
      */
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        /** Get a reference to the ImageView to display trailer thumbnail */
-        @BindView(R.id.iv_trailer_thumbnail)
-        ImageView mTrailerThumbnailImageView;
-
-        /** Get a reference to the */
-        @BindView(R.id.tv_trailer_name)
-        TextView mTrailerNameTextView;
-
-        /** Get a reference to the ImageView that displays play circle image on the YouTube thumbnail */
-        @BindView(R.id.iv_trailer_play_circle)
-        ImageView mPlayTrailerImageView;
+        /** This field is used for data binding */
+        TrailerListItemBinding mTrailerItemBinding;
 
         /**
          * Constructor for our ViewHolder
          *
-         * @param itemView The View that you inflated in {@link TrailerAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param trailerItemBinding The view that you inflated in {@link TrailerAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        public TrailerViewHolder(View itemView) {
-            super(itemView);
+        public TrailerViewHolder(TrailerListItemBinding trailerItemBinding) {
+            super(trailerItemBinding.getRoot());
+            mTrailerItemBinding = trailerItemBinding;
 
-            // Bind the view using ButterKnife
-            ButterKnife.bind(this, itemView);
             // Call setOnClickListener on the trailer thumbnail ImageView
-            mTrailerThumbnailImageView.setOnClickListener(this);
+            mTrailerItemBinding.ivTrailerThumbnail.setOnClickListener(this);
         }
 
         void bind(Video video) {
@@ -163,11 +151,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             // Load trailer thumbnail with Picasso library
             Picasso.with(itemView.getContext())
                     .load(trailerThumbnailUrl)
-                    .into(mTrailerThumbnailImageView);
+                    .into(mTrailerItemBinding.ivTrailerThumbnail);
 
             // Get the video name and set name to the TextView to display the trailer name
             String videoName = video.getName();
-            mTrailerNameTextView.setText(videoName);
+            mTrailerItemBinding.tvTrailerName.setText(videoName);
         }
 
         /**

@@ -17,22 +17,19 @@
 package com.example.android.popularmovies.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.MovieEntry;
+import com.example.android.popularmovies.databinding.MovieListItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
@@ -76,9 +73,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @NonNull
     @Override
     public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.movie_list_item, parent, false);
-        return new FavoriteViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        MovieListItemBinding movieItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.movie_list_item, parent, false);
+        return new FavoriteViewHolder(movieItemBinding);
     }
 
     /**
@@ -123,22 +121,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
      * Cache of the children views for favorite movie list item.
      */
     public class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        /** Get a reference to the ImageView for showing thumbnail image */
-        @BindView(R.id.iv_thumbnail)
-        ImageView mThumbnailImageView;
-
-        /** Get a reference to the TextView for showing the movie title */
-        @BindView(R.id.tv_title)
-        TextView mTitleTextView;
+        /** This field is used for data binding */
+        MovieListItemBinding mMovieItemBinding;
 
         /**
          * Constructor for FavoriteViewHolder
          */
-        public FavoriteViewHolder(View itemView) {
-            super(itemView);
+        public FavoriteViewHolder(MovieListItemBinding movieItemBinding) {
+            super(movieItemBinding.getRoot());
 
-            // Bind the view using ButterKnife
-            ButterKnife.bind(this, itemView);
+            mMovieItemBinding = movieItemBinding;
             itemView.setOnClickListener(this);
         }
 
@@ -149,9 +141,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             // Load thumbnail with Picasso library
             Picasso.with(itemView.getContext())
                     .load(thumbnail)
-                    .into(mThumbnailImageView);
+                    .into(mMovieItemBinding.ivThumbnail);
 
-            mTitleTextView.setText(movieEntry.getTitle());
+            // Set title of the movie to the TextView
+            mMovieItemBinding.tvTitle.setText(movieEntry.getTitle());
         }
 
         /**
@@ -162,7 +155,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             MovieEntry movieEntry = mMovieEntries.get(adapterPosition);
-
             mOnClickHandler.onFavItemClick(movieEntry);
         }
     }

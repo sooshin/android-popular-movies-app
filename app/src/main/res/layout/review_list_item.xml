@@ -14,40 +14,52 @@
   ~  limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
+    <data>
+
+        <variable
+            name="review"
+            type="com.example.android.popularmovies.model.Review" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:contentPadding="@dimen/padding_activity">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:contentPadding="@dimen/padding_activity">
 
-            <TextView
-                android:id="@+id/tv_review_author"
-                style="@style/OverviewLabelStyle"
-                android:drawablePadding="@dimen/padding_activity_small"
-                android:drawableLeft="@drawable/face"
-                android:drawableStart="@drawable/face"
-                tools:text="review author" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_review_content"
-                style="@style/BasicTextStyle"
-                android:layout_marginTop="@dimen/margin_activity"
-                android:textColor="@android:color/white"
-                tools:text="review content" />
+                <TextView
+                    android:id="@+id/tv_review_author"
+                    style="@style/OverviewLabelStyle"
+                    android:drawableLeft="@drawable/face"
+                    android:drawablePadding="@dimen/padding_activity_small"
+                    android:drawableStart="@drawable/face"
+                    android:text="@{review.author}"
+                    tools:text="review author" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_review_content"
+                    style="@style/BasicTextStyle"
+                    android:layout_marginTop="@dimen/margin_activity"
+                    android:text="@{review.content}"
+                    android:textColor="@android:color/white"
+                    tools:text="review content" />
 
-    </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-</RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</layout>

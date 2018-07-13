@@ -16,20 +16,18 @@
 
 package com.example.android.popularmovies.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.databinding.ReviewListItemBinding;
 import com.example.android.popularmovies.model.Review;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
 
@@ -61,9 +59,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.review_list_item, viewGroup, false);
-        return new ReviewViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        ReviewListItemBinding reviewItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.review_list_item, viewGroup, false);
+        return new ReviewViewHolder(reviewItemBinding);
     }
 
     @Override
@@ -88,30 +87,25 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
      * Cache of the children views for a review list item.
      */
     public class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.tv_review_author)
-        TextView mReviewAuthorTextView;
-
-        @BindView(R.id.tv_review_content)
-        TextView mReviewContentTextView;
+        /** This field is used for data binding */
+        ReviewListItemBinding mReviewItemBinding;
 
         /**
          * Constructor for our ViewHolder
          *
-         * @param itemView The View that you inflated in {@link ReviewAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param reviewItemBinding The View that you inflated in {@link ReviewAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        ReviewViewHolder(View itemView) {
-            super(itemView);
+        ReviewViewHolder(ReviewListItemBinding reviewItemBinding) {
+            super(reviewItemBinding.getRoot());
+            mReviewItemBinding = reviewItemBinding;
 
-            // Bind the view using ButterKnife
-            ButterKnife.bind(this, itemView);
             // Call setOnClickListener on  the View passed into the constructor
             itemView.setOnClickListener(this);
         }
 
         void bind(Review review) {
-            mReviewAuthorTextView.setText(review.getAuthor());
-            mReviewContentTextView.setText(review.getContent());
+            // Set author and content of review to the TextView
+            mReviewItemBinding.setReview(review);
         }
 
         /**

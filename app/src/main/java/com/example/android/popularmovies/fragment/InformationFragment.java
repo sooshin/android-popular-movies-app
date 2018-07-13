@@ -21,6 +21,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,9 +30,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.databinding.FragmentInfoBinding;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Crew;
@@ -45,17 +46,15 @@ import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
 /**
  * The InformationFragment displays information for the selected movie.
  */
 public class InformationFragment extends Fragment {
+
+    /** This field is used for data binding */
+    private FragmentInfoBinding mInfoBinding;
 
     /** Define a new interface OnInfoSelectedListener that triggers a Callback in the host activity.
      *  The callback is a method named onInformationSelected(MovieDetails movieDetails) that contains
@@ -80,33 +79,6 @@ public class InformationFragment extends Fragment {
 
     /** Tag for logging */
     public static final String TAG = InformationFragment.class.getSimpleName();
-
-    /** Automatically finds each field by the specified ID.
-     *  Get a reference to the Overview TextView */
-    @BindView(R.id.tv_overview) TextView mOverviewTextView;
-    /** Get a reference to the Vote Average TextView */
-    @BindView(R.id.tv_vote_average) TextView mVoteAverageTextView;
-    /** Get a reference to the Release Date TextView*/
-    @BindView(R.id.tv_release_date) TextView mReleaseDateTextView;
-
-    /** Get a reference to the Vote Count TextView */
-    @BindView(R.id.tv_vote_count) TextView mVoteCountTextView;
-    /** Get a reference to the Original Title TextView */
-    @BindView(R.id.tv_original_title) TextView mOriginalTitleTextView;
-    /** Get a reference to the Revenue TextView */
-    @BindView(R.id.tv_revenue) TextView mRevenueTextView;
-    /** Get a reference to the Budget TextView */
-    @BindView(R.id.tv_budget) TextView mBudgetTextView;
-    /** Get a reference to the Status TextView */
-    @BindView(R.id.tv_status) TextView mStatusTextView;
-    /** Get a reference to the TextView for displaying the Cast */
-    @BindView(R.id.tv_cast) TextView mCastTextView;
-    /** Get a reference to the TextView for displaying the director */
-    @BindView(R.id.tv_director) TextView mDirectorTextView;
-    /** Get a reference to the TextView */
-    @BindView(R.id.tv_view_all) TextView mViewAllTextView;
-
-    private Unbinder mUnbinder;
 
     /** Member variable for the Movie object */
     private Movie mMovie;
@@ -161,10 +133,19 @@ public class InformationFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_info, container, false);
+        // Instantiate mInfoBinding using DataBindingUtil
+        mInfoBinding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_info, container, false);
+        View rootView = mInfoBinding.getRoot();
 
-        // Bind the view using ButterKnife
-        mUnbinder = ButterKnife.bind(this, rootView);
+        // Switch to CastFragment in a ViewPager when "VIEW ALL" TextView is clicked
+        mInfoBinding.tvViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Trigger the callback onViewAllSelected
+                mViewAllCallback.onViewAllSelected();
+            }
+        });
 
         return rootView;
     }
@@ -215,7 +196,7 @@ public class InformationFragment extends Fragment {
             // Join a string using a delimiter
             String castStr = TextUtils.join(getString(R.string.delimiter_comma), castStrList);
             // Display the list of cast name
-            mCastTextView.setText(castStr);
+            mInfoBinding.tvCast.setText(castStr);
 
             // Display director of the movie
             List<Crew> crewList = credits.getCrew();
@@ -223,7 +204,7 @@ public class InformationFragment extends Fragment {
                 Crew crew = crewList.get(i);
                 // if job is "director", set the director's name to the TextView
                 if (crew.getJob().equals(getString(R.string.director))) {
-                    mDirectorTextView.setText(crew.getName());
+                    mInfoBinding.tvDirector.setText(crew.getName());
                     break;
                 }
             }
@@ -242,10 +223,10 @@ public class InformationFragment extends Fragment {
 
         // Display vote count, budget, revenue, status of the movie. Use FormatUtils class
         // to format the integer number
-        mVoteCountTextView.setText(FormatUtils.formatNumber(voteCount));
-        mBudgetTextView.setText(FormatUtils.formatCurrency(budget));
-        mRevenueTextView.setText(FormatUtils.formatCurrency(revenue));
-        mStatusTextView.setText(status);
+        mInfoBinding.tvVoteCount.setText(FormatUtils.formatNumber(voteCount));
+        mInfoBinding.tvBudget.setText(FormatUtils.formatCurrency(budget));
+        mInfoBinding.tvRevenue.setText(FormatUtils.formatCurrency(revenue));
+        mInfoBinding.tvStatus.setText(status);
     }
 
     /**
@@ -254,22 +235,13 @@ public class InformationFragment extends Fragment {
      */
     private void loadDetails() {
         // Display the overview of the movie
-        mOverviewTextView.setText(mMovie.getOverview());
+        mInfoBinding.tvOverview.setText(mMovie.getOverview());
         // Display the vote average of the movie
-        mVoteAverageTextView.setText(String.valueOf(mMovie.getVoteAverage()));
+        mInfoBinding.tvVoteAverage.setText(String.valueOf(mMovie.getVoteAverage()));
         // Display the original title of the movie
-        mOriginalTitleTextView.setText(mMovie.getOriginalTitle());
+        mInfoBinding.tvOriginalTitle.setText(mMovie.getOriginalTitle());
         // Display the release date of the movie
-        mReleaseDateTextView.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
-    }
-
-    /**
-     * Called when "VIEW ALL" TextView is clicked
-     */
-    @OnClick(R.id.tv_view_all)
-    public void onViewAllClick() {
-        // Trigger the callback onViewAllSelected
-        mViewAllCallback.onViewAllSelected();
+        mInfoBinding.tvReleaseDate.setText(FormatUtils.formatDate(mMovie.getReleaseDate()));
     }
 
     /**
@@ -291,15 +263,5 @@ public class InformationFragment extends Fragment {
             throw new ClassCastException(context.toString()
                     + " must implement OnViewAllSelectedListener");
         }
-    }
-
-    /**
-     * When binding a fragment in onCreateView, set the views to null in onDestroyView.
-     * Butter Knife returns an Unbinder instance when calling bind.
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 }

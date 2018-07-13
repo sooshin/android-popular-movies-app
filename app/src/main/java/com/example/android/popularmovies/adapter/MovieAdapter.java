@@ -16,22 +16,19 @@
 
 package com.example.android.popularmovies.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.databinding.MovieListItemBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
@@ -80,9 +77,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.movie_list_item, viewGroup, false);
-        return new MovieViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        MovieListItemBinding movieItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.movie_list_item, viewGroup, false);
+
+        return new MovieViewHolder(movieItemBinding);
     }
 
     /**
@@ -96,16 +95,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
-        // Get the movie title
-        String title = movie.getTitle();
+
+        // Display the title
+        holder.mMovieItemBinding.setMovie(movie);
+
         // Get the complete thumbnail path
         String thumbnail = IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
-        // Display the title
-        holder.titleTextView.setText(title);
         // Load thumbnail with Picasso library
         Picasso.with(holder.itemView.getContext())
                 .load(thumbnail)
-                .into(holder.thumbnailImageView);
+                .into(holder.mMovieItemBinding.ivThumbnail);
 
     }
 
@@ -135,22 +134,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     /**
      * Cache of the children views for a movie list item.
      */
-    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        /** Get a reference to the ImageView for showing thumbnail image */
-        @BindView(R.id.iv_thumbnail) ImageView thumbnailImageView;
-        /** Get a reference to the TextView for showing the movie title */
-        @BindView(R.id.tv_title) TextView titleTextView;
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        /** This field is used for data binding */
+        MovieListItemBinding mMovieItemBinding;
 
         /**
          * Constructor for our ViewHolder.
          *
-         * @param itemView The View that you inflated in {@link MovieAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param movieItemBinding The View that you inflated in {@link MovieAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        MovieViewHolder(View itemView) {
-            super(itemView);
+        MovieViewHolder(MovieListItemBinding movieItemBinding) {
+            super(movieItemBinding.getRoot());
+            mMovieItemBinding = movieItemBinding;
 
-            // Bind the view using ButterKnife
-            ButterKnife.bind(this, itemView);
             // Call setOnClickListener on  the View passed into the constructor
             itemView.setOnClickListener(this);
         }

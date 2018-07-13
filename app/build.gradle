@@ -22,6 +22,7 @@ android {
             resValue 'string', "api_key", PopularMoviesApp_ApiKey
         }
     }
+    dataBinding.enabled = true
 }
 
 dependencies {

@@ -20,6 +20,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,23 +28,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.AppExecutors;
@@ -51,6 +45,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.DetailPagerAdapter;
 import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieEntry;
+import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 import com.example.android.popularmovies.fragment.InformationFragment;
 import com.example.android.popularmovies.fragment.TrailerFragment;
 import com.example.android.popularmovies.model.Genre;
@@ -66,10 +61,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.example.android.popularmovies.utilities.Constant.BACKDROP_FILE_SIZE;
 import static com.example.android.popularmovies.utilities.Constant.CAST;
@@ -94,58 +85,6 @@ public class DetailActivity extends AppCompatActivity implements
     /** Tag for logging */
     public static final String TAG = DetailActivity.class.getSimpleName();
 
-    /** ImageView for the backdrop image */
-    @BindView(R.id.iv_backdrop)
-    ImageView mBackdropImageView;
-
-    /** Get a reference to the ViewPager that will allow the user to swipe between fragments */
-    @BindView(R.id.viewpager)
-    ViewPager mViewPager;
-
-    /** Get a reference to the TabLayout */
-    @BindView(R.id.sliding_tabs)
-    TabLayout mTabLayout;
-
-    /** Get a reference to the TextView to display the title */
-    @BindView(R.id.tv_detail_title)
-    TextView mTitleTextView;
-
-    /** AppBarLayout */
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
-
-    /** Collapsing Toolbar Layout */
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbar;
-
-    /** Toolbar */
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
-    /** Get a reference to the TextView to display runtime */
-    @BindView(R.id.tv_runtime)
-    TextView mRuntimeTextView;
-    /** Get a reference to the TextView to display release year */
-    @BindView(R.id.tv_release_year)
-    TextView mReleaseYearTextView;
-    /** Get a reference to the TextView to display genres*/
-    @BindView(R.id.tv_genre)
-    TextView mGenreTextView;
-    /** ProgressBar that will indicate to the user that we are loading the data */
-    @BindView(R.id.pb_detail_loading_indicator)
-    ProgressBar mDetailLoadingIndicator;
-
-    @BindView(R.id.iv_play_circle)
-    ImageView mPlayCircleImageView;
-
-    /** Floating action button to allow the user to favorite or unfavorite a movie */
-    @BindView(R.id.fab)
-    FloatingActionButton mFavoriteFab;
-
-    /** CoordinateLayout that holds view of the snackbar */
-    @BindView(R.id.coordinator)
-    CoordinatorLayout mCoordinatorLayout;
-
     /** ViewModel for Favorites */
     private FavViewModel mFavViewModel;
 
@@ -164,13 +103,13 @@ public class DetailActivity extends AppCompatActivity implements
     /** Get a reference to the FragmentManager */
     private FragmentManager mFragmentManager;
 
+    /** This field is used for data binding */
+    private ActivityDetailBinding mDetailBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-
-        // Bind the view using ButterKnife
-        ButterKnife.bind(this);
+        mDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         // Get the movie data from the MainActivity. The movie data includes the movie id, original title,
         // title, poster path, overview, vote average, release date, and backdrop path.
@@ -191,15 +130,15 @@ public class DetailActivity extends AppCompatActivity implements
         setupUI();
 
         if (savedInstanceState != null) {
-            mDetailLoadingIndicator.setVisibility(View.GONE);
+            mDetailBinding.pbDetailLoadingIndicator.setVisibility(View.GONE);
 
             String resultRuntime = savedInstanceState.getString(RESULTS_RUNTIME);
             String resultReleaseYear = savedInstanceState.getString(RESULTS_RELEASE_YEAR);
             String resultGenre = savedInstanceState.getString(RESULTS_GENRE);
 
-            mRuntimeTextView.setText(resultRuntime);
-            mReleaseYearTextView.setText(resultReleaseYear);
-            mGenreTextView.setText(resultGenre);
+            mDetailBinding.tvRuntime.setText(resultRuntime);
+            mDetailBinding.tvReleaseYear.setText(resultReleaseYear);
+            mDetailBinding.tvGenre.setText(resultGenre);
         }
     }
 
@@ -211,15 +150,15 @@ public class DetailActivity extends AppCompatActivity implements
         showBackButton();
 
         // Give the TabLayout the ViewPager
-        mTabLayout.setupWithViewPager(mViewPager);
+        mDetailBinding.tabLayout.setupWithViewPager(mDetailBinding.contentDetail.viewpager);
         // Set gravity for the TabLayout
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mDetailBinding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Create an adapter that knows which fragment should be shown on each page
         DetailPagerAdapter pagerAdapter = new DetailPagerAdapter(
                 this, getSupportFragmentManager());
         // Set the adapter onto the ViewPager
-        mViewPager.setAdapter(pagerAdapter);
+        mDetailBinding.contentDetail.viewpager.setAdapter(pagerAdapter);
 
         // Show the title in the app bar when a CollapsingToolbarLayout is fully collapsed
         setCollapsingToolbarTitle();
@@ -239,8 +178,8 @@ public class DetailActivity extends AppCompatActivity implements
      * If the movie is not in the favorites collection, insert the movie data into the database.
      * Otherwise, delete the movie data from the database
      */
-    @OnClick(R.id.fab)
-    public void onFavoriteClick() {
+//    @OnClick(R.id.fab)
+    public void onFavoriteClick(View view) {
         // Create a new MovieEntry
         mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
                 mMovie.getPosterPath(), mMovie.getOverview(), mMovie.getVoteAverage(),
@@ -285,10 +224,10 @@ public class DetailActivity extends AppCompatActivity implements
             @Override
             public void onChanged(@Nullable MovieEntry movieEntry) {
                 if (mFavViewModel.getMovieEntry().getValue() == null) {
-                    mFavoriteFab.setImageResource(R.drawable.favorite_border);
+                    mDetailBinding.fab.setImageResource(R.drawable.favorite_border);
                     mIsInFavorites = false;
                 } else {
-                    mFavoriteFab.setImageResource(R.drawable.favorite);
+                    mDetailBinding.fab.setImageResource(R.drawable.favorite);
                     mIsInFavorites = true;
                 }
             }
@@ -302,7 +241,8 @@ public class DetailActivity extends AppCompatActivity implements
      * Reference: @see "https://stackoverflow.com/questions/34020891/how-to-change-background-color-of-the-snackbar"
      */
     private void showSnackbarAdded() {
-        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, R.string.snackbar_added, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(
+                mDetailBinding.coordinator, R.string.snackbar_added, Snackbar.LENGTH_SHORT);
         // Set background color of the snackbar
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(Color.WHITE);
@@ -316,7 +256,8 @@ public class DetailActivity extends AppCompatActivity implements
      * Show a snackbar message when a movie removed from MovieDatbase
      */
     private void showSnackbarRemoved() {
-        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, R.string.snackbar_removed, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(
+                mDetailBinding.coordinator, R.string.snackbar_removed, Snackbar.LENGTH_SHORT);
         // Set background color of the snackbar
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(Color.WHITE);
@@ -328,8 +269,8 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onTrailerSelected(final Video video) {
-        mPlayCircleImageView.setVisibility(View.VISIBLE);
-        mPlayCircleImageView.setOnClickListener(new View.OnClickListener() {
+        mDetailBinding.ivPlayCircle.setVisibility(View.VISIBLE);
+        mDetailBinding.ivPlayCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchTrailer(video);
@@ -353,7 +294,7 @@ public class DetailActivity extends AppCompatActivity implements
      * Show back button in Collapsing Toolbar
      */
     private void showBackButton() {
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mDetailBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -373,7 +314,7 @@ public class DetailActivity extends AppCompatActivity implements
         Picasso.with(this)
                 .load(backdrop)
                 .error(R.drawable.photo)
-                .into(mBackdropImageView);
+                .into(mDetailBinding.ivBackdrop);
     }
 
     /**
@@ -385,7 +326,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Get title of the movie
         String title = mMovie.getTitle();
         // Set title to the TextView
-        mTitleTextView.setText(title);
+        mDetailBinding.tvDetailTitle.setText(title);
     }
 
     /**
@@ -398,7 +339,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Get the release year (e.g. "2018")
         String releaseYear = releaseDate.substring(RELEASE_YEAR_BEGIN_INDEX, RELEASE_YEAR_END_INDEX);
         // Set the release year to the TextView
-        mReleaseYearTextView.setText(releaseYear);
+        mDetailBinding.tvReleaseYear.setText(releaseYear);
     }
 
     /**
@@ -408,7 +349,7 @@ public class DetailActivity extends AppCompatActivity implements
      */
     private void setCollapsingToolbarTitle() {
         // Set onOffsetChangedListener to determine when CollapsingToolbar is collapsed
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        mDetailBinding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
 
@@ -419,11 +360,11 @@ public class DetailActivity extends AppCompatActivity implements
                 }
                 if (scrollRange + verticalOffset == 0) {
                     // Show title when a CollapsingToolbarLayout is fully collapse
-                    mCollapsingToolbar.setTitle(mMovie.getTitle());
+                    mDetailBinding.collapsingToolbarLayout.setTitle(mMovie.getTitle());
                     isShow = true;
                 } else if (isShow) {
                     // Otherwise hide the title
-                    mCollapsingToolbar.setTitle(" ");
+                    mDetailBinding.collapsingToolbarLayout.setTitle(" ");
                     isShow = false;
                 }
             }
@@ -438,7 +379,7 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onInformationSelected(MovieDetails movieDetails) {
         // Hide the loading indicator
-        mDetailLoadingIndicator.setVisibility(View.GONE);
+        mDetailBinding.pbDetailLoadingIndicator.setVisibility(View.GONE);
 
         // As soon as the loading indicator is gone, show release year
         showReleaseYear();
@@ -446,7 +387,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Get the runtime of the movie from MovieDetails object
         int runtime = movieDetails.getRuntime();
         // Convert Minutes to Hours and Minutes (e.g. "118" -> "1h 58m") and set the runtime to the TextView
-        mRuntimeTextView.setText(FormatUtils.formatTime(this, runtime));
+        mDetailBinding.tvRuntime.setText(FormatUtils.formatTime(this, runtime));
 
         // Get the genre of the movie from MovieDetails
         List<Genre> genres = movieDetails.getGenres();
@@ -463,7 +404,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Join a string using a delimiter
         String genreStr = TextUtils.join(getString(R.string.delimiter_comma), genresStrList);
         // Display the genre
-        mGenreTextView.setText(genreStr);
+        mDetailBinding.tvGenre.setText(genreStr);
     }
 
     /**
@@ -508,13 +449,13 @@ public class DetailActivity extends AppCompatActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        String resultRuntime = mRuntimeTextView.getText().toString();
+        String resultRuntime = mDetailBinding.tvRuntime.getText().toString();
         outState.putString(RESULTS_RUNTIME, resultRuntime);
 
-        String resultReleaseYear = mReleaseYearTextView.getText().toString();
+        String resultReleaseYear = mDetailBinding.tvReleaseYear.getText().toString();
         outState.putString(RESULTS_RELEASE_YEAR, resultReleaseYear);
 
-        String resultGenre = mGenreTextView.getText().toString();
+        String resultGenre = mDetailBinding.tvGenre.getText().toString();
         outState.putString(RESULTS_GENRE, resultGenre);
     }
 
@@ -523,7 +464,7 @@ public class DetailActivity extends AppCompatActivity implements
      */
     @Override
     public void onViewAllSelected() {
-        mViewPager.setCurrentItem(CAST);
+        mDetailBinding.contentDetail.viewpager.setCurrentItem(CAST);
     }
 
     /**
@@ -548,9 +489,9 @@ public class DetailActivity extends AppCompatActivity implements
      */
     private void showLoading(boolean isOnline) {
         if (!isOnline) {
-            mDetailLoadingIndicator.setVisibility(View.GONE);
+            mDetailBinding.pbDetailLoadingIndicator.setVisibility(View.GONE);
         } else {
-            mDetailLoadingIndicator.setVisibility(View.VISIBLE);
+            mDetailBinding.pbDetailLoadingIndicator.setVisibility(View.VISIBLE);
         }
     }
 }

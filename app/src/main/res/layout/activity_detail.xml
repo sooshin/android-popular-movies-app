@@ -13,159 +13,164 @@
   ~  See the License for the specific language governing permissions and
   ~  limitations under the License.
   -->
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.DetailActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent"
+        tools:context=".activity.DetailActivity">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:contentScrim="@color/colorPrimary"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/blue_grey_dark">
+                android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <FrameLayout
-                    android:id="@+id/frame"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:background="@color/blue_grey_dark">
 
-                    <!-- 3:2 aspect ratio ImageView -->
-                    <com.example.android.popularmovies.ThreeTwoImageView
-                        android:id="@+id/iv_backdrop"
+                    <FrameLayout
+                        android:id="@+id/frame"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="@string/backdrop_content_description"
-                        android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax" />
+                        android:layout_height="wrap_content">
 
-                    <!-- 3:2 aspect ratio ImageView for scrim gradient -->
-                    <com.example.android.popularmovies.ThreeTwoImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:background="@drawable/scrim_gradient" />
+                        <!-- 3:2 aspect ratio ImageView -->
+                        <com.example.android.popularmovies.ThreeTwoImageView
+                            android:id="@+id/iv_backdrop"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@string/backdrop_content_description"
+                            android:scaleType="centerCrop"
+                            app:layout_collapseMode="parallax" />
 
-                    <!-- Play button image -->
-                    <ImageView
-                        android:id="@+id/iv_play_circle"
-                        android:layout_width="@dimen/size_play_image"
-                        android:layout_height="@dimen/size_play_image"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:background="@drawable/play_circle"
-                        android:contentDescription="@string/play_content_description"
-                        android:visibility="invisible" />
+                        <!-- 3:2 aspect ratio ImageView for scrim gradient -->
+                        <com.example.android.popularmovies.ThreeTwoImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@drawable/scrim_gradient" />
 
-                </FrameLayout>
+                        <!-- Play button image -->
+                        <ImageView
+                            android:id="@+id/iv_play_circle"
+                            android:layout_width="@dimen/size_play_image"
+                            android:layout_height="@dimen/size_play_image"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:background="@drawable/play_circle"
+                            android:contentDescription="@string/play_content_description"
+                            android:visibility="invisible" />
 
-                <TextView
-                    android:id="@+id/tv_detail_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/source_sans_pro_semi_bold"
-                    android:paddingBottom="@dimen/padding_activity_small"
-                    android:paddingLeft="@dimen/padding_activity"
-                    android:paddingRight="@dimen/padding_activity"
-                    android:paddingTop="@dimen/padding_activity_small"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintEnd_toStartOf="@+id/fab"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/frame"
-                    tools:text="movie title" />
-
-                <TextView
-                    android:id="@+id/tv_runtime"
-                    style="@style/BasicTextStyle"
-                    android:paddingLeft="@dimen/padding_activity"
-                    android:paddingRight="@dimen/padding_activity"
-                    android:textColor="@color/blue_grey_light"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
-                    tools:text="122 min" />
-
-                <TextView
-                    android:id="@+id/tv_release_year"
-                    style="@style/BasicTextStyle"
-                    android:textColor="@color/blue_grey_light"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_runtime"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
-                    tools:text="2018" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_runtime">
+                    </FrameLayout>
 
                     <TextView
-                        android:id="@+id/tv_genre"
-                        style="@style/BasicTextStyle"
+                        android:id="@+id/tv_detail_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro_semi_bold"
                         android:paddingBottom="@dimen/padding_activity_small"
                         android:paddingLeft="@dimen/padding_activity"
                         android:paddingRight="@dimen/padding_activity"
-                        android:textColor="@color/blue_grey_200_light"
-                        tools:text="Action, Adventure, Animation, Family" />
+                        android:paddingTop="@dimen/padding_activity_small"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintEnd_toStartOf="@+id/fab"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/frame"
+                        tools:text="movie title" />
 
-                    <!-- ProgressBar to show the user content is loading -->
-                    <ProgressBar
-                        android:id="@+id/pb_detail_loading_indicator"
-                        android:layout_width="@dimen/size_detail_loading_indicator"
-                        android:layout_height="@dimen/size_detail_loading_indicator"
-                        android:layout_gravity="center"
-                        android:visibility="invisible" />
+                    <TextView
+                        android:id="@+id/tv_runtime"
+                        style="@style/BasicTextStyle"
+                        android:paddingLeft="@dimen/padding_activity"
+                        android:paddingRight="@dimen/padding_activity"
+                        android:textColor="@color/blue_grey_light"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
+                        tools:text="122 min" />
 
-                </FrameLayout>
+                    <TextView
+                        android:id="@+id/tv_release_year"
+                        style="@style/BasicTextStyle"
+                        android:textColor="@color/blue_grey_light"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_runtime"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
+                        tools:text="2018" />
 
-                <!-- Favorite button to mark a movie as a Favorite or UnFavorite -->
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_activity"
-                    app:backgroundTint="@color/color_fab"
-                    app:layout_constraintBottom_toBottomOf="@+id/frame"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/frame" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_runtime">
 
-            </android.support.constraint.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/tv_genre"
+                            style="@style/BasicTextStyle"
+                            android:paddingBottom="@dimen/padding_activity_small"
+                            android:paddingLeft="@dimen/padding_activity"
+                            android:paddingRight="@dimen/padding_activity"
+                            android:textColor="@color/blue_grey_200_light"
+                            tools:text="Action, Adventure, Animation, Family" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                        <!-- ProgressBar to show the user content is loading -->
+                        <ProgressBar
+                            android:id="@+id/pb_detail_loading_indicator"
+                            android:layout_width="@dimen/size_detail_loading_indicator"
+                            android:layout_height="@dimen/size_detail_loading_indicator"
+                            android:layout_gravity="center"
+                            android:visibility="invisible" />
+
+                    </FrameLayout>
+
+                    <!-- Favorite button to mark a movie as a Favorite or UnFavorite -->
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_activity"
+                        android:onClick="onFavoriteClick"
+                        app:backgroundTint="@color/color_fab"
+                        app:layout_constraintBottom_toBottomOf="@+id/frame"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/frame" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:layout_collapseMode="pin" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <!-- Provides a horizontal layout to display tabs -->
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                style="@style/CategoryTab"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_collapseMode="pin" />
-        </android.support.design.widget.CollapsingToolbarLayout>
+                android:layout_height="wrap_content"
+                android:background="@color/blue_grey_dark"
+                app:tabMode="scrollable" />
 
-        <!-- Provides a horizontal layout to display tabs -->
-        <android.support.design.widget.TabLayout
-            android:id="@+id/sliding_tabs"
-            style="@style/CategoryTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_grey_dark"
-            app:tabMode="scrollable" />
+        </android.support.design.widget.AppBarLayout>
 
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_detail" />
-</android.support.design.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/content_detail"
+            layout="@layout/content_detail" />
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
