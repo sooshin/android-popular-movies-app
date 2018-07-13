@@ -97,7 +97,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = mMovies.get(position);
 
         // Display the title
-        holder.mMovieItemBinding.setMovie(movie);
+        holder.mMovieItemBinding.tvTitle.setText(movie.getTitle());
 
         // Get the complete thumbnail path
         String thumbnail = IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();

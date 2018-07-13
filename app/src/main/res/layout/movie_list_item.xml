@@ -17,13 +17,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="movie"
-            type="com.example.android.popularmovies.model.Movie" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +57,6 @@
                     android:fontFamily="@font/source_sans_pro_regular"
                     android:maxLines="2"
                     android:padding="@dimen/padding_list_text"
-                    android:text="@{movie.title}"
                     android:textColor="@android:color/white"
                     android:textSize="13sp" />
             </RelativeLayout>
