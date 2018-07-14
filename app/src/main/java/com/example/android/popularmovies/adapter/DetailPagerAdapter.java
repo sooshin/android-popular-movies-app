@@ -60,12 +60,12 @@ public class DetailPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case INFORMATION:
                 return new InformationFragment();
+            case TRAILERS:
+                return new TrailerFragment();
             case CAST:
                 return new CastFragment();
             case REVIEWS:
                 return new ReviewFragment();
-            case TRAILERS:
-                return new TrailerFragment();
         }
         return null;
     }

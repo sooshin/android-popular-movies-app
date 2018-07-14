@@ -89,12 +89,12 @@ public final class Constant {
 
     /** Constant value for each fragment */
     public static final int INFORMATION = 0;
-    public static final int CAST = 1;
-    public static final int REVIEWS = 2;
-    public static final int TRAILERS = 3;
+    public static final int TRAILERS = 1;
+    public static final int CAST = 2;
+    public static final int REVIEWS = 3;
 
     /** String array used to display the tap title*/
-    public static final String[] TAP_TITLE = new String[] {"Info", "Cast", "Reviews", "Trailers"};
+    public static final String[] TAP_TITLE = new String[] {"Info", "Trailers", "Cast", "Reviews"};
 
     /** The number of page */
     public static final int PAGE_COUNT = TAP_TITLE.length;
