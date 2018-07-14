@@ -31,12 +31,13 @@
             app:cardMaxElevation="@dimen/card_max_elevation"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true"
-            app:contentPadding="@dimen/card_content_padding_zero">
+            app:contentPadding="@dimen/card_content_padding_zero"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/card_background">
+                android:background="@drawable/list_item_selector">
 
                 <!-- 2:3 aspect ratio Image view -->
                 <com.example.android.popularmovies.TwoThreeImageView

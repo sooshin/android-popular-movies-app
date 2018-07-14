@@ -38,6 +38,7 @@
     <color name="blue_grey_200_light">#e2f1f8</color>
     <color name="blue_grey_200">#b0bec5</color>
     <color name="blue_grey_500">#607d8b</color>
+    <color name="blue_grey_700">#455a64</color>
 
     <!-- Color for the tab -->
     <color name="color_indicator">#8bc34a</color>

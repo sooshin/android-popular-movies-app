@@ -215,6 +215,7 @@
                         android:id="@+id/tv_view_all"
                         style="@style/ViewAllTextStyle"
                         android:layout_marginTop="@dimen/margin_activity"
+                        android:background="@drawable/list_item_selector"
                         android:text="@string/view_all"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_cast"
