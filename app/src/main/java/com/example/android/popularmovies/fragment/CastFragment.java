@@ -20,18 +20,19 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.CastAdapter;
+import com.example.android.popularmovies.databinding.FragmentCastBinding;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Movie;
@@ -42,10 +43,6 @@ import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
@@ -63,10 +60,8 @@ public class CastFragment extends Fragment {
     /** Member variable for CastAdapter */
     private CastAdapter mCastAdapter;
 
-    private Unbinder mUnbinder;
-
-    /** Get a reference to RecyclerView */
-    @BindView(R.id.rv_cast) RecyclerView mRecyclerView;
+    /** This field is used for data binding */
+    private FragmentCastBinding mCastBinding;
 
     /** Member variable for the Movie object */
     private Movie mMovie;
@@ -86,16 +81,16 @@ public class CastFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_cast, container, false);
-
-        // Bind the view using ButterKnife
-        mUnbinder = ButterKnife.bind(this, rootView);
+        // Instantiate mCastBinding using DataBindingUtil
+        mCastBinding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_cast, container, false);
+        View rootView = mCastBinding.getRoot();
 
         // A LinearLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a linear list.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        mCastBinding.rvCast.setLayoutManager(layoutManager);
+        mCastBinding.rvCast.setHasFixedSize(true);
 
         // Create an empty ArrayList
         mCastList = new ArrayList<>();
@@ -103,7 +98,7 @@ public class CastFragment extends Fragment {
         // The CastAdapter is responsible for displaying each item in the list.
         mCastAdapter = new CastAdapter(mCastList);
         // Set Adapter on RecyclerView
-        mRecyclerView.setAdapter(mCastAdapter);
+        mCastBinding.rvCast.setAdapter(mCastAdapter);
         return rootView;
     }
 
@@ -167,13 +162,4 @@ public class CastFragment extends Fragment {
         mCastAdapter.addAll(mCastList);
     }
 
-    /**
-     * When binding a fragment in onCreateView, set the views to null in onDestroyView.
-     * Butter Knife returns an Unbinder instance when calling bind
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
-    }
 }

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -34,12 +35,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
@@ -48,6 +46,7 @@ import com.example.android.popularmovies.adapter.MovieAdapter;
 import com.example.android.popularmovies.adapter.MovieAdapter.MovieAdapterOnClickHandler;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MoviePreferences;
+import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.InjectorUtils;
@@ -56,9 +55,6 @@ import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_EDGE;
@@ -76,21 +72,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    /** Reference to RecyclerView */
-    @BindView(R.id.rv_movie) RecyclerView mRecyclerView;
-
-    /** Reference to Offline TextView*/
-    @BindView(R.id.tv_offline) TextView mOfflineTextView;
-
-    /** Reference to the error message TextView */
-    @BindView(R.id.tv_error) TextView mErrorTextView;
-
-    /** ProgressBar that will indicate to the user that we are loading the data */
-    @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
-
-    /** SwipeRefreshLayout that is used whenever the user can refresh the contents of a view*/
-    @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     /** Reference to MovieAdapter*/
     private MovieAdapter mMovieAdapter;
@@ -110,23 +91,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** Member variable for the list of movies */
     private List<Movie> mMovies;
 
+    /** This field is used for data binding */
+    private ActivityMainBinding mMainBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Bind the view using ButterKnife
-        ButterKnife.bind(this);
+        mMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         // A GridLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a grid layout.
         GridLayoutManager layoutManager = new GridLayoutManager(this, GRID_SPAN_COUNT);
         // Set the layout manager to the RecyclerView
-        mRecyclerView.setLayoutManager(layoutManager);
+        mMainBinding.rvMovie.setLayoutManager(layoutManager);
 
         // Use this setting to improve performance if you know that changes in content do not
         // change the child layout size in the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        mMainBinding.rvMovie.setHasFixedSize(true);
 
         // Create an empty array list
         List<Movie> movies = new ArrayList<>();
@@ -162,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             // Get the scroll position
             mSavedLayoutState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
             // Restore the scroll position
-            mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+            mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
         }
     }
 
@@ -187,12 +168,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // If the sortCriteria is equal to "favorites", set the FavoriteAdapter to the RecyclerView
         // and observe the list of MovieEntry and update UI to display favorite movies
         if (sortCriteria.equals(getString(R.string.pref_sort_by_favorites))) {
-            mRecyclerView.setAdapter(mFavoriteAdapter);
+            mMainBinding.rvMovie.setAdapter(mFavoriteAdapter);
             observeFavoriteMovies();
         } else {
             // Otherwise, set the MovieAdapter to the RecyclerView and observe the MovieResponse
             // and update the UI to display movies
-            mRecyclerView.setAdapter(mMovieAdapter);
+            mMainBinding.rvMovie.setAdapter(mMovieAdapter);
             observeMovieResponse();
         }
     }
@@ -208,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 mFavoriteAdapter.setMovies(movieEntries);
 
                 // Restore the scroll position after setting up the adapter with the list of favorite movies
-                mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
 
                 if (movieEntries == null) {
                     // Display Empty view
@@ -233,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                     // Add a list of Movies
                     mMovieAdapter.addAll(mMovies);
                     // Restore the scroll position after setting up the adapter with the list of movies
-                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                    mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
                 }
 
                 // Show the movie list or the loading screen based on whether the movie data exists
@@ -326,10 +307,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     private void setSwipeRefreshLayout() {
         // Set the colors used in the progress animation
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mMainBinding.swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         // Set the listener to be notified when a refresh is triggered
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mMainBinding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             /**
              * Called when a swipe gesture triggers a refresh
@@ -344,7 +325,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
                 hideLoadingAndRefresh();
                 // Show snack bar message
-                Snackbar.make(mRecyclerView, getString(R.string.snackbar_updated), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mMainBinding.rvMovie, getString(R.string.snackbar_updated)
+                        , Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -397,10 +379,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     private void showMovieDataView() {
         // First, make sure the offline message or error message is invisible
-        mOfflineTextView.setVisibility(View.INVISIBLE);
-        mErrorTextView.setVisibility(View.INVISIBLE);
+        mMainBinding.tvOffline.setVisibility(View.INVISIBLE);
+        mMainBinding.tvError.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mMainBinding.rvMovie.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -408,9 +390,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     private void showOfflineMessage() {
         // First, hide the currently visible data
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
         // Then, show the offline message
-        mOfflineTextView.setVisibility(View.VISIBLE);
+        mMainBinding.tvOffline.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -418,10 +400,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      */
     private void showErrorMessage() {
         // First, hide the currently visible data
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
         // Then, show an error message
-        mErrorTextView.setVisibility(View.VISIBLE);
-        mErrorTextView.setText(getString(R.string.error_message_failed));
+        mMainBinding.tvError.setVisibility(View.VISIBLE);
+        mMainBinding.tvError.setText(getString(R.string.error_message_failed));
     }
 
     /**
@@ -430,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     private void setColumnSpacing() {
         GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(
                 GRID_SPAN_COUNT, GRID_SPACING, GRID_INCLUDE_EDGE);
-        mRecyclerView.addItemDecoration(decoration);
+        mMainBinding.rvMovie.addItemDecoration(decoration);
     }
 
     /**
@@ -467,22 +449,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         super.onSaveInstanceState(outState);
         // Store the scroll position in our bundle
         outState.putParcelable(LAYOUT_MANAGER_STATE,
-                mRecyclerView.getLayoutManager().onSaveInstanceState());
+                mMainBinding.rvMovie.getLayoutManager().onSaveInstanceState());
     }
 
     private void showLoading() {
         // First, hide the movie data
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
         // Then, show the loading indicator
-        mLoadingIndicator.setVisibility(View.VISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private void hideLoadingAndRefresh() {
         // First, hide the loading indicator
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMainBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
         // Hide refresh progress
-        mSwipeRefreshLayout.setRefreshing(false);
+        mMainBinding.swipeRefresh.setRefreshing(false);
         // Then, make sure the movie data is visible
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mMainBinding.rvMovie.setVisibility(View.VISIBLE);
     }
 }

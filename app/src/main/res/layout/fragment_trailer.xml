@@ -14,26 +14,29 @@
   ~  limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".activity.DetailActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_trailer"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/blue_grey_dark" />
+        android:layout_height="match_parent">
 
-    <!-- Only visible when there are no reviews -->
-    <TextView
-        android:id="@+id/tv_no_trailers"
-        style="@style/MessageTextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/blue_grey_dark"
-        android:textColor="@color/blue_grey_200_light" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blue_grey_dark" />
 
-</FrameLayout>
+        <!-- Only visible when there are no reviews -->
+        <TextView
+            android:id="@+id/tv_no_trailers"
+            style="@style/MessageTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blue_grey_dark"
+            android:textColor="@color/blue_grey_200_light" />
+
+    </FrameLayout>
+</layout>

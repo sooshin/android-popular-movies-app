@@ -20,20 +20,20 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.ReviewAdapter;
+import com.example.android.popularmovies.databinding.FragmentReviewBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.ReviewResponse;
@@ -43,10 +43,6 @@ import com.example.android.popularmovies.viewmodel.ReviewViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
@@ -58,18 +54,11 @@ public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdap
     /** Member variable for the list of reviews */
     private List<Review> mReviews;
 
-    /** Get a reference to RecyclerView */
-    @BindView(R.id.rv_review)
-    RecyclerView mRecyclerView;
-
-    /** Get a reference to the TextView that displays a message saying that no reviews found */
-    @BindView(R.id.tv_no_reviews)
-    TextView mNoReviewsTextView;
+    /** This field is used for data binding */
+    private FragmentReviewBinding mReviewBinding;
 
     /** Member variable for ReviewAdapter */
     private ReviewAdapter mReviewAdapter;
-
-    private Unbinder mUnbinder;
 
     /** Member variable for the Movie object */
     private Movie mMovie;
@@ -130,16 +119,16 @@ public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdap
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_review, container, false);
-
-        // Bind the view using ButterKnife
-        mUnbinder = ButterKnife.bind(this, rootView);
+        // Instantiate mReviewBinding using DataBindingUtil
+        mReviewBinding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_review, container, false);
+        View rootView = mReviewBinding.getRoot();
 
         // A LinearLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a linear list.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        mReviewBinding.rvReview.setLayoutManager(layoutManager);
+        mReviewBinding.rvReview.setHasFixedSize(true);
 
         // Create an empty ArrayList
         mReviews = new ArrayList<>();
@@ -147,19 +136,9 @@ public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdap
         // The ReviewAdapter is responsible for displaying each item in the list.
         mReviewAdapter = new ReviewAdapter(mReviews, this);
         // Set ReviewAdapter on RecyclerView
-        mRecyclerView.setAdapter(mReviewAdapter);
+        mReviewBinding.rvReview.setAdapter(mReviewAdapter);
 
         return rootView;
-    }
-
-    /**
-     * When binding a fragment in onCreateView, set the views to null in onDestroyView.
-     * Butter Knife returns an Unbinder instance when calling bind.
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     /**
@@ -180,8 +159,8 @@ public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdap
      */
     private void showNoReviewsMessage() {
         // First, hide the currently visible data
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        mReviewBinding.rvReview.setVisibility(View.INVISIBLE);
         // Then, show a message that says no reviews found
-        mNoReviewsTextView.setVisibility(View.VISIBLE);
+        mReviewBinding.tvNoReviews.setVisibility(View.VISIBLE);
     }
 }

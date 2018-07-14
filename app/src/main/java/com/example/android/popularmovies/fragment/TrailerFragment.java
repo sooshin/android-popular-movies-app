@@ -20,20 +20,20 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.TrailerAdapter;
+import com.example.android.popularmovies.databinding.FragmentTrailerBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.model.VideoResponse;
@@ -43,10 +43,6 @@ import com.example.android.popularmovies.viewmodel.TrailerViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 
@@ -70,17 +66,10 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
     /** Member variable for TrailerAdapter */
     private TrailerAdapter mTrailerAdapter;
 
-    private Unbinder mUnbinder;
-
     private Movie mMovie;
 
-    /** Get a reference to RecyclerView */
-    @BindView(R.id.rv_trailer)
-    RecyclerView mRecyclerView;
-
-    /** Get a reference to the TextView that displays a message saying that no trailers found */
-    @BindView(R.id.tv_no_trailers)
-    TextView mNoTrailersTextView;
+    /** This field is used for data binding */
+    private FragmentTrailerBinding mTrailerBinding;
 
     /** ViewModel for TrailerFragment */
     private TrailerViewModel mTrailerViewModel;
@@ -131,16 +120,15 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_trailer, container, false);
-
-        // Bind the view using ButterKnife
-        mUnbinder = ButterKnife.bind(this, rootView);
+        mTrailerBinding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_trailer, container, false);
+        View rootView = mTrailerBinding.getRoot();
 
         // A LinearLayoutManager is responsible for measuring and positioning item views within a
         // RecyclerView into a linear list.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        mTrailerBinding.rvTrailer.setLayoutManager(layoutManager);
+        mTrailerBinding.rvTrailer.setHasFixedSize(true);
 
         // Create an empty ArrayList
         mVideos = new ArrayList<>();
@@ -148,7 +136,7 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
         // The TrailerAdapter is responsible for displaying each item in the list.
         mTrailerAdapter = new TrailerAdapter(mVideos, this);
         // Set TrailerAdapter on RecyclerView
-        mRecyclerView.setAdapter(mTrailerAdapter);
+        mTrailerBinding.rvTrailer.setAdapter(mTrailerAdapter);
 
         return rootView;
     }
@@ -183,16 +171,6 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
             throw new ClassCastException(context.toString()
                     + " must implement OnTrailerSelectedListener");
         }
-    }
-
-    /**
-     * When binding a fragment in onCreateView, set the views to null in onDestroyView.
-     * Butter Knife returns an Unbinder instance when calling bind.
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     /**
