@@ -105,6 +105,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     /** This field is used for data binding */
     private ActivityDetailBinding mDetailBinding;
+    private String mFirstVideoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,8 +286,8 @@ public class DetailActivity extends AppCompatActivity implements
      */
     private void launchTrailer(Video video) {
         String firstVideoKey = video.getKey();
-        String firstVideoUrl = YOUTUBE_BASE_URL + firstVideoKey;
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(firstVideoUrl));
+        mFirstVideoUrl = YOUTUBE_BASE_URL + firstVideoKey;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mFirstVideoUrl));
         startActivity(intent);
     }
 
@@ -433,7 +434,8 @@ public class DetailActivity extends AppCompatActivity implements
     private Intent createShareIntent() {
         // Text message to share
         String shareText = mMovie.getTitle() + getString(R.string.new_line)
-                + SHARE_URL + mMovie.getId();
+                + SHARE_URL + mMovie.getId() + getString(R.string.new_line)
+                + mFirstVideoUrl;
 
         // Create share intent
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
