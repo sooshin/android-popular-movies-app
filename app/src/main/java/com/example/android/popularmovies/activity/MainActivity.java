@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** ViewModel for MainActivity */
     private MainActivityViewModel mMainViewModel;
 
+    /** Member variable for the list of movies */
+    private List<Movie> mMovies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +140,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
         // Get the sort criteria currently set in Preferences
         mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
+
+        // Get the ViewModel from the factory
         setupViewModel(mSortCriteria);
+        // Update the UI depending on the sort order
+        updateUI(mSortCriteria);
 
         // Register MainActivity as an OnPreferenceChangedListener to receive a callback when a
         // SharedPreference has changed. Please note that we must unregister MainActivity as an
@@ -159,11 +166,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         }
     }
 
+    /**
+     * Get the MainActivityViewModel from the factory
+     */
     private void setupViewModel(String sortCriteria) {
         MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(
                 MainActivity.this, sortCriteria);
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
+    }
 
+    /**
+     * Update the UI depending on the sort criteria
+     */
+    private void updateUI(String sortCriteria) {
         // Set a new value for the MovieResponse
         mMainViewModel.setMovieResponse(sortCriteria);
         // Set a new value for the list of MovieEntries
@@ -173,53 +188,67 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // and observe the list of MovieEntry and update UI to display favorite movies
         if (sortCriteria.equals(getString(R.string.pref_sort_by_favorites))) {
             mRecyclerView.setAdapter(mFavoriteAdapter);
-            mMainViewModel.getFavoriteMovies().observe(this, new Observer<List<MovieEntry>>() {
-                @Override
-                public void onChanged(@Nullable List<MovieEntry> movieEntries) {
-                    // Set the list of MovieEntries to display favorite movies
-                    mFavoriteAdapter.setMovies(movieEntries);
-
-                    // Restore the scroll position after setting up the adapter with the list of favorite movies
-                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
-
-                    if (movieEntries == null) {
-                        // Display Empty view
-                        // ToDo:
-                    } else if(!isOnline()) {
-                        showMovieDataView();
-                    }
-                }
-            });
+            observeFavoriteMovies();
         } else {
             // Otherwise, set the MovieAdapter to the RecyclerView and observe the MovieResponse
             // and update the UI to display movies
             mRecyclerView.setAdapter(mMovieAdapter);
-            mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
-                @Override
-                public void onChanged(@Nullable MovieResponse movieResponse) {
-                    if (movieResponse != null) {
-                        // Get the list of movies
-                        List<Movie> movies = movieResponse.getMovieResults();
-                        // Add a list of Movies
-                        mMovieAdapter.addAll(movies);
-                        // Restore the scroll position after setting up the adapter with the list of movies
-                        mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
-                    }
-
-                    // Show the movie list or the loading screen based on whether the movie data exists
-                    // and is loaded.
-                    if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
-                        hideLoadingAndRefresh();
-                    } else if (!isOnline()) {
-                        // When offline, show a message displaying that it is offline
-                        hideLoadingAndRefresh();
-                        showOfflineMessage();
-                    } else {
-                        showLoading();
-                    }
-                }
-            });
+            observeMovieResponse();
         }
+    }
+
+    /**
+     * Update the list of MovieEntries from LiveData in MainActivityViewModel
+     */
+    private void observeFavoriteMovies() {
+        mMainViewModel.getFavoriteMovies().observe(this, new Observer<List<MovieEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieEntry> movieEntries) {
+                // Set the list of MovieEntries to display favorite movies
+                mFavoriteAdapter.setMovies(movieEntries);
+
+                // Restore the scroll position after setting up the adapter with the list of favorite movies
+                mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+
+                if (movieEntries == null) {
+                    // Display Empty view
+                    // ToDo:
+                } else if(!isOnline()) {
+                    showMovieDataView();
+                }
+            }
+        });
+    }
+
+    /**
+     * Update the MovieResponse from LiveData in MainActivityViewModel
+     */
+    private void observeMovieResponse() {
+        mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
+            @Override
+            public void onChanged(@Nullable MovieResponse movieResponse) {
+                if (movieResponse != null) {
+                    // Get the list of movies
+                    mMovies = movieResponse.getMovieResults();
+                    // Add a list of Movies
+                    mMovieAdapter.addAll(mMovies);
+                    // Restore the scroll position after setting up the adapter with the list of movies
+                    mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                }
+
+                // Show the movie list or the loading screen based on whether the movie data exists
+                // and is loaded.
+                if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
+                    hideLoadingAndRefresh();
+                } else if (!isOnline()) {
+                    // When offline, show a message displaying that it is offline
+                    hideLoadingAndRefresh();
+                    showOfflineMessage();
+                } else {
+                    showLoading();
+                }
+            }
+        });
     }
 
     /**
@@ -233,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         }
 
         // When SharedPreference changes, observe the data and update the UI
-        setupViewModel(mSortCriteria);
+        updateUI(mSortCriteria);
     }
 
     @Override
@@ -311,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 showMovieDataView();
 
                 // When refreshing, observe the data and update the UI
-                setupViewModel(mSortCriteria);
+                updateUI(mSortCriteria);
 
                 hideLoadingAndRefresh();
                 // Show snack bar message
