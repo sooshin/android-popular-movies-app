@@ -30,7 +30,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -100,9 +99,6 @@ public class DetailActivity extends AppCompatActivity implements
     /** Movie object */
     private Movie mMovie;
 
-    /** Get a reference to the FragmentManager */
-    private FragmentManager mFragmentManager;
-
     /** This field is used for data binding */
     private ActivityDetailBinding mDetailBinding;
     private String mFirstVideoUrl;
@@ -170,8 +166,6 @@ public class DetailActivity extends AppCompatActivity implements
 
         // When it is online, show loading indicator, otherwise hide loading indicator.
         showLoading(isOnline());
-        // Get the FragmentManager for interacting with fragments associated with DetailActivity
-        mFragmentManager = getSupportFragmentManager();
     }
 
     /**
@@ -179,7 +173,6 @@ public class DetailActivity extends AppCompatActivity implements
      * If the movie is not in the favorites collection, insert the movie data into the database.
      * Otherwise, delete the movie data from the database
      */
-//    @OnClick(R.id.fab)
     public void onFavoriteClick(View view) {
         // Create a new MovieEntry
         mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
