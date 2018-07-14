@@ -54,4 +54,12 @@ public class MainActivityViewModel extends ViewModel {
     public void setFavoriteMovies() {
         mFavoriteMovies = mRepository.getFavoriteMovies();
     }
+
+    public LiveData<MovieResponse> getNextMovieResponse() {
+        return mMovieResponse;
+    }
+
+    public void setNextMovieResponse(String sortCriteria, int page) {
+        mMovieResponse = mRepository.getNextMovies(sortCriteria, page);
+    }
 }

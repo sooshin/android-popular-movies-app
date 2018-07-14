@@ -35,10 +35,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.android.popularmovies.EndlessRecyclerViewScrollListener;
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.FavoriteAdapter;
@@ -94,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
     /** This field is used for data binding */
     private ActivityMainBinding mMainBinding;
 
+    /** Member variable for the EndlessRecyclerViewScrollListener */
+    private EndlessRecyclerViewScrollListener mScrollListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // Update the UI depending on the sort order
         updateUI(mSortCriteria);
 
+        // Load automatically more movies as the user scrolls through the movies
+        setEndlessScrolling(layoutManager);
+
         // Register MainActivity as an OnPreferenceChangedListener to receive a callback when a
         // SharedPreference has changed. Please note that we must unregister MainActivity as an
         // OnSharedPreferenceChanged listener in onDestroy to avoid any memory leaks.
@@ -144,6 +152,66 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             mSavedLayoutState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
             // Restore the scroll position
             mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+        }
+    }
+
+    /**
+     * Load automatically more movies as the user scrolls through the movies
+     *
+     * @param layoutManager
+     */
+    private void setEndlessScrolling(GridLayoutManager layoutManager) {
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        mScrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Load next page of movies
+                loadNextMovieData(page, mSortCriteria);
+            }
+        };
+        // Associate RecyclerView with the EndlessRecyclerViewScrollListener to enable endless pagination
+        mMainBinding.rvMovie.addOnScrollListener(mScrollListener);
+    }
+
+    /**
+     *
+     * @param offset
+     * @param sortBy
+     */
+    private void loadNextMovieData(int offset, String sortBy) {
+        if (sortBy.equals(getString(R.string.pref_sort_by_favorites))) {
+            mMainViewModel.setFavoriteMovies();
+            // Set the FavoriteAdapter to the RecyclerView
+            mMainBinding.rvMovie.setAdapter(mFavoriteAdapter);
+            // Update the list of MovieEntries from LiveData in MainActivityViewModel
+            observeFavoriteMovies();
+        } else {
+            for (offset = 2; offset < 30; offset++) {
+                mMainViewModel.setNextMovieResponse(sortBy, offset);
+
+                // Set the MovieAdapter to the RecyclerView
+                mMainBinding.rvMovie.setAdapter(mMovieAdapter);
+                mMainViewModel.getNextMovieResponse().observe(this, new Observer<MovieResponse>() {
+                    @Override
+                    public void onChanged(@Nullable MovieResponse movieResponse) {
+                        if (movieResponse != null) {
+                            // Get the list of next movies
+                            List<Movie> moviesNext = movieResponse.getMovieResults();
+
+                            // Append the list of next movies to the existing set of movies
+                            mMovies.addAll(moviesNext);
+                            // Add a list of Movies to the movie adapter
+                            mMovieAdapter.addAll(mMovies);
+
+                            mScrollListener.resetState();
+
+                            // Restore the scroll position after setting up the adapter with the list of movies
+                            mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                        }
+                    }
+                });
+            }
         }
     }
 

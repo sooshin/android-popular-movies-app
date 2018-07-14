@@ -106,6 +106,29 @@ public class MovieRepository {
         return movieResponseData;
     }
 
+    public LiveData<MovieResponse> getNextMovies(String sortCriteria, int page) {
+        final MutableLiveData<MovieResponse> movieResponseData = new MutableLiveData<>();
+
+        mTheMovieApi.getMovies(sortCriteria, API_KEY, LANGUAGE, page)
+                // Calls are executed with asynchronously with enqueue and notify callback of its response
+                .enqueue(new Callback<MovieResponse>() {
+                    @Override
+                    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                        if (response.isSuccessful()) {
+                            MovieResponse movieResponse = response.body();
+                            movieResponseData.setValue(movieResponse);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieResponse> call, Throwable t) {
+                        movieResponseData.setValue(null);
+                        Log.e(TAG, "Failed getting movies: " + t.getMessage());
+                    }
+                });
+        return movieResponseData;
+    }
+
     /**
      * Make a network request by calling enqueue and provide a LiveData object of MovieDetails for ViewModel
      *
