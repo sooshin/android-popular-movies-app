@@ -36,6 +36,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -264,10 +265,18 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onTrailerSelected(final Video video) {
         mDetailBinding.ivPlayCircle.setVisibility(View.VISIBLE);
+
+        // Get the key of the first video
+        String firstVideoKey = video.getKey();
+        // The complete the first trailer's YouTube URL
+        mFirstVideoUrl = YOUTUBE_BASE_URL + firstVideoKey;
+
         mDetailBinding.ivPlayCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchTrailer(video);
+                // When the user clicks the play circle button on the backdrop image,
+                // launch the trailer using intent
+                launchTrailer(mFirstVideoUrl);
             }
         });
     }
@@ -275,13 +284,13 @@ public class DetailActivity extends AppCompatActivity implements
     /**
      * Use Intent to open a YouTube link in either the native app or a web browser of choice
      *
-     * @param video The video object that contains YouTube url
+     * @param videoUrl The first trailer's YouTube URL
      */
-    private void launchTrailer(Video video) {
-        String firstVideoKey = video.getKey();
-        mFirstVideoUrl = YOUTUBE_BASE_URL + firstVideoKey;
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mFirstVideoUrl));
-        startActivity(intent);
+    private void launchTrailer(String videoUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**
@@ -414,8 +423,20 @@ public class DetailActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail, menu);
-        menu.findItem(R.id.action_share).setIntent(createShareIntent());
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.action_share:
+                // Share movie information using share intent
+                startActivity(createShareIntent());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -426,9 +447,13 @@ public class DetailActivity extends AppCompatActivity implements
      */
     private Intent createShareIntent() {
         // Text message to share
-        String shareText = mMovie.getTitle() + getString(R.string.new_line)
-                + SHARE_URL + mMovie.getId() + getString(R.string.new_line)
-                + mFirstVideoUrl;
+        String shareText = getString(R.string.check_out) + mMovie.getTitle()
+                + getString(R.string.new_line) + SHARE_URL + mMovie.getId();
+        // If there is the first trailer, add the first trailer's YouTube URL to the text message
+        if (mFirstVideoUrl != null) {
+            shareText += getString(R.string.new_line) + getString(R.string.youtube_trailer)
+                    + mFirstVideoUrl;
+        }
 
         // Create share intent
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
