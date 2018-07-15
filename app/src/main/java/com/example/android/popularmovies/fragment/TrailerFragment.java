@@ -106,11 +106,12 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
                     mVideos = videoResponse.getVideoResults();
                     videoResponse.setVideoResults(mVideos);
 
-                    // Trigger the callback onTrailerSelected
-                    // to transfer the first trailer from TrailerFragment to DetailActivity
-                    mCallback.onTrailerSelected(mVideos.get(0));
-
+                    // Check if there is a trailer
                     if (!mVideos.isEmpty()) {
+                        // Trigger the callback onTrailerSelected
+                        // to transfer the first trailer from TrailerFragment to DetailActivity
+                        mCallback.onTrailerSelected(mVideos.get(0));
+
                         mTrailerAdapter.addAll(mVideos);
                     }
                 }

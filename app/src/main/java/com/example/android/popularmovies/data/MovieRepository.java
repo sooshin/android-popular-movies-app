@@ -212,7 +212,9 @@ public class MovieRepository {
                     public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
                         if (response.isSuccessful()) {
                             VideoResponse videoResponse = response.body();
-                            videoResponseData.setValue(videoResponse);
+                            if (videoResponse != null) {
+                                videoResponseData.setValue(videoResponse);
+                            }
                         }
                     }
 
