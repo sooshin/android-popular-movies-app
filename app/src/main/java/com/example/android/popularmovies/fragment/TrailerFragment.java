@@ -113,6 +113,9 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
                         mCallback.onTrailerSelected(mVideos.get(0));
 
                         mTrailerAdapter.addAll(mVideos);
+                    } else {
+                        // If there are no trailers, show a message that says no trailers found
+                        showNoTrailersMessage();
                     }
                 }
             }
@@ -190,5 +193,16 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    /**
+     * This method will make the message that says no trailers found visible and
+     * hide the View for the trailers data
+     */
+    private void showNoTrailersMessage() {
+        // First, hide the currently visible data
+        mTrailerBinding.rvTrailer.setVisibility(View.INVISIBLE);
+        // Then, show a message that says no trailers found
+        mTrailerBinding.tvNoTrailers.setVisibility(View.VISIBLE);
     }
 }

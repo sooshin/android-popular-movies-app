@@ -62,6 +62,7 @@
     <!-- A message when there are no reviews available -->
     <string name="message_no_reviews">No reviews found.\n\nSorry, we couldn\'t find any reviews,
         please check back later.</string>
+    <string name="message_no_trailers">No trailers found.</string>
 
     <string name="check_out">Check out\u0020</string>
     <string name="youtube_trailer">YouTube Trailer\u0020</string>
