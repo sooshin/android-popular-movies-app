@@ -289,6 +289,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                 // and is loaded.
                 if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
                     hideLoadingAndRefresh();
+                    // Hide offline message and show movie data
+                    showMovieDataView();
                 } else if (!isOnline()) {
                     // When offline, show a message displaying that it is offline
                     hideLoadingAndRefresh();
