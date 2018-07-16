@@ -48,10 +48,17 @@ public class MovieEntry {
     @ColumnInfo(name = "release_date")
     private String releaseDate;
 
-    @ColumnInfo(name = "backdropPath")
+    @ColumnInfo(name = "backdrop_path")
     private String backdropPath;
 
     private Date date;
+
+    private String runtime;
+
+    @ColumnInfo(name = "release_year")
+    private String releaseYear;
+
+    private String genre;
 
     /**
      * Constructor
@@ -62,7 +69,8 @@ public class MovieEntry {
      */
     @Ignore
     public MovieEntry(int movieId, String originalTitle, String title, String posterPath, String overview,
-                      double voteAverage, String releaseDate, String backdropPath, Date date) {
+                      double voteAverage, String releaseDate, String backdropPath, Date date,
+                      String runtime, String releaseYear, String genre) {
         this.movieId = movieId;
         this.originalTitle = originalTitle;
         this.title = title;
@@ -72,13 +80,17 @@ public class MovieEntry {
         this.releaseDate = releaseDate;
         this.backdropPath = backdropPath;
         this.date = date;
+        this.runtime = runtime;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
     }
 
     /**
      * Constructor used by Room to create MovieEntries
      */
     public MovieEntry(int id, int movieId, String originalTitle, String title, String posterPath, String overview,
-                      double voteAverage, String releaseDate, String backdropPath, Date date) {
+                      double voteAverage, String releaseDate, String backdropPath, Date date,
+                      String runtime, String releaseYear, String genre) {
         this.id = id;
         this.movieId = movieId;
         this.originalTitle = originalTitle;
@@ -89,6 +101,9 @@ public class MovieEntry {
         this.releaseDate = releaseDate;
         this.backdropPath = backdropPath;
         this.date = date;
+        this.runtime = runtime;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
     }
 
     public int getId() {
@@ -129,5 +144,17 @@ public class MovieEntry {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getGenre() {
+        return genre;
     }
 }

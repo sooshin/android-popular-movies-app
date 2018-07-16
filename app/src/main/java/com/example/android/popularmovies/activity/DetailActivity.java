@@ -167,6 +167,10 @@ public class DetailActivity extends AppCompatActivity implements
 
         // When it is online, show loading indicator, otherwise hide loading indicator.
         showLoading(isOnline());
+        // When offline, show runtime, release year, and genre of the movie
+        if (!isOnline()) {
+            loadMovieDetailData();
+        }
     }
 
     /**
@@ -176,9 +180,7 @@ public class DetailActivity extends AppCompatActivity implements
      */
     public void onFavoriteClick(View view) {
         // Create a new MovieEntry
-        mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
-                mMovie.getPosterPath(), mMovie.getOverview(), mMovie.getVoteAverage(),
-                mMovie.getReleaseDate(), mMovie.getBackdropPath(), new Date());
+        mMovieEntry = getMovieEntry();
 
         if (!mIsInFavorites) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -204,6 +206,42 @@ public class DetailActivity extends AppCompatActivity implements
             // Show snack bar message "Removed from your favorites collection"
             showSnackbarRemoved();
         }
+    }
+
+    /**
+     * Returns a MovieEntry
+     */
+    private MovieEntry getMovieEntry() {
+        String runtime = mDetailBinding.tvRuntime.getText().toString();
+        String releaseYear = mDetailBinding.tvReleaseYear.getText().toString();
+        String genre = mDetailBinding.tvGenre.getText().toString();
+
+        mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
+                mMovie.getPosterPath(), mMovie.getOverview(), mMovie.getVoteAverage(),
+                mMovie.getReleaseDate(), mMovie.getBackdropPath(), new Date(),
+                runtime, releaseYear, genre);
+
+        return mMovieEntry;
+    }
+
+    /**
+     * When offline, display runtime, release year, and genre of the movie.
+     */
+    private void loadMovieDetailData() {
+        FavViewModelFactory factory = InjectorUtils.provideFavViewModelFactory(
+                DetailActivity.this, mMovie.getId());
+        mFavViewModel = ViewModelProviders.of(this, factory).get(FavViewModel.class);
+
+        mFavViewModel.getMovieEntry().observe(this, new Observer<MovieEntry>() {
+            @Override
+            public void onChanged(@Nullable MovieEntry movieEntry) {
+                if (movieEntry != null) {
+                    mDetailBinding.tvRuntime.setText(movieEntry.getRuntime());
+                    mDetailBinding.tvReleaseYear.setText(movieEntry.getReleaseYear());
+                    mDetailBinding.tvGenre.setText(movieEntry.getGenre());
+                }
+            }
+        });
     }
 
     /**
