@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements
      * Update the UI depending on the sort criteria
      */
     private void updateUI(String sortCriteria) {
-
+        // Set a new value for the PagedList of movies
+        mMainViewModel.setMoviePagedList(sortCriteria);
         // Set a new value for the list of MovieEntries
         mMainViewModel.setFavoriteMovies();
 

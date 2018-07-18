@@ -44,12 +44,12 @@ public class MainActivityViewModel extends ViewModel {
     public MainActivityViewModel(MovieRepository repository, String sortCriteria) {
         mRepository = repository;
         mSortCriteria = sortCriteria;
-        init();
+        init(sortCriteria);
     }
 
-    private void init() {
+    private void init(String sortCriteria) {
         Executor executor = Executors.newFixedThreadPool(5);
-        MovieDataSourceFactory movieDataFactory = new MovieDataSourceFactory(mSortCriteria);
+        MovieDataSourceFactory movieDataFactory = new MovieDataSourceFactory(sortCriteria);
 
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
@@ -66,6 +66,10 @@ public class MainActivityViewModel extends ViewModel {
 
     public LiveData<PagedList<Movie>> getMoviePagedList() {
         return mMoviePagedList;
+    }
+
+    public void setMoviePagedList(String sortCriteria) {
+        init(sortCriteria);
     }
 
     public LiveData<List<MovieEntry>> getFavoriteMovies() {
