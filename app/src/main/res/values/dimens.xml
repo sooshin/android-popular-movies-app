@@ -37,6 +37,10 @@
     <dimen name="size_person_image">18dp</dimen>
     <dimen name="size_star_image">48dp</dimen>
 
+    <!-- Size of ImageView in trailer list item -->
+    <dimen name="width_trailer_image">300dp</dimen>
+    <dimen name="height_trailer_image">200dp</dimen>
+
     <!-- Margin for the CardView in fragment_info -->
     <dimen name="margin_card_view">5dp</dimen>
 

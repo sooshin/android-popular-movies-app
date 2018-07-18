@@ -35,8 +35,8 @@
                 <!-- YouTube trailer thumbnail -->
                 <ImageView
                     android:id="@+id/iv_trailer_thumbnail"
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
+                    android:layout_width="@dimen/width_trailer_image"
+                    android:layout_height="@dimen/height_trailer_image"
                     android:layout_gravity="center"
                     android:contentDescription="@string/trailer_thumbnail_content_description" />
 
