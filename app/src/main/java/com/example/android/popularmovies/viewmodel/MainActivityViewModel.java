@@ -18,12 +18,17 @@ package com.example.android.popularmovies.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 
+import com.example.android.popularmovies.data.MovieDataSourceFactory;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MovieRepository;
-import com.example.android.popularmovies.model.MovieResponse;
+import com.example.android.popularmovies.model.Movie;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * {@link ViewModel} for MainActivity
@@ -31,20 +36,36 @@ import java.util.List;
 public class MainActivityViewModel extends ViewModel {
 
     private final MovieRepository mRepository;
-    private LiveData<MovieResponse> mMovieResponse;
+
+    private LiveData<PagedList<Movie>> mMoviePagedList;
     private LiveData<List<MovieEntry>> mFavoriteMovies;
+    private String mSortCriteria;
 
     public MainActivityViewModel(MovieRepository repository, String sortCriteria) {
         mRepository = repository;
-        mMovieResponse = mRepository.getMovies(sortCriteria);
+        mSortCriteria = sortCriteria;
+        init();
     }
 
-    public LiveData<MovieResponse> getMovieResponse() {
-        return mMovieResponse;
+    private void init() {
+        Executor executor = Executors.newFixedThreadPool(5);
+        MovieDataSourceFactory movieDataFactory = new MovieDataSourceFactory(mSortCriteria);
+
+        PagedList.Config config = (new PagedList.Config.Builder())
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(10)
+                .setPageSize(20)
+                .setPrefetchDistance(50)
+                .build();
+
+        // The LivePagedListBuilder class is used to get a LiveData object of type PagedList
+        mMoviePagedList = new LivePagedListBuilder<>(movieDataFactory, config)
+                .setFetchExecutor(executor)
+                .build();
     }
 
-    public void setMovieResponse(String sortCriteria) {
-        mMovieResponse = mRepository.getMovies(sortCriteria);
+    public LiveData<PagedList<Movie>> getMoviePagedList() {
+        return mMoviePagedList;
     }
 
     public LiveData<List<MovieEntry>> getFavoriteMovies() {

@@ -18,6 +18,7 @@ package com.example.android.popularmovies.activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,18 +43,15 @@ import android.view.View;
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.FavoriteAdapter;
-import com.example.android.popularmovies.adapter.MovieAdapter;
-import com.example.android.popularmovies.adapter.MovieAdapter.MovieAdapterOnClickHandler;
+import com.example.android.popularmovies.adapter.MoviePagedListAdapter;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.model.Movie;
-import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.utilities.InjectorUtils;
 import com.example.android.popularmovies.viewmodel.MainActivityViewModel;
 import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
@@ -66,15 +64,16 @@ import static com.example.android.popularmovies.utilities.Constant.REQUEST_CODE_
 /**
  * The MainActivity displays the list of movies that appear as a grid of images
  */
-public class MainActivity extends AppCompatActivity implements MovieAdapterOnClickHandler,
+public class MainActivity extends AppCompatActivity implements
         FavoriteAdapter.FavoriteAdapterOnClickHandler,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        MoviePagedListAdapter.MoviePagedListAdapterOnClickHandler {
 
     /** Tag for a log message */
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    /** Reference to MovieAdapter*/
-    private MovieAdapter mMovieAdapter;
+    /** MoviePagedListAdapter enables for data to be loaded in chunks */
+    private MoviePagedListAdapter mMoviePagedListAdapter;
 
     /** Exposes a list of favorite movies from a list of MovieEntry to a RecyclerView */
     private FavoriteAdapter mFavoriteAdapter;
@@ -87,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
 
     /** ViewModel for MainActivity */
     private MainActivityViewModel mMainViewModel;
-
-    /** Member variable for the list of movies */
-    private List<Movie> mMovies;
 
     /** This field is used for data binding */
     private ActivityMainBinding mMainBinding;
@@ -109,10 +105,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
         // change the child layout size in the RecyclerView
         mMainBinding.rvMovie.setHasFixedSize(true);
 
-        // Create an empty array list
-        List<Movie> movies = new ArrayList<>();
-        // Create MovieAdapter that is responsible for linking our movie data with the Views
-        mMovieAdapter = new MovieAdapter(movies, this);
+        // Create MoviePagedListAdapter
+        mMoviePagedListAdapter = new MoviePagedListAdapter(this);
         // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
         mFavoriteAdapter = new FavoriteAdapter(this, this);
 
@@ -160,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
      * Update the UI depending on the sort criteria
      */
     private void updateUI(String sortCriteria) {
-        // Set a new value for the MovieResponse
-        mMainViewModel.setMovieResponse(sortCriteria);
+
         // Set a new value for the list of MovieEntries
         mMainViewModel.setFavoriteMovies();
 
@@ -171,11 +164,42 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
             mMainBinding.rvMovie.setAdapter(mFavoriteAdapter);
             observeFavoriteMovies();
         } else {
-            // Otherwise, set the MovieAdapter to the RecyclerView and observe the MovieResponse
+            // Otherwise, set the MoviePagedListAdapter to the RecyclerView and observe the MoviePagedList
             // and update the UI to display movies
-            mMainBinding.rvMovie.setAdapter(mMovieAdapter);
-            observeMovieResponse();
+            mMainBinding.rvMovie.setAdapter(mMoviePagedListAdapter);
+            observeMoviePagedList();
         }
+    }
+
+    /**
+     * Update the MoviePagedList from LiveData in MainActivityViewModel
+     */
+    private void observeMoviePagedList() {
+        mMainViewModel.getMoviePagedList().observe(this, new Observer<PagedList<Movie>>() {
+            @Override
+            public void onChanged(@Nullable PagedList<Movie> pagedList) {
+                if (pagedList != null) {
+                    mMoviePagedListAdapter.submitList(pagedList);
+
+                    // Restore the scroll position after setting up the adapter with the list of movies
+                    mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
+                }
+
+                // Show the movie list or the loading screen based on whether the movie data exists
+                // and is loaded.
+                if (pagedList != null) {
+                    hideLoadingAndRefresh();
+                    // Hide offline message and show movie data
+                    showMovieDataView();
+                } else if (!isOnline()) {
+                    // When offline, show a message displaying that it is offline
+                    hideLoadingAndRefresh();
+                    showOfflineMessage();
+                } else {
+                    showLoading();
+                }
+            }
+        });
     }
 
     /**
@@ -196,39 +220,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapterOnCli
                     // ToDo:
                 } else if(!isOnline()) {
                     showMovieDataView();
-                }
-            }
-        });
-    }
-
-    /**
-     * Update the MovieResponse from LiveData in MainActivityViewModel
-     */
-    private void observeMovieResponse() {
-        mMainViewModel.getMovieResponse().observe(this, new Observer<MovieResponse>() {
-            @Override
-            public void onChanged(@Nullable MovieResponse movieResponse) {
-                if (movieResponse != null) {
-                    // Get the list of movies
-                    mMovies = movieResponse.getMovieResults();
-                    // Add a list of Movies
-                    mMovieAdapter.addAll(mMovies);
-                    // Restore the scroll position after setting up the adapter with the list of movies
-                    mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
-                }
-
-                // Show the movie list or the loading screen based on whether the movie data exists
-                // and is loaded.
-                if (movieResponse != null && !movieResponse.getMovieResults().isEmpty()) {
-                    hideLoadingAndRefresh();
-                    // Hide offline message and show movie data
-                    showMovieDataView();
-                } else if (!isOnline()) {
-                    // When offline, show a message displaying that it is offline
-                    hideLoadingAndRefresh();
-                    showOfflineMessage();
-                } else {
-                    showLoading();
                 }
             }
         });
