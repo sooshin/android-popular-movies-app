@@ -14,9 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="movie" />
+                            <entry key="height" value="60" />
+                            <entry key="outputName" value="movie_roll" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\downloads-d\movie.svg" />
+                            <entry key="sourceFile" value="D:\downloads-d\movie_roll.svg" />
+                            <entry key="width" value="60" />
                           </map>
                         </option>
                       </PersistentState>

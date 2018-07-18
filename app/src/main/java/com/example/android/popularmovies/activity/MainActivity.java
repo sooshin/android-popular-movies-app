@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
 import java.util.List;
 
+import static com.example.android.popularmovies.utilities.Constant.DRAWABLES_ZERO;
 import static com.example.android.popularmovies.utilities.Constant.EXTRA_MOVIE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_INCLUDE_EDGE;
 import static com.example.android.popularmovies.utilities.Constant.GRID_SPACING;
@@ -216,9 +218,9 @@ public class MainActivity extends AppCompatActivity implements
                 // Restore the scroll position after setting up the adapter with the list of favorite movies
                 mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
 
-                if (movieEntries == null) {
-                    // Display Empty view
-                    // ToDo:
+                if (movieEntries == null || movieEntries.size() == 0) {
+                    // When there are no favorite movies, display an empty view
+                    showEmptyView();
                 } else if(!isOnline()) {
                     showMovieDataView();
                 }
@@ -377,6 +379,17 @@ public class MainActivity extends AppCompatActivity implements
         mMainBinding.tvError.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         mMainBinding.rvMovie.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * When there are no favorite movies, display an empty view
+     */
+    private void showEmptyView() {
+        mMainBinding.tvError.setVisibility(View.VISIBLE);
+        mMainBinding.tvError.setText(getString(R.string.message_empty_favorites));
+        mMainBinding.tvError.setCompoundDrawablesWithIntrinsicBounds(DRAWABLES_ZERO,
+                R.drawable.movie_roll, DRAWABLES_ZERO, DRAWABLES_ZERO);
+        mMainBinding.tvError.setTextColor(Color.WHITE);
     }
 
     /**

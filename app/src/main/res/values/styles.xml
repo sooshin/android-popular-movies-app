@@ -110,6 +110,16 @@
         <item name="android:paddingRight">@dimen/padding_activity_small</item>
     </style>
 
+    <style name="EmptyTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical|center_horizontal</item>
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:padding">@dimen/padding_activity_large</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
     <!-- Style for the message when there is no reviews available -->
     <style name="MessageTextStyle">
         <item name="android:drawablePadding">@dimen/padding_activity</item>

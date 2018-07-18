@@ -129,4 +129,7 @@ public final class Constant {
 
     /** The number of threads in the pool used in AppExecutors */
     public static final int NUMBER_OF_THREADS_THREE = 3;
+
+    /** Constant for setCompoundDrawablesWithIntrinsicBounds */
+    public static final int DRAWABLES_ZERO = 0;
 }

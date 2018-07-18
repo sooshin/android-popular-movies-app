@@ -64,6 +64,9 @@
         please check back later.</string>
     <string name="message_no_trailers">No trailers found.</string>
 
+    <!-- A message that is displayed when there are no favorite movies in favorite collections -->
+    <string name="message_empty_favorites">It\'s a bit quite in here.\n\nYou can tap a heart button to mark it as a Favorite.</string>
+
     <string name="check_out">Check out\u0020</string>
     <string name="youtube_trailer">YouTube Trailer\u0020</string>
 
