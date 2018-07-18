@@ -80,7 +80,7 @@ public final class Constant {
     /** Type of the share intent data */
     public static final String SHARE_INTENT_TYPE_TEXT = "text/plain";
 
-    // Constant for CastAdapter and MovieAdapter
+    // Constant for CastAdapter and MoviePagedListAdapter
 
     /** The image file size to build the complete url that is necessary for fetching the image */
     public static final String IMAGE_FILE_SIZE = "w185";
