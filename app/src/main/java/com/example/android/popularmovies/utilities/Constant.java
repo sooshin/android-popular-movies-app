@@ -53,10 +53,6 @@ public final class Constant {
     /** Extra for the movie to be received in the intent */
     public static final String EXTRA_MOVIE = "movie";
 
-    /** Extra for the movie details to pass the data from DetailActivity to CastFragment.
-     *  Movie details contains budget, genre, runtime, revenue, status, vote count, credits. */
-    public static final String EXTRA_MOVIE_DETAILS = "movie_details";
-
     /** The base image URL to build the complete url that is necessary for fetching the image */
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 

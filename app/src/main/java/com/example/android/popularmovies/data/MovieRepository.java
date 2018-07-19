@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.model.MovieDetails;
-import com.example.android.popularmovies.model.MovieResponse;
 import com.example.android.popularmovies.model.ReviewResponse;
 import com.example.android.popularmovies.model.VideoResponse;
 import com.example.android.popularmovies.utilities.TheMovieApi;
@@ -72,38 +71,6 @@ public class MovieRepository {
             }
         }
         return sInstance;
-    }
-
-    /**
-     * Make a network request by calling enqueue and provide a LiveData object of MovieResponse for ViewModel
-     *
-     * @param sortCriteria The sort order of the movies by: most popular, top rated, now playing,
-     *                        and upcoming
-     */
-    public LiveData<MovieResponse> getMovies(String sortCriteria) {
-        final MutableLiveData<MovieResponse> movieResponseData = new MutableLiveData<>();
-
-        // Each call from the created TheMovieApi can make a synchronous or asynchronous HTTP request
-        // to the remote web server. Send Request:
-        // https://api.themoviedb.org/3/movie/{sort_criteria}?api_key={API_KEY}&language=en-US&page=1
-        mTheMovieApi.getMovies(sortCriteria, API_KEY, LANGUAGE, PAGE)
-                // Calls are executed with asynchronously with enqueue and notify callback of its response
-                .enqueue(new Callback<MovieResponse>() {
-                    @Override
-                    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                        if (response.isSuccessful()) {
-                            MovieResponse movieResponse = response.body();
-                            movieResponseData.setValue(movieResponse);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MovieResponse> call, Throwable t) {
-                        movieResponseData.setValue(null);
-                        Log.e(TAG, "Failed getting movies: " + t.getMessage());
-                    }
-                });
-        return movieResponseData;
     }
 
     /**
