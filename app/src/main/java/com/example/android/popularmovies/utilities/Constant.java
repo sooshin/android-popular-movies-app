@@ -132,4 +132,22 @@ public final class Constant {
 
     /** Constant for setCompoundDrawablesWithIntrinsicBounds */
     public static final int DRAWABLES_ZERO = 0;
+
+    /** Constants for pages used in MovieDataSource */
+    public static final int PREVIOUS_PAGE_KEY_ONE = 1;
+    public static final int NEXT_PAGE_KEY_TWO = 2;
+    public static final int PAGE_ONE = 1;
+
+    /** The number of fixed thread pools used in the MainActivityViewModel */
+    public static final int NUMBER_OF_FIXED_THREADS_FIVE = 5;
+
+    // Constants used in MainActivityViewModel
+    /** Size hint for initial load of PagedList */
+    public static final int INITIAL_LOAD_SIZE_HINT = 10;
+    /** Size of each page loaded by the PagedList */
+    public static final int PAGE_SIZE = 20;
+    /** Prefetch distance which defines how far ahead to load */
+    public static final int PREFETCH_DISTANCE = 50;
+
+
 }

@@ -29,6 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.android.popularmovies.utilities.Constant.NEXT_PAGE_KEY_TWO;
+import static com.example.android.popularmovies.utilities.Constant.PREVIOUS_PAGE_KEY_ONE;
+
 /**
  * The MovieDataSource is the base class for loading snapshots of movie data into a given PagedList,
  * which is backed by the network. Since the TMDb API includes a key with each page load, extend
@@ -56,12 +59,13 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params,
                             @NonNull final LoadInitialCallback<Integer, Movie> callback) {
-        mTheMovieApi.getMovies(mSortCriteria, Constant.API_KEY, Constant.LANGUAGE, 1)
+        mTheMovieApi.getMovies(mSortCriteria, Constant.API_KEY, Constant.LANGUAGE, Constant.PAGE_ONE)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                         if (response.isSuccessful()) {
-                            callback.onResult(response.body().getMovieResults(), 1, 2);
+                            callback.onResult(response.body().getMovieResults(),
+                                    PREVIOUS_PAGE_KEY_ONE, NEXT_PAGE_KEY_TWO);
                         }
                     }
 

@@ -30,6 +30,11 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import static com.example.android.popularmovies.utilities.Constant.INITIAL_LOAD_SIZE_HINT;
+import static com.example.android.popularmovies.utilities.Constant.NUMBER_OF_FIXED_THREADS_FIVE;
+import static com.example.android.popularmovies.utilities.Constant.PAGE_SIZE;
+import static com.example.android.popularmovies.utilities.Constant.PREFETCH_DISTANCE;
+
 /**
  * {@link ViewModel} for MainActivity
  */
@@ -48,14 +53,17 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     private void init(String sortCriteria) {
-        Executor executor = Executors.newFixedThreadPool(5);
+        Executor executor = Executors.newFixedThreadPool(NUMBER_OF_FIXED_THREADS_FIVE);
         MovieDataSourceFactory movieDataFactory = new MovieDataSourceFactory(sortCriteria);
 
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(10)
-                .setPageSize(20)
-                .setPrefetchDistance(50)
+                // Size hint for initial load of PagedList
+                .setInitialLoadSizeHint(INITIAL_LOAD_SIZE_HINT)
+                // Size of each page loaded by the PagedList
+                .setPageSize(PAGE_SIZE)
+                // Prefetch distance which defines how far ahead to load
+                .setPrefetchDistance(PREFETCH_DISTANCE)
                 .build();
 
         // The LivePagedListBuilder class is used to get a LiveData object of type PagedList
