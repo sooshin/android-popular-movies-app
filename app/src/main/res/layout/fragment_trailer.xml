@@ -32,13 +32,18 @@
         <TextView
             android:id="@+id/tv_no_trailers"
             style="@style/MessageTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/blue_grey_dark"
             android:drawableTop="@drawable/movie"
             android:text="@string/message_no_trailers"
             android:textColor="@color/blue_grey_200_light" />
+
+        <!-- Only visible when offline -->
+        <TextView
+            android:id="@+id/tv_offline"
+            style="@style/MessageTextStyle"
+            android:drawableTop="@drawable/wifi_off"
+            android:text="@string/check_network"
+            android:textColor="@color/color_offline" />
+
 
     </FrameLayout>
 </layout>

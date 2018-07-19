@@ -21,6 +21,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -99,6 +101,10 @@ public class CastFragment extends Fragment {
         mCastAdapter = new CastAdapter(mCastList);
         // Set Adapter on RecyclerView
         mCastBinding.rvCast.setAdapter(mCastAdapter);
+
+        // Show a message when offline
+        showOfflineMessage(isOnline());
+
         return rootView;
     }
 
@@ -162,4 +168,38 @@ public class CastFragment extends Fragment {
         mCastAdapter.addAll(mCastList);
     }
 
+
+    /**
+     * Make the offline message visible and hide the cast View when offline
+     *
+     * @param isOnline True when connected to the network
+     */
+    private void showOfflineMessage(boolean isOnline) {
+        if (isOnline) {
+            // First, hide the offline message
+            mCastBinding.tvOffline.setVisibility(View.INVISIBLE);
+            // Then, make sure the cast data is visible
+            mCastBinding.rvCast.setVisibility(View.VISIBLE);
+        } else {
+            // First, hide the currently visible data
+            mCastBinding.rvCast.setVisibility(View.INVISIBLE);
+            // Then, show an offline message
+            mCastBinding.tvOffline.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Check if there is the network connectivity
+     *
+     * @return true if connected to the network
+     */
+    private boolean isOnline() {
+        // Get a reference to the ConnectivityManager to check the state of network connectivity
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
 }

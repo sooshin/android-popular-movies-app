@@ -29,5 +29,13 @@
             android:layout_height="match_parent"
             android:background="@color/blue_grey_dark" />
 
+        <!-- Only visible when offline -->
+        <TextView
+            android:id="@+id/tv_offline"
+            style="@style/MessageTextStyle"
+            android:drawableTop="@drawable/wifi_off"
+            android:text="@string/check_network"
+            android:textColor="@color/color_offline" />
+
     </FrameLayout>
 </layout>

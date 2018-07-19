@@ -21,6 +21,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -142,6 +144,9 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
         // Set TrailerAdapter on RecyclerView
         mTrailerBinding.rvTrailer.setAdapter(mTrailerAdapter);
 
+        // Show a message when offline
+        showOfflineMessage(isOnline());
+
         return rootView;
     }
 
@@ -204,5 +209,39 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
         mTrailerBinding.rvTrailer.setVisibility(View.INVISIBLE);
         // Then, show a message that says no trailers found
         mTrailerBinding.tvNoTrailers.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Make the offline message visible and hide the trailer View when offline
+     *
+     * @param isOnline True when connected to the network
+     */
+    private void showOfflineMessage(boolean isOnline) {
+        if (isOnline) {
+            // First, hide the offline message
+            mTrailerBinding.tvOffline.setVisibility(View.INVISIBLE);
+            // Then, make sure the trailer data is visible
+            mTrailerBinding.rvTrailer.setVisibility(View.VISIBLE);
+        } else {
+            // First, hide the currently visible data
+            mTrailerBinding.rvTrailer.setVisibility(View.INVISIBLE);
+            // Then, show an offline message
+            mTrailerBinding.tvOffline.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Check if there is the network connectivity
+     *
+     * @return true if connected to the network
+     */
+    private boolean isOnline() {
+        // Get a reference to the ConnectivityManager to check the state of network connectivity
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

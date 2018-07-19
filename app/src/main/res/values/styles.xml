@@ -120,8 +120,12 @@
         <item name="android:visibility">invisible</item>
     </style>
 
-    <!-- Style for the message when there is no reviews available -->
+    <!-- Style for the message when no reviews found, no trailers found, offline -->
     <style name="MessageTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@color/blue_grey_dark</item>
         <item name="android:drawablePadding">@dimen/padding_activity</item>
         <item name="android:fontFamily">@font/source_sans_pro_regular</item>
         <item name="android:padding">@dimen/padding_activity_large</item>
