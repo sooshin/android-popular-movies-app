@@ -23,6 +23,8 @@
     <string name="cast_content_description">Cast images</string>
     <string name="play_content_description">Trailer play button</string>
     <string name="trailer_thumbnail_content_description">YouTube video thumbnail</string>
+    <string name="star_content_description">Star image</string>
+    <string name="person_content_description">Person image</string>
 
     <!-- Strings related to the network-->
     <string name="no_network_title">No Network Available</string>
