@@ -156,8 +156,6 @@ public class MainActivity extends AppCompatActivity implements
      * Update the UI depending on the sort criteria
      */
     private void updateUI(String sortCriteria) {
-        // Set a new value for the PagedList of movies
-        mMainViewModel.setMoviePagedList(sortCriteria);
         // Set a new value for the list of MovieEntries
         mMainViewModel.setFavoriteMovies();
 
@@ -239,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // When SharedPreference changes, observe the data and update the UI
+        // Set a new value for the PagedList of movies to clear old list and reload. Needs to call it
+        // when the SharedPreferences is changed because at that time it's okay to overwrite everything.
+        mMainViewModel.setMoviePagedList(mSortCriteria);
         updateUI(mSortCriteria);
     }
 
