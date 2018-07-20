@@ -84,12 +84,15 @@
     <!-- String for Settings-->
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
+    <string name="action_delete">Delete</string>
 
     <!-- Chooser title in share intent -->
     <string name="chooser_title">Share a movie</string>
 
     <!-- Split string by new line -->
     <string name="new_line">\n</string>
+
+    <string name="vertical_ellipsis">&#8942;</string>
 
     <!-- - - - - - - - - - - - - - - - - -
       - Used by PopularMoviesPreferences -

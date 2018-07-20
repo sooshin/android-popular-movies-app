@@ -145,5 +145,6 @@ public final class Constant {
     /** Prefetch distance which defines how far ahead to load */
     public static final int PREFETCH_DISTANCE = 50;
 
-
+    /** String for menu option*/
+    public static final String DELETE = "Delete";
 }

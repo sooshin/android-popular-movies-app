@@ -20,6 +20,7 @@
 
     <dimen name="padding_activity_small">8dp</dimen>
     <dimen name="margin_activity_small">8dp</dimen>
+    <dimen name="padding_activity_option">4dp</dimen>
 
     <!-- Common margin value used through out the app -->
     <dimen name="margin_activity">16dp</dimen>

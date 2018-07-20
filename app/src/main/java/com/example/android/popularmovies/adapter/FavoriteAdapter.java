@@ -20,17 +20,22 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieEntry;
-import com.example.android.popularmovies.databinding.MovieListItemBinding;
+import com.example.android.popularmovies.databinding.FavListItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.example.android.popularmovies.utilities.Constant.DELETE;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
 
@@ -74,9 +79,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @Override
     public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        MovieListItemBinding movieItemBinding = DataBindingUtil
-                .inflate(layoutInflater, R.layout.movie_list_item, parent, false);
-        return new FavoriteViewHolder(movieItemBinding);
+        FavListItemBinding favItemBinding = DataBindingUtil
+                .inflate(layoutInflater, R.layout.fav_list_item, parent, false);
+        return new FavoriteViewHolder(favItemBinding);
     }
 
     /**
@@ -120,18 +125,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     /**
      * Cache of the children views for favorite movie list item.
      */
-    public class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class FavoriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         /** This field is used for data binding */
-        MovieListItemBinding mMovieItemBinding;
+        FavListItemBinding mFavItemBinding;
 
         /**
          * Constructor for FavoriteViewHolder
          */
-        public FavoriteViewHolder(MovieListItemBinding movieItemBinding) {
-            super(movieItemBinding.getRoot());
+        public FavoriteViewHolder(FavListItemBinding favItemBinding) {
+            super(favItemBinding.getRoot());
 
-            mMovieItemBinding = movieItemBinding;
+            mFavItemBinding = favItemBinding;
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         void bind(MovieEntry movieEntry) {
@@ -141,10 +148,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             // Load thumbnail with Picasso library
             Picasso.with(itemView.getContext())
                     .load(thumbnail)
-                    .into(mMovieItemBinding.ivThumbnail);
+                    .into(mFavItemBinding.ivThumbnail);
 
             // Set title of the movie to the TextView
-            mMovieItemBinding.tvTitle.setText(movieEntry.getTitle());
+            mFavItemBinding.tvTitle.setText(movieEntry.getTitle());
         }
 
         /**
@@ -156,6 +163,49 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             int adapterPosition = getAdapterPosition();
             MovieEntry movieEntry = mMovieEntries.get(adapterPosition);
             mOnClickHandler.onFavItemClick(movieEntry);
+        }
+
+        /**
+         * When the user performs a long-click on a favorite movie item, a floating menu appears.
+         */
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            int adapterPosition = getAdapterPosition();
+            // Set the itemId to adapterPosition to retrieve movieEntry later
+            MenuItem item = menu.add(0, adapterPosition,0, v.getContext().getString(R.string.action_delete));
+            item.setOnMenuItemClickListener(this);
+        }
+
+        /**
+         * This gets called when a menu item is clicked.
+         */
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getTitle().toString()) {
+                case DELETE:
+                    int adapterPosition = item.getItemId();
+                    MovieEntry movieEntry = mMovieEntries.get(adapterPosition);
+                    // Delete a favorite movie
+                    delete(movieEntry);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /**
+         * Delete a favorite movie when the user clicks "Delete" menu option.
+         */
+        private void delete(final MovieEntry movieEntry) {
+            // Get the MovieDatabase instance
+            final MovieDatabase db = MovieDatabase.getInstance(mContext);
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Delete a favorite movie from the MovieDatabase by using the movieDao
+                    db.movieDao().deleteMovie(movieEntry);
+                }
+            });
         }
     }
 }
