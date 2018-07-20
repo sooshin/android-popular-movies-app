@@ -113,8 +113,11 @@ public class MainActivity extends AppCompatActivity implements
         // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
         mFavoriteAdapter = new FavoriteAdapter(this, this);
 
-        // Show a dialog when there is no internet connection
-        showNetworkDialog(isOnline());
+        // Check if savedInstance is null not to recreate a dialog when rotating
+        if (savedInstanceState == null) {
+            // Show a dialog when there is no internet connection
+            showNetworkDialog(isOnline());
+        }
 
         // Get the sort criteria currently set in Preferences
         mSortCriteria = MoviePreferences.getPreferredSortCriteria(this);
