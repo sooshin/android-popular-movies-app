@@ -18,6 +18,7 @@ package com.example.android.popularmovies.data;
 
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;
@@ -31,6 +32,7 @@ import retrofit2.Response;
 
 import static com.example.android.popularmovies.utilities.Constant.NEXT_PAGE_KEY_TWO;
 import static com.example.android.popularmovies.utilities.Constant.PREVIOUS_PAGE_KEY_ONE;
+import static com.example.android.popularmovies.utilities.Constant.RESPONSE_CODE_API_STATUS;
 
 /**
  * The MovieDataSource is the base class for loading snapshots of movie data into a given PagedList,
@@ -70,12 +72,17 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
                         if (response.isSuccessful()) {
                             callback.onResult(response.body().getMovieResults(),
                                     PREVIOUS_PAGE_KEY_ONE, NEXT_PAGE_KEY_TWO);
+
+                        } else if (response.code() == RESPONSE_CODE_API_STATUS) {
+                            Log.e(TAG, "Invalid Api key. Response code: " + response.code());
+                        } else {
+                            Log.e(TAG, "Response Code: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MovieResponse> call, Throwable t) {
-
+                        Log.e(TAG, "Failed initializing a PageList: " + t.getMessage());
                     }
                 });
     }
@@ -110,7 +117,7 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
 
                     @Override
                     public void onFailure(Call<MovieResponse> call, Throwable t) {
-
+                        Log.e(TAG, "Failed appending page: " + t.getMessage());
                     }
                 });
 
