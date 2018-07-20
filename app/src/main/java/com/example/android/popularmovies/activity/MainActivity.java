@@ -98,20 +98,8 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // A GridLayoutManager is responsible for measuring and positioning item views within a
-        // RecyclerView into a grid layout.
-        GridLayoutManager layoutManager = new GridLayoutManager(this, GRID_SPAN_COUNT);
-        // Set the layout manager to the RecyclerView
-        mMainBinding.rvMovie.setLayoutManager(layoutManager);
-
-        // Use this setting to improve performance if you know that changes in content do not
-        // change the child layout size in the RecyclerView
-        mMainBinding.rvMovie.setHasFixedSize(true);
-
-        // Create MoviePagedListAdapter
-        mMoviePagedListAdapter = new MoviePagedListAdapter(this);
-        // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
-        mFavoriteAdapter = new FavoriteAdapter(this, this);
+        // Set the LayoutManager to the RecyclerView and create MoviePagedListAdapter and FavoriteAdapter
+        initAdapter();
 
         // Check if savedInstance is null not to recreate a dialog when rotating
         if (savedInstanceState == null) {
@@ -145,6 +133,26 @@ public class MainActivity extends AppCompatActivity implements
             // Restore the scroll position
             mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
         }
+    }
+
+    /**
+     * Set the LayoutManager to the RecyclerView and create MoviePagedListAdapter and FavoriteAdapter
+     */
+    private void initAdapter() {
+        // A GridLayoutManager is responsible for measuring and positioning item views within a
+        // RecyclerView into a grid layout.
+        GridLayoutManager layoutManager = new GridLayoutManager(this, GRID_SPAN_COUNT);
+        // Set the layout manager to the RecyclerView
+        mMainBinding.rvMovie.setLayoutManager(layoutManager);
+
+        // Use this setting to improve performance if you know that changes in content do not
+        // change the child layout size in the RecyclerView
+        mMainBinding.rvMovie.setHasFixedSize(true);
+
+        // Create MoviePagedListAdapter
+        mMoviePagedListAdapter = new MoviePagedListAdapter(this);
+        // Create FavoriteAdapter that is responsible for linking favorite movies with the Views
+        mFavoriteAdapter = new FavoriteAdapter(this, this);
     }
 
     /**
