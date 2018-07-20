@@ -145,6 +145,8 @@ public final class Constant {
     /** Prefetch distance which defines how far ahead to load */
     public static final int PREFETCH_DISTANCE = 50;
 
-    /** String for menu option*/
+    /** Constants for menu option in FavoriteAdapter */
     public static final String DELETE = "Delete";
+    public static final int DELETE_GROUP_ID = 0;
+    public static final int DELETE_ORDER = 0;
 }

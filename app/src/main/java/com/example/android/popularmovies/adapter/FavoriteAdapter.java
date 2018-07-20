@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import static com.example.android.popularmovies.utilities.Constant.DELETE;
+import static com.example.android.popularmovies.utilities.Constant.DELETE_GROUP_ID;
+import static com.example.android.popularmovies.utilities.Constant.DELETE_ORDER;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_URL;
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
 
@@ -172,7 +174,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             int adapterPosition = getAdapterPosition();
             // Set the itemId to adapterPosition to retrieve movieEntry later
-            MenuItem item = menu.add(0, adapterPosition,0, v.getContext().getString(R.string.action_delete));
+            MenuItem item = menu.add(DELETE_GROUP_ID, adapterPosition, DELETE_ORDER, v.getContext().getString(R.string.action_delete));
             item.setOnMenuItemClickListener(this);
         }
 
