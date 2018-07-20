@@ -52,10 +52,16 @@ public class MainActivityViewModel extends ViewModel {
         init(sortCriteria);
     }
 
+    /**
+     * Initialize the paged list
+     */
     private void init(String sortCriteria) {
         Executor executor = Executors.newFixedThreadPool(NUMBER_OF_FIXED_THREADS_FIVE);
+
+        // Create a MovieDataSourceFactory providing DataSource generations
         MovieDataSourceFactory movieDataFactory = new MovieDataSourceFactory(sortCriteria);
 
+        // Configures how a PagedList loads content from the MovieDataSource
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
                 // Size hint for initial load of PagedList
@@ -72,18 +78,33 @@ public class MainActivityViewModel extends ViewModel {
                 .build();
     }
 
+    /**
+     * Returns LiveData of PagedList of movie
+     */
     public LiveData<PagedList<Movie>> getMoviePagedList() {
         return mMoviePagedList;
     }
 
+    /**
+     * Set the LiveData of PagedList of movie to clear the old list and reload
+     *
+     * @param sortCriteria The sort order of the movies by popular, top rated, now playing,
+     *                     upcoming, and favorites
+     */
     public void setMoviePagedList(String sortCriteria) {
         init(sortCriteria);
     }
 
+    /**
+     * Returns LiveData of the List of MovieEntries
+     */
     public LiveData<List<MovieEntry>> getFavoriteMovies() {
         return mFavoriteMovies;
     }
 
+    /**
+     *  Set a new value for the list of MovieEntries
+     */
     public void setFavoriteMovies() {
         mFavoriteMovies = mRepository.getFavoriteMovies();
     }

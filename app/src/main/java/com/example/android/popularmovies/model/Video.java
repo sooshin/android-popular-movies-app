@@ -18,6 +18,9 @@ package com.example.android.popularmovies.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A {@link Video} object includes information related to a movie trailer.
+ */
 public class Video {
 
     @SerializedName("id")

@@ -73,7 +73,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
      * @param viewGroup The ViewGroup that these ViewHolders are contained within.
      * @param viewType If your RecyclerView has more than one type of item (which ours doesn't) you
      *                  can use this viewType integer to provide a different layout.
-     * @return A new TrailerViewHolder that holds the View for each list item
+     * @return A new TrailerViewHolder that holds the TrailerListItemBinding
      */
     @NonNull
     @Override
@@ -131,7 +131,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         /**
          * Constructor for our ViewHolder
          *
-         * @param trailerItemBinding The view that you inflated in {@link TrailerAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param trailerItemBinding Used to access the layout's variables and views
          */
         public TrailerViewHolder(TrailerListItemBinding trailerItemBinding) {
             super(trailerItemBinding.getRoot());

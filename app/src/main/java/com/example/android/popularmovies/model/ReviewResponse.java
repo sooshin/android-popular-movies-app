@@ -20,6 +20,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * The {@link ReviewResponse} object includes information related to the reviews
+ */
 public class ReviewResponse {
 
     @SerializedName("id")

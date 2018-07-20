@@ -21,6 +21,9 @@ import android.arch.paging.DataSource;
 
 import com.example.android.popularmovies.model.Movie;
 
+/**
+ * The MovieDataSourceFactory is responsible for creating a DataSource.
+ */
 public class MovieDataSourceFactory extends DataSource.Factory<Integer, Movie> {
 
     private MutableLiveData<MovieDataSource> mPostLiveData;

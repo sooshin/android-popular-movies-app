@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onFavItemClick(MovieEntry movieEntry) {
-
+        // Get the movie data from the MovieEntry
         int movieId = movieEntry.getMovieId();
         String originalTitle = movieEntry.getOriginalTitle();
         String title = movieEntry.getTitle();
@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements
         String releaseDate = movieEntry.getReleaseDate();
         String backdropPath = movieEntry.getBackdropPath();
 
+        // Create a movie object based on the MovieEntry data
         Movie movie = new Movie(movieId, originalTitle, title, posterPath, overview,
                 voteAverage, releaseDate, backdropPath);
 

@@ -75,7 +75,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     /**
      * Called when ViewHolders are created to fill a RecyclerView
      *
-     * @return A new FavoriteViewHolder that holds the view for each movie
+     * @return A new FavoriteViewHolder that holds the FavListItemBinding
      */
     @NonNull
     @Override
@@ -134,12 +134,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
         /**
          * Constructor for FavoriteViewHolder
+         *
+         * @param favItemBinding Used to access the layout's variables and views
          */
         public FavoriteViewHolder(FavListItemBinding favItemBinding) {
             super(favItemBinding.getRoot());
 
             mFavItemBinding = favItemBinding;
+            // Call setOnClickListener on the view
             itemView.setOnClickListener(this);
+            // Call setOnCreateContextMenuListener on the view
             itemView.setOnCreateContextMenuListener(this);
         }
 
@@ -169,6 +173,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
         /**
          * When the user performs a long-click on a favorite movie item, a floating menu appears.
+         *
+         * Reference @see "https://stackoverflow.com/questions/36958800/recyclerview-getmenuinfo-always-null"
+         * "https://stackoverflow.com/questions/37601346/create-options-menu-for-recyclerview-item"
          */
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

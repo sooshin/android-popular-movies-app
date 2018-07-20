@@ -50,12 +50,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
      * Constructor for ReviewAdapter that accepts a list of reviews to display
      *
      * @param reviews List of {@link Review}s
+     * @param onClickHandler The on-click handler for this adapter. This single handler is called
+     *                       when an item is clicked.
      */
     public ReviewAdapter(List<Review> reviews, ReviewAdapterOnClickHandler onClickHandler) {
         mReviews = reviews;
         mOnClickHandler = onClickHandler;
     }
 
+    /**
+     * This gets called when each new ViewHolder is created.
+     *
+     *  @return A new ReviewViewHolder that holds the ReviewListItemBinding
+     */
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -65,18 +72,31 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         return new ReviewViewHolder(reviewItemBinding);
     }
 
+    /**
+     * OnBindViewHolder is called by the RecyclerView to display the data at the specified
+     * position.
+     */
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         Review review = mReviews.get(position);
         holder.bind(review);
     }
 
+    /**
+     * This method simply return the number of items to display. It is used behind the scenes
+     * to help layout our Views and for animations.
+     *
+     * @return The number of reviews
+     */
     @Override
     public int getItemCount() {
         if (null == mReviews) return 0;
         return mReviews.size();
     }
 
+    /**
+     * This method is to add a list of {@link Review}s
+     */
     public void addAll(List<Review> reviews) {
         mReviews.clear();
         mReviews.addAll(reviews);
@@ -93,7 +113,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         /**
          * Constructor for our ViewHolder
          *
-         * @param reviewItemBinding The View that you inflated in {@link ReviewAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param reviewItemBinding Used to access the layout's variables and views
          */
         ReviewViewHolder(ReviewListItemBinding reviewItemBinding) {
             super(reviewItemBinding.getRoot());
@@ -103,6 +123,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * This method will take a Review object as input and use that review to display the appropriate
+         * text within a list item
+         */
         void bind(Review review) {
             // Set author and content of review to the TextView
             mReviewItemBinding.setReview(review);

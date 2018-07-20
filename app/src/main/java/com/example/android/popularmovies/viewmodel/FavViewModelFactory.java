@@ -21,6 +21,10 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
 
+/**
+ * Factory method that allows us to create a ViewModel with a constructor that takes a
+ * {@link MovieRepository} and the movie ID
+ */
 public class FavViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final MovieRepository mRepository;

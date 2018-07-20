@@ -69,11 +69,26 @@ public class MoviePagedListAdapter extends PagedListAdapter<Movie, MoviePagedLis
                 }
             };
 
+    /**
+     * Constructor for MoviePagedListAdapter
+     *
+     * @param onClickHandler The on-click handler for this adapter. This single handler
+     *                      is called when an item is clicked
+     */
     public MoviePagedListAdapter(MoviePagedListAdapterOnClickHandler onClickHandler) {
         super(MoviePagedListAdapter.DIFF_CALLBACK);
         mOnClickHandler = onClickHandler;
     }
 
+    /**
+     * This gets called when each new ViewHolder is created. This happens when the RecyclerView
+     * is laid out. Enough ViewHolders will be created to fill the screen and allow for scrolling.
+     *
+     * @param parent The ViewGroup that these ViewHolders are contained within.
+     * @param viewType If your RecyclerView has more than one type of item (which ours doesn't) you
+     *                  can use this viewType integer to provide a different layout.
+     * @return A new MoviePagedViewHolder that holds the MovieListItemBinding
+     */
     @NonNull
     @Override
     public MoviePagedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,22 +99,43 @@ public class MoviePagedListAdapter extends PagedListAdapter<Movie, MoviePagedLis
         return new MoviePagedViewHolder(mMovieItemBinding);
     }
 
+    /**
+     * Called by the RecyclerView to display the data at the specified position.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull MoviePagedViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
 
+    /**
+     * Cache of the children views for a list item.
+     */
     public class MoviePagedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         /** This field is used for data binding */
         private MovieListItemBinding mMovieItemBinding;
 
+        /**
+         * Constructor for the MoviePagedViewHolder
+         *
+         * @param movieItemBinding Used to access the layout's variables and views
+         */
         public MoviePagedViewHolder(MovieListItemBinding movieItemBinding) {
             super(movieItemBinding.getRoot());
             mMovieItemBinding = movieItemBinding;
-
+            // Call setOnClickListener on the view
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * This method will take a Movie object as input and use that movie to display the appropriate
+         * text and an image within a list item.
+         *
+         * @param movie The movie object
+         */
         void bind(Movie movie) {
             // Get the complete thumbnail path
             String thumbnail = IMAGE_BASE_URL + IMAGE_FILE_SIZE + movie.getPosterPath();
@@ -113,6 +149,11 @@ public class MoviePagedListAdapter extends PagedListAdapter<Movie, MoviePagedLis
             mMovieItemBinding.tvTitle.setText(movie.getTitle());
         }
 
+        /**
+         * Called by the child views during a click.
+         *
+         * @param v The View that was clicked
+         */
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();

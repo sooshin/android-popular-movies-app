@@ -20,6 +20,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * The {@link VideoResponse} object includes information related to the movie trailers
+ */
 public class VideoResponse {
 
     @SerializedName("id")

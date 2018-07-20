@@ -61,7 +61,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
      * @param viewGroup The ViewGroup that these ViewHolders are contained within.
      * @param viewType If your RecyclerView has more than one type of item (which ours doesn't) you
      *                  can use this viewType integer to provide a different layout.
-     * @return A new CastViewHolder that holds the View for each list item
+     * @return A new CastViewHolder that holds the CastListItemBinding
      */
     @NonNull
     @Override
@@ -120,7 +120,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         /**
          * Constructor for CastViewHolder.
          *
-         * @param castItemBinding The View that you inflated in {@link CastAdapter#onCreateViewHolder(ViewGroup, int)}
+         * @param castItemBinding Used to access the layout's variables and views
          */
         CastViewHolder(CastListItemBinding castItemBinding) {
             super(castItemBinding.getRoot());
@@ -128,7 +128,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         }
 
         /**
-         * This method will take an Cast object as input and use that cast to display the appropriate
+         * This method will take a Cast object as input and use that cast to display the appropriate
          * text and an image within a list item.
          *
          * @param cast The cast object

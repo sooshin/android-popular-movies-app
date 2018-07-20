@@ -102,6 +102,8 @@ public class DetailActivity extends AppCompatActivity implements
 
     /** This field is used for data binding */
     private ActivityDetailBinding mDetailBinding;
+
+    /** The first trailer's YouTube URL */
     private String mFirstVideoUrl;
 
     @Override
@@ -216,6 +218,7 @@ public class DetailActivity extends AppCompatActivity implements
         String releaseYear = mDetailBinding.tvReleaseYear.getText().toString();
         String genre = mDetailBinding.tvGenre.getText().toString();
 
+        // Create a MovieEntry
         mMovieEntry = new MovieEntry(mMovie.getId(), mMovie.getOriginalTitle(), mMovie.getTitle(),
                 mMovie.getPosterPath(), mMovie.getOverview(), mMovie.getVoteAverage(),
                 mMovie.getReleaseDate(), mMovie.getBackdropPath(), new Date(),
@@ -249,10 +252,12 @@ public class DetailActivity extends AppCompatActivity implements
      * Otherwise return false and set favoriteFab image to border heart image.
      */
     private boolean isInFavoritesCollection() {
+        // Get the FavViewModel from the factory
         FavViewModelFactory factory = InjectorUtils.provideFavViewModelFactory(
                 DetailActivity.this, mMovie.getId());
         mFavViewModel = ViewModelProviders.of(this, factory).get(FavViewModel.class);
 
+        // Changes the favoriteFab image based on whether or not the movie exists
         mFavViewModel.getMovieEntry().observe(this, new Observer<MovieEntry>() {
             @Override
             public void onChanged(@Nullable MovieEntry movieEntry) {
@@ -300,8 +305,12 @@ public class DetailActivity extends AppCompatActivity implements
         snackbar.show();
     }
 
+    /**
+     * Define the behavior for onTrailerSelected
+     */
     @Override
     public void onTrailerSelected(final Video video) {
+        // Display play circle image button
         mDetailBinding.ivPlayCircle.setVisibility(View.VISIBLE);
 
         // Get the key of the first video
@@ -503,6 +512,9 @@ public class DetailActivity extends AppCompatActivity implements
         return shareIntent;
     }
 
+    /**
+     * Persist the runtime, release year, and genre of the movie by saving the data in onSaveInstanceState.
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -541,7 +553,7 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     /**
-     * When it is online, show loading indicator, otherwise hide loading indicator.
+     * When online, show loading indicator, otherwise hide loading indicator.
      *
      * @param isOnline true if connected to the network
      */

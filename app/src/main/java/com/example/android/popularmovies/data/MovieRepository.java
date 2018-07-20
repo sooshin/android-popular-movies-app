@@ -172,12 +172,17 @@ public class MovieRepository {
     }
 
     /**
-     * Return a LiveData directly from the database
+     * Return a LiveData of the list of MovieEntries directly from the database
      */
     public LiveData<List<MovieEntry>> getFavoriteMovies() {
         return mMovieDao.loadAllMovies();
     }
 
+    /**
+     * Returns a LiveData of MovieEntry directly from the database
+     *
+     * @param movieId The movie ID
+     */
     public LiveData<MovieEntry> getFavoriteMovieByMovieId(int movieId) {
         return mMovieDao.loadMovieByMovieId(movieId);
     }

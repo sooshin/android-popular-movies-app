@@ -22,6 +22,9 @@ import android.arch.lifecycle.ViewModel;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MovieRepository;
 
+/**
+ * {@link ViewModel} for Favorites
+ */
 public class FavViewModel extends ViewModel {
 
     private final MovieRepository mRepository;

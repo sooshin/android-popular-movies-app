@@ -39,6 +39,7 @@ import static com.example.android.popularmovies.utilities.Constant.PREVIOUS_PAGE
  *
  * Reference: @see "https://proandroiddev.com/8-steps-to-implement-paging-library-in-android-d02500f7fffe"
  * "https://www.youtube.com/watch?v=Ts-uxYiBEQ8" "https://www.youtube.com/watch?v=QVMqCRs0BNA"
+ * "https://codelabs.developers.google.com/codelabs/android-paging/index.html#2"
  */
 public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
 
@@ -56,6 +57,9 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
         mSortCriteria = sortCriteria;
     }
 
+    /**
+     * This method is called first to initialize a PageList with data.
+     */
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params,
                             @NonNull final LoadInitialCallback<Integer, Movie> callback) {
@@ -76,12 +80,18 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, Movie> {
                 });
     }
 
+    /**
+     * Prepend page with the key specified by LoadParams.key
+     */
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params,
                            @NonNull LoadCallback<Integer, Movie> callback) {
 
     }
 
+    /**
+     * Append page with the key specified by LoadParams.key
+     */
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params,
                           @NonNull final LoadCallback<Integer, Movie> callback) {
