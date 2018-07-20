@@ -40,6 +40,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements
         mMainViewModel.getMoviePagedList().observe(this, new Observer<PagedList<Movie>>() {
             @Override
             public void onChanged(@Nullable PagedList<Movie> pagedList) {
+                showMovieDataView();
                 if (pagedList != null) {
                     mMoviePagedListAdapter.submitList(pagedList);
 
@@ -186,18 +188,10 @@ public class MainActivity extends AppCompatActivity implements
                     mMainBinding.rvMovie.getLayoutManager().onRestoreInstanceState(mSavedLayoutState);
                 }
 
-                // Show the movie list or the loading screen based on whether the movie data exists
-                // and is loaded.
-                if (pagedList != null) {
-                    hideLoadingAndRefresh();
-                    // Hide offline message and show movie data
+                // When offline, make the movie data view visible and show a snackbar message
+                if (!isOnline()) {
                     showMovieDataView();
-                } else if (!isOnline()) {
-                    // When offline, show a message displaying that it is offline
-                    hideLoadingAndRefresh();
-                    showOfflineMessage();
-                } else {
-                    showLoading();
+                    showSnackbarOffline();
                 }
             }
         });
@@ -220,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements
                     // When there are no favorite movies, display an empty view
                     showEmptyView();
                 } else if(!isOnline()) {
+                    // When offline, make the movie data view visible
                     showMovieDataView();
                 }
             }
@@ -315,18 +310,32 @@ public class MainActivity extends AppCompatActivity implements
              */
             @Override
             public void onRefresh() {
-                // Make movie data visible and hide error message
+                // Make the movie data visible and hide an empty message
                 showMovieDataView();
 
                 // When refreshing, observe the data and update the UI
                 updateUI(mSortCriteria);
 
-                hideLoadingAndRefresh();
-                // Show snack bar message
-                Snackbar.make(mMainBinding.rvMovie, getString(R.string.snackbar_updated)
-                        , Snackbar.LENGTH_SHORT).show();
+                // Hide refresh progress
+                hideRefresh();
+
+                // When online, show a snack bar message notifying updated
+                showSnackbarRefresh(isOnline());
             }
         });
+    }
+
+    /**
+     * When online, show a snack bar message notifying updated
+     *
+     * @param isOnline True if connected to the network
+     */
+    private void showSnackbarRefresh(boolean isOnline) {
+        if (isOnline) {
+            // Show snack bar message
+            Snackbar.make(mMainBinding.rvMovie, getString(R.string.snackbar_updated)
+                    , Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -372,13 +381,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * This method will make the View for the movie data visible and
-     * hide the offline message.
+     * This method will make the View for the movie data visible
      */
     private void showMovieDataView() {
-        // First, make sure the offline message or error message is invisible
-        mMainBinding.tvOffline.setVisibility(View.INVISIBLE);
-        mMainBinding.tvError.setVisibility(View.INVISIBLE);
+        // First, hide an empty view
+        mMainBinding.tvEmpty.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         mMainBinding.rvMovie.setVisibility(View.VISIBLE);
     }
@@ -387,32 +394,26 @@ public class MainActivity extends AppCompatActivity implements
      * When there are no favorite movies, display an empty view
      */
     private void showEmptyView() {
-        mMainBinding.tvError.setVisibility(View.VISIBLE);
-        mMainBinding.tvError.setText(getString(R.string.message_empty_favorites));
-        mMainBinding.tvError.setCompoundDrawablesWithIntrinsicBounds(DRAWABLES_ZERO,
+        mMainBinding.tvEmpty.setVisibility(View.VISIBLE);
+        mMainBinding.tvEmpty.setText(getString(R.string.message_empty_favorites));
+        mMainBinding.tvEmpty.setCompoundDrawablesWithIntrinsicBounds(DRAWABLES_ZERO,
                 R.drawable.movie_roll, DRAWABLES_ZERO, DRAWABLES_ZERO);
-        mMainBinding.tvError.setTextColor(Color.WHITE);
+        mMainBinding.tvEmpty.setTextColor(Color.WHITE);
     }
 
     /**
-     * This method will make the offline message visible and hide the movie View
+     * When offline, show a snackbar message
      */
-    private void showOfflineMessage() {
-        // First, hide the currently visible data
-        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
-        // Then, show the offline message
-        mMainBinding.tvOffline.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * When an error occurred, display error message
-     */
-    private void showErrorMessage() {
-        // First, hide the currently visible data
-        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
-        // Then, show an error message
-        mMainBinding.tvError.setVisibility(View.VISIBLE);
-        mMainBinding.tvError.setText(getString(R.string.error_message_failed));
+    private void showSnackbarOffline() {
+        Snackbar snackbar = Snackbar.make(
+                mMainBinding.frameMain, R.string.snackbar_offline, Snackbar.LENGTH_LONG);
+        // Set background color of the snackbar
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.WHITE);
+        // Set background color of the snackbar
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.BLACK);
+        snackbar.show();
     }
 
     /**
@@ -461,19 +462,10 @@ public class MainActivity extends AppCompatActivity implements
                 mMainBinding.rvMovie.getLayoutManager().onSaveInstanceState());
     }
 
-    private void showLoading() {
-        // First, hide the movie data
-        mMainBinding.rvMovie.setVisibility(View.INVISIBLE);
-        // Then, show the loading indicator
-        mMainBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
-    }
-
-    private void hideLoadingAndRefresh() {
-        // First, hide the loading indicator
-        mMainBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        // Hide refresh progress
+    /**
+     * Hide refresh progress
+     */
+    private void hideRefresh() {
         mMainBinding.swipeRefresh.setRefreshing(false);
-        // Then, make sure the movie data is visible
-        mMainBinding.rvMovie.setVisibility(View.VISIBLE);
     }
 }

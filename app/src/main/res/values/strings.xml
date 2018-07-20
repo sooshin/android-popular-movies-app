@@ -56,6 +56,7 @@
     <!-- Snack bar message that is displayed when the user favorites or unfavorites a movie-->
     <string name="snackbar_added">Added to your favorites collection</string>
     <string name="snackbar_removed">Removed from your favorites collection</string>
+    <string name="snackbar_offline">Please check your mobile data or Wi-Fi and try again</string>
 
     <!-- Error message -->
     <string name="error_message_api_key">Please make sure enter your API key.</string>
