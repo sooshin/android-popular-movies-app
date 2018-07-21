@@ -143,6 +143,7 @@ public class MoviePagedListAdapter extends PagedListAdapter<Movie, MoviePagedLis
             // Load thumbnail with Picasso library
             Picasso.with(itemView.getContext())
                     .load(thumbnail)
+                    .error(R.drawable.image)
                     .into(mMovieItemBinding.ivThumbnail);
 
             // Display the title
