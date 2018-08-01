@@ -46,3 +46,7 @@ made by [Freepik](http://www.freepik.com) from [www.flaticon.com](www.flaticon.c
 - [Android Data Binding](https://developer.android.com/topic/libraries/data-binding/)
 - [Retrofit](http://square.github.io/retrofit/) for REST api communication
 - [Picasso](http://square.github.io/picasso/) for image loading
+
+## Screenshots
+![main](https://user-images.githubusercontent.com/33213229/43502971-2b076366-9598-11e8-90ad-df362ed95e4f.png)
+![info](https://user-images.githubusercontent.com/33213229/43502991-3ea79c2e-9598-11e8-8171-c110bd9a7b8b.png)
