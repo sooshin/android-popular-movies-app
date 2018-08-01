@@ -149,4 +149,7 @@ public final class Constant {
     public static final String DELETE = "Delete";
     public static final int DELETE_GROUP_ID = 0;
     public static final int DELETE_ORDER = 0;
+
+    /** Constant for formatting runtime */
+    public static final int ZERO = 0;
 }

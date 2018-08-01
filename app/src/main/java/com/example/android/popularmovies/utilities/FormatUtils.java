@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.android.popularmovies.utilities.Constant.ZERO;
+
 /**
  * Class for handling conversions that are useful for PopularMovies.
  */
@@ -77,11 +79,14 @@ public class FormatUtils {
 
     /**
      *  This method will convert minutes to hours and minutes.
-     *  (e.g. 112 min -> 1h 52m)
+     *  (e.g. 112 min -> 1h 52m, 120 min -> 2h)
      */
     public static String formatTime(Context context, int runtime) {
         long hours = TimeUnit.MINUTES.toHours(runtime);
         long minutes = runtime - TimeUnit.HOURS.toMinutes(hours);
+        if (minutes == ZERO) {
+            return String.format(Locale.getDefault(), context.getString(R.string.format_runtime_hours), hours);
+        }
         return String.format(Locale.getDefault(), context.getString(R.string.format_runtime), hours, minutes);
     }
 }

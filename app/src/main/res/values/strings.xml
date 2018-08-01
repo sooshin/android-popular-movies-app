@@ -81,6 +81,9 @@
         <xliff:g id="hours">%01d</xliff:g>h\u0020
         <xliff:g id="minutes">%01d</xliff:g>m
     </string>
+    <string name="format_runtime_hours">
+        <xliff:g id="hours">%01d</xliff:g>h
+    </string>
 
     <!-- String for Settings-->
     <string name="action_settings">Settings</string>
