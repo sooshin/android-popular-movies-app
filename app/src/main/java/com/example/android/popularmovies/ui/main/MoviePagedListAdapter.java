@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.adapter;
+package com.example.android.popularmovies.ui.main;
 
 import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;

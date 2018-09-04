@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.activity;
+package com.example.android.popularmovies.ui.main;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -44,15 +44,13 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.adapter.FavoriteAdapter;
-import com.example.android.popularmovies.adapter.MoviePagedListAdapter;
+import com.example.android.popularmovies.ui.detail.DetailActivity;
+import com.example.android.popularmovies.setttings.SettingsActivity;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.MainActivityViewModel;
-import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
 
 import java.util.List;
 

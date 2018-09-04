@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.fragment;
+package com.example.android.popularmovies.ui.trailer;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -34,14 +34,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.adapter.TrailerAdapter;
 import com.example.android.popularmovies.databinding.FragmentTrailerBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.model.VideoResponse;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.TrailerViewModel;
-import com.example.android.popularmovies.viewmodel.TrailerViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;

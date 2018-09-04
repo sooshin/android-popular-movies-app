@@ -21,11 +21,11 @@ import android.content.Context;
 import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieRepository;
-import com.example.android.popularmovies.viewmodel.FavViewModelFactory;
-import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
-import com.example.android.popularmovies.viewmodel.MainViewModelFactory;
-import com.example.android.popularmovies.viewmodel.ReviewViewModelFactory;
-import com.example.android.popularmovies.viewmodel.TrailerViewModelFactory;
+import com.example.android.popularmovies.ui.main.FavViewModelFactory;
+import com.example.android.popularmovies.ui.info.InfoViewModelFactory;
+import com.example.android.popularmovies.ui.main.MainViewModelFactory;
+import com.example.android.popularmovies.ui.review.ReviewViewModelFactory;
+import com.example.android.popularmovies.ui.trailer.TrailerViewModelFactory;
 
 /**
  * Provides static methods to inject the various classes needed for PopularMovies

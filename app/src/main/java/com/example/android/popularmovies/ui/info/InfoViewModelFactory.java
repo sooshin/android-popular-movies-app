@@ -14,30 +14,31 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.info;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
+import com.example.android.popularmovies.ui.info.InfoViewModel;
 
 /**
  * Factory method that allows us to create a ViewModel with a constructor that takes a
- * {@link MovieRepository} and String sortCriteria
+ * {@link MovieRepository} and the movie ID
  */
-public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class InfoViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final MovieRepository mRepository;
-    private final String mSortCriteria;
+    private final int mMovieId;
 
-    public MainViewModelFactory (MovieRepository repository, String sortCriteria) {
+    public InfoViewModelFactory(MovieRepository repository, int movieId) {
         this.mRepository = repository;
-        this.mSortCriteria = sortCriteria;
+        this.mMovieId = movieId;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new MainActivityViewModel(mRepository, mSortCriteria);
+        return (T) new InfoViewModel(mRepository, mMovieId);
     }
 }

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.activity;
+package com.example.android.popularmovies.setttings;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -23,7 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.fragment.SettingsFragment;
 
 /**
  * The SettingsActivity is responsible for displaying the {@link SettingsFragment}.

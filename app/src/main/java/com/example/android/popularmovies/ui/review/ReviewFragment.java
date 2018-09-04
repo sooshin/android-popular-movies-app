@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.fragment;
+package com.example.android.popularmovies.ui.review;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -34,14 +34,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.adapter.ReviewAdapter;
 import com.example.android.popularmovies.databinding.FragmentReviewBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.ReviewResponse;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.ReviewViewModel;
-import com.example.android.popularmovies.viewmodel.ReviewViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,28 +14,28 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.trailer;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MovieRepository;
+import com.example.android.popularmovies.model.VideoResponse;
 
 /**
- * {@link ViewModel} for Favorites
+ * {@link ViewModel} for TrailerFragment
  */
-public class FavViewModel extends ViewModel {
+public class TrailerViewModel extends ViewModel {
 
     private final MovieRepository mRepository;
-    private LiveData<MovieEntry> mMovieEntry;
+    private final LiveData<VideoResponse> mVideoResponse;
 
-    public FavViewModel(MovieRepository repository, int movieId) {
+    public TrailerViewModel (MovieRepository repository, int movieId) {
         mRepository = repository;
-        mMovieEntry = mRepository.getFavoriteMovieByMovieId(movieId);
+        mVideoResponse = mRepository.getVideoResponse(movieId);
     }
 
-    public LiveData<MovieEntry> getMovieEntry() {
-        return mMovieEntry;
+    public LiveData<VideoResponse> getVideoResponse() {
+        return mVideoResponse;
     }
 }

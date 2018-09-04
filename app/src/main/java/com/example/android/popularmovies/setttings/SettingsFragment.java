@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.fragment;
+package com.example.android.popularmovies.setttings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

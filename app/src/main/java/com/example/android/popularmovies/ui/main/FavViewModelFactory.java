@@ -14,28 +14,32 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.main;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
-import com.example.android.popularmovies.model.MovieDetails;
+import com.example.android.popularmovies.ui.main.FavViewModel;
 
 /**
- * {@link ViewModel} for InformationFragment
+ * Factory method that allows us to create a ViewModel with a constructor that takes a
+ * {@link MovieRepository} and the movie ID
  */
-public class InfoViewModel extends ViewModel {
+public class FavViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final MovieRepository mRepository;
-    private final LiveData<MovieDetails> mMovieDetails;
+    private final int mMovieId;
 
-    public InfoViewModel (MovieRepository repository, int movieId) {
+    public FavViewModelFactory(MovieRepository repository, int movieId) {
         mRepository = repository;
-        mMovieDetails = mRepository.getMovieDetails(movieId);
+        mMovieId = movieId;
     }
 
-    public LiveData<MovieDetails> getMovieDetails() {
-        return mMovieDetails;
+
+    @Override
+    public <T extends ViewModel> T create(Class<T> modelClass) {
+        //noinspection unchecked
+        return (T) new FavViewModel(mRepository, mMovieId);
     }
 }

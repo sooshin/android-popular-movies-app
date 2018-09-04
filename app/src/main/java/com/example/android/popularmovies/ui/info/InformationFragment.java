@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.fragment;
+package com.example.android.popularmovies.ui.info;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -40,8 +40,6 @@ import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.FormatUtils;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.InfoViewModel;
-import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;

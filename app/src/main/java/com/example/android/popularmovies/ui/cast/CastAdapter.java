@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.adapter;
+package com.example.android.popularmovies.ui.cast;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.activity;
+package com.example.android.popularmovies.ui.detail;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -42,20 +42,19 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.adapter.DetailPagerAdapter;
 import com.example.android.popularmovies.data.MovieDatabase;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
-import com.example.android.popularmovies.fragment.InformationFragment;
-import com.example.android.popularmovies.fragment.TrailerFragment;
+import com.example.android.popularmovies.ui.info.InformationFragment;
+import com.example.android.popularmovies.ui.trailer.TrailerFragment;
 import com.example.android.popularmovies.model.Genre;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utilities.FormatUtils;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.FavViewModel;
-import com.example.android.popularmovies.viewmodel.FavViewModelFactory;
+import com.example.android.popularmovies.ui.main.FavViewModel;
+import com.example.android.popularmovies.ui.main.FavViewModelFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

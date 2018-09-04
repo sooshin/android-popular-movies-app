@@ -14,30 +14,27 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.review;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
+import com.example.android.popularmovies.model.ReviewResponse;
 
 /**
- * Factory method that allows us to create a ViewModel with a constructor that takes a
- * {@link MovieRepository} and the movie ID
+ * {@link ViewModel} for ReviewFragment
  */
-public class TrailerViewModelFactory extends ViewModelProvider.NewInstanceFactory{
-
+public class ReviewViewModel extends ViewModel {
     private final MovieRepository mRepository;
-    private final int mMovieId;
+    private final LiveData<ReviewResponse> mReviewResponse;
 
-    public TrailerViewModelFactory (MovieRepository repository, int movieId) {
-        this.mRepository = repository;
-        this.mMovieId = movieId;
+    public ReviewViewModel (MovieRepository repository, int movieId) {
+        mRepository = repository;
+        mReviewResponse = mRepository.getReviewResponse(movieId);
     }
 
-    @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
-        //noinspection unchecked
-        return (T) new TrailerViewModel(mRepository, mMovieId);
+    public LiveData<ReviewResponse> getReviewResponse() {
+        return mReviewResponse;
     }
 }

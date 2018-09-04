@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.adapter;
+package com.example.android.popularmovies.ui.detail;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -22,10 +22,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.android.popularmovies.fragment.CastFragment;
-import com.example.android.popularmovies.fragment.InformationFragment;
-import com.example.android.popularmovies.fragment.ReviewFragment;
-import com.example.android.popularmovies.fragment.TrailerFragment;
+import com.example.android.popularmovies.ui.cast.CastFragment;
+import com.example.android.popularmovies.ui.info.InformationFragment;
+import com.example.android.popularmovies.ui.review.ReviewFragment;
+import com.example.android.popularmovies.ui.trailer.TrailerFragment;
 import com.example.android.popularmovies.utilities.Constant;
 
 import static com.example.android.popularmovies.utilities.Constant.CAST;

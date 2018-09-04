@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.main;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

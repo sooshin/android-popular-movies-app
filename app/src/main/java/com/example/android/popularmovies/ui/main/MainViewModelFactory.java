@@ -14,27 +14,30 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.viewmodel;
+package com.example.android.popularmovies.ui.main;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
-import com.example.android.popularmovies.model.ReviewResponse;
 
 /**
- * {@link ViewModel} for ReviewFragment
+ * Factory method that allows us to create a ViewModel with a constructor that takes a
+ * {@link MovieRepository} and String sortCriteria
  */
-public class ReviewViewModel extends ViewModel {
-    private final MovieRepository mRepository;
-    private final LiveData<ReviewResponse> mReviewResponse;
+public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    public ReviewViewModel (MovieRepository repository, int movieId) {
-        mRepository = repository;
-        mReviewResponse = mRepository.getReviewResponse(movieId);
+    private final MovieRepository mRepository;
+    private final String mSortCriteria;
+
+    public MainViewModelFactory (MovieRepository repository, String sortCriteria) {
+        this.mRepository = repository;
+        this.mSortCriteria = sortCriteria;
     }
 
-    public LiveData<ReviewResponse> getReviewResponse() {
-        return mReviewResponse;
+    @Override
+    public <T extends ViewModel> T create(Class<T> modelClass) {
+        //noinspection unchecked
+        return (T) new MainActivityViewModel(mRepository, mSortCriteria);
     }
 }

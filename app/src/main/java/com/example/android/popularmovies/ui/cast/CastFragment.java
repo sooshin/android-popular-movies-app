@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.fragment;
+package com.example.android.popularmovies.ui.cast;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -33,15 +33,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.adapter.CastAdapter;
 import com.example.android.popularmovies.databinding.FragmentCastBinding;
 import com.example.android.popularmovies.model.Cast;
 import com.example.android.popularmovies.model.Credits;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieDetails;
 import com.example.android.popularmovies.utilities.InjectorUtils;
-import com.example.android.popularmovies.viewmodel.InfoViewModel;
-import com.example.android.popularmovies.viewmodel.InfoViewModelFactory;
+import com.example.android.popularmovies.ui.info.InfoViewModel;
+import com.example.android.popularmovies.ui.info.InfoViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;

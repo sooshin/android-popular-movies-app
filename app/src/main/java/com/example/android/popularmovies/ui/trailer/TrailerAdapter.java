@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.adapter;
+package com.example.android.popularmovies.ui.trailer;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;

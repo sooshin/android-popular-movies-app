@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,21 +21,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetailActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:name=".ui.detail.DetailActivity"
+            android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/DetailTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".ui.main.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".setttings.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".ui.main.MainActivity" />
         </activity>
     </application>
 

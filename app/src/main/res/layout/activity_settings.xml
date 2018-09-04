@@ -18,7 +18,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_settings"
-    android:name="com.example.android.popularmovies.fragment.SettingsFragment"
+    android:name="com.example.android.popularmovies.setttings.SettingsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SettingsActivity" />
+    tools:context=".setttings.SettingsActivity" />
