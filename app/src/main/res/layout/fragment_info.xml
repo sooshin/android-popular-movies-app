@@ -104,9 +104,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline"
                         app:layout_constraintLeft_toRightOf="@+id/iv_star"
                         app:layout_constraintTop_toBottomOf="@+id/tv_vote_average_label"
-                        app:layout_constraintVertical_bias="0.518"
                         tools:text="6.8" />
-
 
                     <TextView
                         android:id="@+id/tv_vote_ten"
