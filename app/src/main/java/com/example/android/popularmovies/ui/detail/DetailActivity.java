@@ -145,8 +145,8 @@ public class DetailActivity extends AppCompatActivity implements
      *  This method is called from onCreate to setup the UI
      */
     private void setupUI() {
-        // Show back button in Collapsing Toolbar
-        showBackButton();
+        // Show the up button in Collapsing Toolbar
+        showUpButton();
 
         // Give the TabLayout the ViewPager
         mDetailBinding.tabLayout.setupWithViewPager(mDetailBinding.contentDetail.viewpager);
@@ -340,9 +340,9 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     /**
-     * Show back button in Collapsing Toolbar
+     * Show an up button in Collapsing Toolbar
      */
-    private void showBackButton() {
+    private void showUpButton() {
         setSupportActionBar(mDetailBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
