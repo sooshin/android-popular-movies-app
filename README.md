@@ -42,11 +42,18 @@ made by [Freepik](http://www.freepik.com) from [www.flaticon.com](www.flaticon.c
 [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
 
 ## Libraries
-- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/) (Paging, Room, ViewModels, LiveData)
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/) 
+    * [Paging](https://developer.android.com/topic/libraries/architecture/paging/) 
+    * [Room](https://developer.android.com/topic/libraries/architecture/room)
+    * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+    * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 - [Android Data Binding](https://developer.android.com/topic/libraries/data-binding/)
 - [Retrofit](http://square.github.io/retrofit/) for REST api communication
 - [Picasso](http://square.github.io/picasso/) for image loading
 
+## Video
+Click [here](https://youtu.be/1eFfdmHGKMw) to see a video demonstrating the app.
+
 ## Screenshots
-![main](https://user-images.githubusercontent.com/33213229/43502971-2b076366-9598-11e8-90ad-df362ed95e4f.png)
-![info](https://user-images.githubusercontent.com/33213229/43502991-3ea79c2e-9598-11e8-8171-c110bd9a7b8b.png)
+![popular-movies-main](https://user-images.githubusercontent.com/33213229/49940286-757e9100-ff22-11e8-897a-45ba561df250.png)![popular-movies-detail](https://user-images.githubusercontent.com/33213229/49940281-71527380-ff22-11e8-935b-7e2d4138d979.png)![popular-movies-info](https://user-images.githubusercontent.com/33213229/49940285-73b4cd80-ff22-11e8-9ca1-b379e06b90bc.png)
+![popular-movies-trailers](https://user-images.githubusercontent.com/33213229/49940290-77485480-ff22-11e8-8ed5-e79430807c66.png)![popular-movies-cast](https://user-images.githubusercontent.com/33213229/49940272-6c8dbf80-ff22-11e8-9ea9-c873be4cd699.png)
