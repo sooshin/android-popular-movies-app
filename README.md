@@ -1,4 +1,4 @@
-# Popular Movies, Stage 2 Project
+# Popular Movies, Stage 2
 
 ## API Key Note
 **Define key in build.gradle**
@@ -52,7 +52,7 @@ made by [Freepik](http://www.freepik.com) from [www.flaticon.com](www.flaticon.c
 - [Picasso](http://square.github.io/picasso/) for image loading
 
 ## Video
-Click [here](https://youtu.be/1eFfdmHGKMw) to see a video demonstrating the app.
+Here is the link to view a video demonstrating the app: https://youtu.be/1eFfdmHGKMw
 
 ## Screenshots
 ![popular-movies-main](https://user-images.githubusercontent.com/33213229/49940286-757e9100-ff22-11e8-897a-45ba561df250.png)![popular-movies-detail](https://user-images.githubusercontent.com/33213229/49940281-71527380-ff22-11e8-935b-7e2d4138d979.png)![popular-movies-info](https://user-images.githubusercontent.com/33213229/49940285-73b4cd80-ff22-11e8-9ca1-b379e06b90bc.png)
