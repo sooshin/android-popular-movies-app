@@ -1,5 +1,12 @@
 # Popular Movies, Stage 2
 
+## Project Overview
+Most of us can relate to kicking back on the couch and enjoying
+a movie with friends and family. In this project, you’ll build an app
+to allow users to discover the most popular movies playing.
+
+This app uses the API from [themoviedb.org](https://www.themoviedb.org/)
+
 ## API Key Note
 **Define key in build.gradle**
 
@@ -8,14 +15,6 @@ Find a file named `gradle.properties` in `.gradle` folder in your home directory
 Add `PopularMoviesApp_ApiKey = "YOUR-API-KEY"` to that file.
 
 Reference: [Hiding API keys from your Android repository](https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906)
-
-
-## Project Overview
-Most of us can relate to kicking back on the couch and enjoying
-a movie with friends and family. In this project, you’ll build an app
-to allow users to discover the most popular movies playing.
-
-This app uses the API from [themoviedb.org](https://www.themoviedb.org/)
 
 ## Why this Project
 
@@ -57,3 +56,6 @@ Here is the link to view a video demonstrating the app: https://youtu.be/1eFfdmH
 ## Screenshots
 ![popular-movies-main](https://user-images.githubusercontent.com/33213229/49940286-757e9100-ff22-11e8-897a-45ba561df250.png)![popular-movies-detail](https://user-images.githubusercontent.com/33213229/49940281-71527380-ff22-11e8-935b-7e2d4138d979.png)![popular-movies-info](https://user-images.githubusercontent.com/33213229/49940285-73b4cd80-ff22-11e8-9ca1-b379e06b90bc.png)
 ![popular-movies-trailers](https://user-images.githubusercontent.com/33213229/49940290-77485480-ff22-11e8-8ed5-e79430807c66.png)![popular-movies-cast](https://user-images.githubusercontent.com/33213229/49940272-6c8dbf80-ff22-11e8-9ea9-c873be4cd699.png)
+
+## License
+Apache, see the [LICENSE](LICENSE) file.
