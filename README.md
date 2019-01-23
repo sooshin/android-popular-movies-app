@@ -50,6 +50,9 @@ made by [Freepik](http://www.freepik.com) from [www.flaticon.com](www.flaticon.c
 - [Retrofit](http://square.github.io/retrofit/) for REST api communication
 - [Picasso](http://square.github.io/picasso/) for image loading
 
+## Video
+Here is the link to view a video demonstrating the app: https://youtu.be/1eFfdmHGKMw
+
 ## Screenshots
 ![popular-movies-main](https://user-images.githubusercontent.com/33213229/49940286-757e9100-ff22-11e8-897a-45ba561df250.png)![popular-movies-detail](https://user-images.githubusercontent.com/33213229/49940281-71527380-ff22-11e8-935b-7e2d4138d979.png)![popular-movies-info](https://user-images.githubusercontent.com/33213229/49940285-73b4cd80-ff22-11e8-9ca1-b379e06b90bc.png)
 ![popular-movies-trailers](https://user-images.githubusercontent.com/33213229/49940290-77485480-ff22-11e8-8ed5-e79430807c66.png)![popular-movies-cast](https://user-images.githubusercontent.com/33213229/49940272-6c8dbf80-ff22-11e8-9ea9-c873be4cd699.png)
