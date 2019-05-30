@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.setttings;
+package com.example.android.popularmovies.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

@@ -45,7 +45,7 @@ import android.widget.TextView;
 import com.example.android.popularmovies.GridSpacingItemDecoration;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.ui.detail.DetailActivity;
-import com.example.android.popularmovies.setttings.SettingsActivity;
+import com.example.android.popularmovies.settings.SettingsActivity;
 import com.example.android.popularmovies.data.MovieEntry;
 import com.example.android.popularmovies.data.MoviePreferences;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.android.popularmovies.setttings;
+package com.example.android.popularmovies.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;

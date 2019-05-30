@@ -29,7 +29,7 @@
                 android:value=".ui.main.MainActivity" />
         </activity>
         <activity
-            android:name=".setttings.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/SettingsTheme">
