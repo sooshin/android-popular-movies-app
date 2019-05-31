@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements
         mMainBinding.tvEmpty.setVisibility(View.VISIBLE);
         mMainBinding.tvEmpty.setText(getString(R.string.message_empty_favorites));
         mMainBinding.tvEmpty.setCompoundDrawablesWithIntrinsicBounds(DRAWABLES_ZERO,
-                R.drawable.movie_roll, DRAWABLES_ZERO, DRAWABLES_ZERO);
+                R.drawable.film, DRAWABLES_ZERO, DRAWABLES_ZERO);
         mMainBinding.tvEmpty.setTextColor(Color.WHITE);
     }
 
