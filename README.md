@@ -54,7 +54,8 @@ made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [www.flat
 Here is the link to view a video demonstrating the app: https://youtu.be/1eFfdmHGKMw
 
 ## Get it on Google Play
-**Popular Movies** app gives you information about movies from the TMDb. See what movies are the most popular and high rated. You can also discover Now Playing or Upcoming movies. Popular Movies app will help you decide what to watch. 👍
+**Popular Movies** app gives you information about movies from the TMDb. See what movies are the most popular and high rated. You can also discover Now Playing or Upcoming movies. Popular Movies app will help you decide what to watch.👍
+
 [![google-play-badge](https://user-images.githubusercontent.com/33213229/59287668-13be9a00-8cad-11e9-9a13-b62a4f562cfd.png)](https://play.google.com/store/apps/details?id=com.soojeongshin.popularmovies.free)
 [![ic_launcher](https://user-images.githubusercontent.com/33213229/59288297-72d0de80-8cae-11e9-9c58-25828f6e6ae6.png)](https://play.google.com/store/apps/details?id=com.soojeongshin.popularmovies.free)
 
