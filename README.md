@@ -65,8 +65,8 @@ Here is the link to view a video demonstrating the app: https://youtu.be/1eFfdmH
  
 **Popular Movies uses the TMDb API but is not endorsed or certified by TMDb.**
  
-I was able to learn more through the publishing process. If you like my **Popular Movies** app, you can download it on Google Play.
-https://play.google.com/store/apps/details?id=com.soojeongshin.popularmovies.free
+I learned how to link my app to Google AdMob, design an app icon, how to reply on the feedback on improvements, and use the Google Play Console to manage my app. If you like my **Popular Movies** app, you can download it on Google Play.
+[Download Link](https://play.google.com/store/apps/details?id=com.soojeongshin.popularmovies.free).
 If you have any suggestions or issues, please write to me at pinkbee.dev@gmail.com. Thanks.
 
 ## Screenshots
