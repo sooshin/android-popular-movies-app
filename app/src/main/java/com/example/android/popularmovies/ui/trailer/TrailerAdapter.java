@@ -16,9 +16,9 @@
 
 package com.example.android.popularmovies.ui.trailer;
 
-import android.databinding.DataBindingUtil;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.databinding.DataBindingUtil;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +35,7 @@ import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_THUMB
 import static com.example.android.popularmovies.utilities.Constant.YOUTUBE_THUMBNAIL_URL_JPG;
 
 /**
- * {@link TrailerAdapter} exposes a list of trailers to a {@link android.support.v7.widget.RecyclerView}
+ * {@link TrailerAdapter} exposes a list of trailers to a {@link RecyclerView}
  */
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {
 

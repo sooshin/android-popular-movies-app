@@ -16,11 +16,10 @@
 
 package com.example.android.popularmovies.ui.review;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.android.popularmovies.data.MovieRepository;
-import com.example.android.popularmovies.ui.review.ReviewViewModel;
 
 /**
  * Factory method that allows us to create a ViewModel with a constructor that takes a

@@ -16,9 +16,10 @@
 
 package com.example.android.popularmovies.data;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
 
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.MovieResponse;

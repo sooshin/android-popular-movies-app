@@ -16,13 +16,13 @@
 
 package com.example.android.popularmovies.ui.cast;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -38,7 +38,7 @@ import static com.example.android.popularmovies.utilities.Constant.IMAGE_BASE_UR
 import static com.example.android.popularmovies.utilities.Constant.IMAGE_FILE_SIZE;
 
 /**
- * {@link CastAdapter} exposes a list of casts to a {@link android.support.v7.widget.RecyclerView}
+ * {@link CastAdapter} exposes a list of casts to a {@link RecyclerView}
  */
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
 

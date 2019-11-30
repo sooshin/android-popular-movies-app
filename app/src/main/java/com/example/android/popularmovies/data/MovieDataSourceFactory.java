@@ -16,8 +16,8 @@
 
 package com.example.android.popularmovies.data;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
 
 import com.example.android.popularmovies.model.Movie;
 

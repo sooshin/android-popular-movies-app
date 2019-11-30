@@ -16,8 +16,8 @@
 
 package com.example.android.popularmovies.ui.info;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.android.popularmovies.data.MovieRepository;
 import com.example.android.popularmovies.model.MovieDetails;

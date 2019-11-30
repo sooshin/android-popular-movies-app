@@ -17,7 +17,7 @@
 package com.example.android.popularmovies;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import static com.example.android.popularmovies.utilities.Constant.ONE;

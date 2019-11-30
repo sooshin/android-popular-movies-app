@@ -23,7 +23,7 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_activity_small">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:foreground="?android:attr/selectableItemBackground"
@@ -34,7 +34,7 @@
             app:cardUseCompatPadding="true"
             app:contentPadding="@dimen/card_content_padding_zero">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/list_item_selector">
@@ -81,9 +81,9 @@
                     android:textColor="@android:color/white"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </layout>
