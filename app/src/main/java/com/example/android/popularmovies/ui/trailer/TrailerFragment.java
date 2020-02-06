@@ -17,7 +17,6 @@
 package com.example.android.popularmovies.ui.trailer;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
@@ -28,6 +27,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,10 +95,10 @@ public class TrailerFragment extends Fragment implements TrailerAdapter.TrailerA
      */
     private void setupViewModel(Context context, int movieId) {
         TrailerViewModelFactory factory = InjectorUtils.provideTrailerViewModelFactory(context, movieId);
-        mTrailerViewModel = ViewModelProviders.of(this, factory).get(TrailerViewModel.class);
+        mTrailerViewModel = new ViewModelProvider(this, factory).get(TrailerViewModel.class);
 
         // Retrieve live data object using the getVideoResponse() method from the ViewModel
-        mTrailerViewModel.getVideoResponse().observe(this, new Observer<VideoResponse>() {
+        mTrailerViewModel.getVideoResponse().observe(getViewLifecycleOwner(), new Observer<VideoResponse>() {
             @Override
             public void onChanged(@Nullable VideoResponse videoResponse) {
                 if (videoResponse != null) {

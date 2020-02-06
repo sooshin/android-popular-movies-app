@@ -17,7 +17,7 @@
 package com.example.android.popularmovies.ui.main;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements
     private void setupViewModel(String sortCriteria) {
         MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(
                 MainActivity.this, sortCriteria);
-        mMainViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
+        mMainViewModel = new ViewModelProvider(this, factory).get(MainActivityViewModel.class);
     }
 
     /**

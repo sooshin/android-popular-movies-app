@@ -17,7 +17,6 @@
 package com.example.android.popularmovies.ui.cast;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
@@ -27,6 +26,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,10 +121,10 @@ public class CastFragment extends Fragment {
     private void setupViewModel(Context context, int movieId) {
         // Get the ViewModel from the factory
         InfoViewModelFactory factory = InjectorUtils.provideInfoViewModelFactory(context, movieId);
-        mInfoViewModel = ViewModelProviders.of(this, factory).get(InfoViewModel.class);
+        mInfoViewModel = new ViewModelProvider(this, factory).get(InfoViewModel.class);
 
         // Retrieve live data object using the getMovieDetails() method from the ViewModel
-        mInfoViewModel.getMovieDetails().observe(this, new Observer<MovieDetails>() {
+        mInfoViewModel.getMovieDetails().observe(getViewLifecycleOwner(), new Observer<MovieDetails>() {
             @Override
             public void onChanged(@Nullable MovieDetails movieDetails) {
                 if (movieDetails != null) {

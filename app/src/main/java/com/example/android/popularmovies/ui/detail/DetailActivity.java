@@ -17,7 +17,6 @@
 package com.example.android.popularmovies.ui.detail;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
@@ -33,6 +32,8 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.core.app.ShareCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -232,7 +233,7 @@ public class DetailActivity extends AppCompatActivity implements
     private void loadMovieDetailData() {
         FavViewModelFactory factory = InjectorUtils.provideFavViewModelFactory(
                 DetailActivity.this, mMovie.getId());
-        mFavViewModel = ViewModelProviders.of(this, factory).get(FavViewModel.class);
+        mFavViewModel = new ViewModelProvider(this, factory).get(FavViewModel.class);
 
         mFavViewModel.getMovieEntry().observe(this, new Observer<MovieEntry>() {
             @Override
@@ -254,7 +255,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Get the FavViewModel from the factory
         FavViewModelFactory factory = InjectorUtils.provideFavViewModelFactory(
                 DetailActivity.this, mMovie.getId());
-        mFavViewModel = ViewModelProviders.of(this, factory).get(FavViewModel.class);
+        mFavViewModel = new ViewModelProvider(this, factory).get(FavViewModel.class);
 
         // Changes the favoriteFab image based on whether or not the movie exists
         mFavViewModel.getMovieEntry().observe(this, new Observer<MovieEntry>() {

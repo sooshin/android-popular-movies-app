@@ -17,7 +17,6 @@
 package com.example.android.popularmovies.ui.review;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
@@ -28,6 +27,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,9 +96,9 @@ public class ReviewFragment extends Fragment implements ReviewAdapter.ReviewAdap
      */
     private void setupViewModel(Context context) {
         ReviewViewModelFactory factory = InjectorUtils.provideReviewViewModelFactory(context, mMovie.getId());
-        mReviewViewModel = ViewModelProviders.of(this, factory).get(ReviewViewModel.class);
+        mReviewViewModel = new ViewModelProvider(this, factory).get(ReviewViewModel.class);
 
-        mReviewViewModel.getReviewResponse().observe(this, new Observer<ReviewResponse>() {
+        mReviewViewModel.getReviewResponse().observe(getViewLifecycleOwner(), new Observer<ReviewResponse>() {
             @Override
             public void onChanged(@Nullable ReviewResponse reviewResponse) {
                 if (reviewResponse != null) {
