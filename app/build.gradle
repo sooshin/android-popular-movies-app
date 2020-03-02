@@ -22,7 +22,18 @@ android {
             resValue 'string', "api_key", PopularMoviesApp_ApiKey
         }
     }
-    compileOptions{
+    flavorDimensions "default"
+    productFlavors {
+        free {
+            flavorDimensions "default"
+            applicationId "com.example.android.popularmovies.free"
+        }
+        paid {
+            flavorDimensions "default"
+            applicationId "com.example.android.popularmovies.paid"
+        }
+    }
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -55,6 +66,8 @@ dependencies {
 
     // Paging
     implementation 'androidx.paging:paging-runtime:2.1.1'
+    // Declare the dependency for the ads only for the 'free' flavor
+    freeImplementation 'com.google.firebase:firebase-ads:18.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
