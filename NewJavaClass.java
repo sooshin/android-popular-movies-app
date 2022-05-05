@@ -1,5 +1,6 @@
 public class NewJavaClass {
   private String name;
+  private int x;
   NewJavaClass(){
   }
   NewJavaClass(String name){
